@@ -1,0 +1,116 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body style="background-color:plum; font-size:120%;">
+<h2 align=center>t2a08-canvas by Fred</h2>
+You use loops and variables to make fast fancy drawings <br><br>
+
+<h4>Examples</h4>
+<input type=button value=".lineTo(30,200)" onclick="{
+   myContext.beginPath();
+   myContext.lineWidth = 1;   
+   myContext.moveTo(20,10);
+   myContext.lineTo(30,200);
+   myContext.stroke();
+}">
+
+<input type=button value=".arc(95, 50, 40, 0, 2 * Math.PI)" onclick="{
+   myContext.beginPath();
+   myContext.lineWidth = 10;
+   myContext.strokeStyle = 'green';
+   myContext.arc(95, 50, 40, 0, 2 * Math.PI);
+   myContext.stroke();
+}">
+
+<input type=button value=".fillText('Hello World', 400, 100)" onclick="{
+   myContext.font = '20px Arial';
+   myContext.fillText('Hello World', 400, 100);
+   myContext.translate(400, 100);  
+   myContext.rotate(60 * Math.PI / 180); 
+   myContext.fillText('Hello World', 10, 10);
+   myContext.stroke();
+   myContext.resetTransform();  
+   //myContext.rotate(-60 * Math.PI / 180); 
+}">
+
+<input type=button value=".quadraticCurveTo(100,220,240,110)" onclick="{
+   myContext.beginPath();
+   myContext.moveTo(300,100);
+   myContext.quadraticCurveTo(100,220,240,110);
+   myContext.stroke();
+}">
+
+
+
+<input type=button value=".createLinearGradient(100, 300, 200, 400)" onclick="{
+   let myGradient = myContext.createLinearGradient(100, 300, 200, 400);
+   myGradient.addColorStop(0, 'red');
+   myGradient.addColorStop(0.5, 'blue');
+   myGradient.addColorStop(1, 'yellow');
+   myContext.fillStyle = myGradient;
+   myContext.fillRect(100, 300, 200, 400);
+   // reset fillstyle
+   myContext.fillStyle = 'black';
+}"><br><br>
+
+<input type=button value="clearRect(20, 20, 50, 50)" onclick="{
+   myContext.clearRect(20, 20, 50, 50);
+}">
+
+<input type=button value="Clear all" onclick="{
+   myContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+}"><br><br>
+
+<hr>
+<input type=button value="Draw house" onclick="{
+   myContext.beginPath();
+   myContext.lineWidth = 1;   
+   myContext.moveTo(200,300);
+   myContext.lineTo(200,200);
+   myContext.lineTo(300,200);
+   myContext.lineTo(300,300);
+   myContext.lineTo(200,300);
+   myContext.moveTo(170,200);
+   myContext.lineTo(330,200);
+   myContext.lineTo(250,150);
+   myContext.lineTo(170,200);
+   myContext.stroke();
+}">
+
+<input type=text id="myText01" value="your text">
+<input type=range id="myRange01" style="width:100px;" min="0" max="1000" value="400" oninput="this.nextElementSibling.value = this.value">
+x: <output id=myRange01>400</output>
+<input type=range id="myRange02" style="width:100px;" min="0" max="600" value="100" oninput="this.nextElementSibling.value = this.value">
+y: <output id=myRange02>400</output>
+<input type="color" id="myColor01">
+Filled In: <input type=radio id="myRad01"  name="stroke">
+Outline Only: <input type=radio id="myRad02" name="stroke">
+<input type=button value="Your Text" onclick="{
+	if (document.getElementById('myRad01').checked) {
+		myContext.font = '40px Arial';
+		myContext.fillStyle = document.getElementById('myColor01').value;
+		myContext.fillText(document.getElementById('myText01').value, document.getElementById('myRange01').value, document.getElementById('myRange02').value);
+		myContext.stroke(); 
+	} else {
+		myContext.font = '40px Arial';
+		myContext.strokeStyle = document.getElementById('myColor01').value;
+		myContext.strokeText(document.getElementById('myText01').value, document.getElementById('myRange01').value, document.getElementById('myRange02').value);
+		myContext.stroke();
+	}
+}"><br>
+
+
+<br><br>
+
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000;"></canvas>
+
+<script>
+   // set up global variables
+   let myCanvas=document.getElementById('myCoolTag');
+   let myContext=myCanvas.getContext('2d');
+</script>
+</body>

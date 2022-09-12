@@ -1,0 +1,81 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.2.2</h5>
+<script>
+function myCharCount(obj){
+    document.getElementById("charNum").innerHTML = obj.value.length+' characters'; 
+}
+</script>
+</head>
+
+<body style="background-color:plum; font-size:120%;">
+<h2 align=center>t1a05 input output by ambrose</h2>
+<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good ref for input and output in javascript (innerHTML) (value)</a><br>
+<h4>Example input output code<h4>
+<pre>
+&ltinput type=button value="myEvent Squares" onClick="{
+	let myIn01 = document.getElementById('myNum01').value
+	document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' +myIn01*myIn01
+}"><br>
+</pre>
+
+
+<input id=myNum01 type=number value="4" style="width:200px;"><br>
+<input type=button value="myEvent Squares" onClick="{
+	let myIn01 = document.getElementById('myNum01').value
+	document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' +myIn01*myIn01
+}"><br>
+<div id=myDiv01>x squared = y</div><br><br>
+
+
+<input id=myNum02 type=number value="4" style="width:200px;"><br>
+<input type=button value="myEvent Square Roots" onClick="{
+	let myIn02 = document.getElementById('myNum02').value
+	var mySqrt01 = Math.sqrt(myIn02)
+	document.getElementById('myDiv02').innerHTML = myIn02 + ' square root = ' +mySqrt01
+}"><br>
+<div id=myDiv02>x square root = y</div><br><br>
+
+
+<input id=myText03 type=text value="Your Name Here" style="width:200px;"><br>
+<input type=button value="Hello!" onClick="{
+	let myIn03 = document.getElementById('myText03').value
+	document.getElementById('myDiv03').innerHTML ='Hello ' + myIn03 + '! How are you today?'
+}"><br>
+<div id=myDiv03>...</div><br><br>
+
+
+<input id=myBox01 type=checkbox><br>
+<input type=button value="Is Box Checked?" onClick="{
+	let BoxChecked =  document.getElementById('myBox01').checked
+	document.getElementById('myDiv04').innerHTML = 'Is the box checked? ' +  BoxChecked
+}"><br>
+<div id=myDiv04>...</div><br><br>
+
+
+<textarea name="message" onkeypress="myCharCount(this);"></textarea>
+<div id="charNum">0 characters</p>
+
+a:<input id=myRad01 type=radio value="a" name=radio01 onClick="{
+	document.getElementById('myDiv06').innerHTML = 'You selected a!'
+}"><br>
+b:<input id=myRad02 type=radio value="b" name=radio01 onClick="{
+	document.getElementById('myDiv06').innerHTML = 'You selected b!'
+}"><br>
+c:<input id=myRad03 type=radio value="c" name=radio01 onClick="{
+	document.getElementById('myDiv06').innerHTML = 'You selected c!'
+}"><br>
+<div id="myDiv06">...</div><br><br>
+
+<input type=range value="20" min="0" max="100" step="1" oninput="this.nextElementSibling.value = this.value"><output>20</output><br><br>
+
+<u>i have no idea what this achives but i think its cool</u><br>
+hover over me!<input id=myBox02 type=checkbox onMouseOver="{
+	document.getElementById('myBox02').click();
+	document.getElementById('myDiv05').innerHTML = document.getElementById('myBox02').checked;
+}"><br>
+<div id=myDiv05>...</div>
+
+</body> 

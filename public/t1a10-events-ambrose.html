@@ -1,0 +1,69 @@
+<head>
+<style>
+
+</style>
+<h5>Version 0.0.1
+</head>
+
+<body style="background-color:plum; font-size:120%;" onresize="{document.getElementById('myP01').style.color = 'green'}">
+<h2 align=center>t1a10 events ambrose</h2>
+
+<a href="https://www.w3schools.com/tags/ref_eventattributes.asp">Good reference to html events</a><br>
+<h4>example Events Code</h4>
+<pre>
+&ltinput type=button value="example onClick" onClick="{
+	alert('hi')
+}"&gt
+</pre>
+
+<h4>Working Code Example</h4>
+
+<input type=text id="myText01" value="3"><br>
+<input type=button value="Example onClick" onClick="{
+	document.getElementById('myDiv01').innerHTML = document.getElementById('myText01').value
+}">
+
+<div id="myDiv01">...</div>
+
+<b id="myB01" onmouseout="{
+	document.getElementById('myB01').innerHTML = 'this is bold!'
+}"	onmouseover="{
+	document.getElementById('myB01').innerHTML = 'this is cool!'
+}">this is bold</b>
+
+<h4>My Examples</h4>
+<p id="myP01" style="color:red;">Resize Window to Make this Green!</p><br>
+<p id="myP02" onClick="{
+	document.getElementById('myP02').innerHTML = 'now double click to change back!'
+	}" ondblclick="{
+	document.getElementById('myP02').innerHTML = 'click to change me!'
+	}">click to change me!</p><br>
+<p id="myP03" oncontextmenu="{
+	document.getElementById('myP03').innerHTML = 'you right clicked! click to change back!'
+}" onClick="{
+	document.getElementById('myP03').innerHTML = 'Right click me!'
+	}">Right click me!</p><br>
+Type Something then click off to make uppercase!<br><input type=text id="myP04" onblur="{
+	document.getElementById('myP04').value = document.getElementById('myP04').value.toUpperCase()
+}"><br><br><br>
+Click to remove text!<br><input type=text id="myP05" value="Click on me to remove text!" onfocus="{
+	document.getElementById('myP05').value = ''
+}"><br><br>
+<p id="myP06" style="color:red;" onmousedown="{
+	document.getElementById('myP06').style.color = 'blue'
+}" onmouseup="{
+	document.getElementById('myP06').style.color = 'red'
+}">Hold down mouse to change color!</p><br>
+<p id="myP07" onmouseover="{
+	document.getElementById('myP07').innerHTML = 'ooooh hidden secret text!'
+}" onmouseout="{
+	document.getElementById('myP07').innerHTML = '██████████████'
+}">██████████████</p><br>
+<input type=range id="myP08" onchange="{
+	document.getElementById('myP09').innerHTML = 'you changed the element!'
+}"><p id="myP09">The element has not been changed</p>
+<input type=reset value="Reset Slider" onclick="{
+	document.getElementById('myP08').value = 50
+	document.getElementById('myP09').innerHTML = 'The element has not been changed'
+}">
+</body>

@@ -1,0 +1,92 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body style="background-color:plum; font-size:120%;">
+<a href="..">Rescource Link</a><br><br>
+<h4>Example Code</h4>
+<pre>
+	let myIn01 = document.getElementById('myText01').value
+	document.getElementById('myDiv01').innerHTML = myIn01 
+</pre>
+
+
+<u>Using Variable</u><br>
+<input id=myText01 type=text value="4" style="width:200px;"><br>
+<input type=button value="Show var" onClick="{
+	let myIn01 = document.getElementById('myText01').value
+	document.getElementById('myDiv01').innerHTML = myIn01 
+}"><br>
+<div id=myDiv01>...</div><br><br>
+
+
+<u>No Variable Used</u><br>
+<input id=myText01 type=text value="4" style="width:200px;"><br>
+<input type=button value="Show var" onClick="{
+	document.getElementById('myDiv02').innerHTML = document.getElementById('myText01').value
+}"><br>
+<div id=myDiv02>...</div><br><br>
+
+
+<u>Boolean</u><br><br>
+Check me: <input id=myBox01 type=checkbox><br>
+<input type=button value="Is Box Checked?" onClick="{
+	document.getElementById('myDiv03').innerHTML = document.getElementById('myBox01').checked
+}"><br>
+<div id=myDiv03>True/False</div><br><br>
+
+ 
+<u>Radio Buttons and Chars</u><br><br>
+a:<input id=myRad01 type=radio value="a" name=radio01><br>
+b:<input id=myRad02 type=radio value="b" name=radio01><br>
+c:<input id=myRad03 type=radio value="c" name=radio01><br>
+<input type=button value="Show Checked Radio" onClick="{
+	if (document.getElementById('myRad01').checked) {
+		myIn02 = 'you checked a!'
+	} else if (document.getElementById('myRad02').checked){ 
+		myIn02 = 'you checked b!'
+	} else if (document.getElementById('myRad03').checked){ 
+		myIn02 = 'you checked c!'
+	} else {
+		myIn02 = 'you didnt check any :('
+	}
+	document.getElementById('myDiv04').innerHTML = myIn02 
+}"><br>
+<div id=myDiv04>Check a radio button!</div><br><br>
+
+
+<u>Without Parsing Variables</u><br><br>
+<input id=myNum01 type=number value="5" style="width:50px;"><br>
+<input id=myNum02 type=number value="6" style="width:50px;"><br>
+<input type=button value="Show Output" onClick="{
+	let Num01 = document.getElementById('myNum01').value
+	let Num02 = document.getElementById('myNum02').value
+	document.getElementById('myDiv05').innerHTML = Num01 + Num02
+}"><br>
+<div id=myDiv05>...</div><br><br>
+
+
+
+<u>With Parsing Variables</u><br><br>
+<input id=myNum01 type=number value="5" style="width:50px;"><br>
+<input id=myNum02 type=number value="6" style="width:50px;"><br>
+<input type=button value="Show Output" onClick="{
+	let Num01 = parseFloat(document.getElementById('myNum01').value)
+	let Num02 = parseFloat(document.getElementById('myNum02').value)
+	document.getElementById('myDiv06').innerHTML = Num01 + Num02
+}"><br>
+<div id=myDiv06>...</div><br><br>
+
+
+<u>Boolean</u><br><br>
+Check me:<br> <input id=myBox02 type=checkbox name="count"><br>
+<input id=myBox03 type=checkbox name="count"><br>
+<input id=myBox04 type=checkbox name="count"><br>
+<input type=button value="How Many Boxes Are Checked?" onClick="{
+	document.getElementById('myDiv07').innerHTML = document.querySelectorAll('input[name=count]:checked').length
+}"><br>
+<div id=myDiv07>True/False</div><br><br>
+</body>

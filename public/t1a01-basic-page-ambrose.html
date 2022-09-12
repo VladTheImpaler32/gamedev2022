@@ -1,0 +1,85 @@
+<head>
+<h5>v1.0.49</h5>
+<h1 align=center>Ambrose's Basic Webpage</h1>
+<style>
+.cell {cursor: wait;}
+</style>
+</head>
+
+<body style="background-color:plum;">
+ 
+ <input type=button value="1, input/output" onClick="{
+  document.getElementById('myDiv01').innerHTML = 'Input/Output is the process of communicating with the outside world <br><br> Examples: input-prompts, text input, buttons, etc. output-update the page, play a sound, change some text, etc.'
+  }">
+
+<input type=button value="2, Variables" onClick="{
+  document.getElementById('myDiv01').innerHTML = 'A variable stores the data or values that can be changed later on. Examples: <pre> one = 1, greeting = \'hello\', msg = \'Hello World\'</pre>'
+  }">
+ 
+ <input type=button value="3, Loops" onClick="{
+  document.getElementById('myDiv01').innerHTML = `Loops are used to repeatedly run a block of code until a certain condition is met. There are different types of loops like a <br>while loop, for loop, and for/in loops, for/of loops, and do/while loops.<br> Examples: <pre>		 while (i < 10) {
+  		    text += \'The number is \' + i;
+  		    i++;
+		 }</pre>`
+  }">
+ 
+ <input type=button value="4, Decisions" onClick="{
+  document.getElementById('myDiv01').innerHTML = `Decisions: Use the \'if\' statement to test a variable for true or false. true continues, false skips to the next line. <br>Decision Making statements are if, else, elseif and switch these statements are used in making decisions. If else is the most basic, <br>if x is true then do y, if x is false do z. If statments can be more complicated by adding elseif to check for more conditions after the initial condition. <br>Bonus: switch statements is used where you want to execute one block of code out of many. 
+  <pre>		  if (condition)
+		  {
+		    code to be executed if condition is true
+		  }
+		  else
+		  {
+		    code to be executed if condition is false
+		  }</pre>`
+  }">
+ 
+ <input type=button value="5, Functions" onClick="{
+  document.getElementById('myDiv01').innerHTML = `A function is a block of code designed to perform a particular task. function is defined with the function keyword, <br>followed by a name, followed by parentheses (). Function names can contain letters, digits, underscores, <br>and dollar signs (same rules as variables).<pre> function myFunction(p1, p2) {
+  return p1 * p2;   // The function returns the product of p1 and p2
+ }</pre> `
+  }">
+
+ <input type=button value="6, Events" onClick="{
+  document.getElementById('myDiv01').innerHTML = `Events anything with \'onClick\' An HTML event can be something the browser does, or something a user does. <br>Some examples of HTML events: An HTML web page has finished loading, An HTML input field was changed, An HTML button was clicked.<pre> <.button onclick=\'document.getElementById(\'demo\').innerHTML = Date()\'>The time is?<./button></pre>`
+  }">
+ 
+ <input type=button value="7, Arrays" onClick="{
+  document.getElementById('myDiv01').innerHTML = 'Arrays are used to store multiple values in a single variable. Example: <pre>const myCars = [\'Saab\', \'Volvo\', \'BMW\'];</pre>'
+  }">
+ 
+ <input type=button value="8, Objects" onClick="{
+  document.getElementById('myDiv01').innerHTML = `Objects are fancy variables with properties made of arrays. <br>For Example in real life, a car is an object. A car has properties like weight and color, and methods like start and stop.<pre> const person = {firstName:\'John\', lastName:\'Doe\', age:50, eyeColor:\'blue\'};</pre>`
+  }">
+ 
+ <input type=button value="9, Classes" onClick="{
+  document.getElementById('myDiv01').innerHTML = `Classes are a template for creating objects. They encapsulate data with code to work on that data. Whenever you use a \'.\' you\'re probably using a class.
+  <pre> class Car {
+  constructor(name, year) {
+    this.name = name;
+    this.year = year;
+  }
+  age() {
+    let date = new Date();
+    return date.getFullYear() - this.year;
+  }
+}
+
+let myCar = new Car(\'Ford\', 2014);
+document.getElementById(\'demo\').innerHTML =
+\'My car is \' + myCar.age() + \' years old.\';</pre>`
+  }">
+ 
+<div id="myDiv01">...</div><br><br><br>
+ 
+<div style="font-size:150%;">
+<p>Hello guys welcome to my basic page</p><br>
+<b>This text is bold!!! omg so cool!!</b><br>
+<i>ok now look at this! this text is all slanted and stuff</i><br>
+<u>ok ok last one... this text is like sooo underlined!!</u><br>
+<img src="https://storage.googleapis.com/le-cheese.appspot.com/cheeses/marble-bothwell_large.png" width="200" height="400"><br>
+<iframe width="350" height="250" src="https://www.youtube.com/embed/-diMa6o8f7I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p class="cell">Hover Over Me!</p><br> 
+</div>
+</body>

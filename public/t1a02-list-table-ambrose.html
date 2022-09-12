@@ -1,0 +1,104 @@
+<head>
+ <style>
+  </style>
+  <h5>version 0.0.7</h5>
+</head>
+
+
+<body style="background-color:plum; font-size:150%;">
+	<h2> List types</h2>
+<ol>Ordered list of favorite foods
+	<li>Pizza
+	<li>Waffles
+  <li>Mac and Cheese
+	<li>Pears
+	<li>Cheese
+</ol>
+
+<ul>Unordered list of countries
+	<li>Canada
+	<li>Russia
+	<li>Mongolia
+	<li>Zimbabwe
+	<li>Brazil
+</ul>
+
+<ul>Lists inside a list 
+	<li>Sandwich Types
+	   	<ol type="a">
+	    	 <li>Beef Sandwiches.
+	    	 <li>Cheese Sandwiches.
+	    	 <li>Grilled Cheese Sandwiches.
+	    	 <li>Chicken Sandwiches.
+	    	 <li>Ham Sandwiches.
+	    	 <li>Pork Sandwiches.
+	    	 <li>Tuna Sandwiches.
+	    	 <li>Turkey Sandwiches.
+	    	 <li>White cheddar.
+	   	</ol>
+	<li>Potatoes
+		<ol type="A">
+		 <li>Sweet Potatoes
+		 <li>Red Gold Potato
+		 <li>Yukon Gold
+		 <li>Russet Potatoes
+		 <li>Red Potatoes
+		 <li>White Potatoes
+		 <li>Fingerling Potatoes
+		 <li>Yellow Potatoes
+		 <li>Purple Potatoes
+		 <li>Petite Potatoes
+		</ol>
+	<li>Pizza
+		<ol type="i">
+		 <li>Cheese
+		 <li>Pepperoni
+		 <li>Veggie Pizza
+		 <li>Meat Pizza
+		 <li>Margherita Pizza
+		 <li>BBQ Chicken Pizza
+		 <li>Hawaiian Pizza
+		 <li>Buffalo Pizza
+		 <li>Supreme Pizza
+		</ol>
+</ul>
+	
+	<h2> Table types </h2>
+<h3>2x2 table</h3>
+<table border=1 style="width:10%" bordercolor=black>
+<tr><td>A</td><td>B</td></tr>
+<tr><td>1</td><td>2</td></tr>
+</table><br><br>
+
+<h3>3x4 table</h3>
+<table border=1 bordercolor=black>
+<tr><td> </td><td>A</td><td>B</td><td>C</td></tr>
+<tr><td>1</td><td>1A</td><td>1B</td><td>1C</td></tr>
+<tr><td>2</td><td>2A</td><td>2B</td><td>2C</td></tr>
+<tr><td>3</td><td>3A</td><td>3B</td><td>3C</td></tr>
+<tr><td>4</td><td>4A</td><td>4B</td><td>4C</td></tr>
+</table><br><br>
+
+<h3>table with links and images, and border=0</h3>
+<table border=0>
+<tr><td>Cheese Types</td><td>&nbsp&nbsp&nbspImage of Said Cheese</td><td>Another Image of Said Cheese</td></tr>
+<tr><td><a href "https://en.wikipedia.org/wiki/Mozzarella">Mozzarella</a></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Mozzarella_di_bufala3.jpg/220px-Mozzarella_di_bufala3.jpg" height=200></td><td><img src="https://www.alphafoodie.com/wp-content/uploads/2020/08/Mozzarella-cheese-500x500.jpeg" height=200></td></tr>
+<tr><td><a href "https://en.wikipedia.org/wiki/Cheddar_cheese">Cheddar</a></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bravo_Cheddar.jpg/200px-Bravo_Cheddar.jpg" height=200></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Somerset-Cheddar.jpg/220px-Somerset-Cheddar.jpg" height=200></td></tr>
+<tr><td><a href "https://en.wikipedia.org/wiki/Swiss_cheese_(North_America)">Swiss Cheese</a></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Swiss_cheese_cubes.jpg/220px-Swiss_cheese_cubes.jpg" height=200></td><td><img src="https://images.theconversation.com/files/316919/original/file-20200224-24701-1lk36vg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop" height=200></td></tr>
+</table>
+
+<h3>Now the really hard part</h3>
+<image id="myimage01" src="https://static.wikia.nocookie.net/slenderfortressnonofficial/images/8/89/Gman.png/revision/latest/scale-to-width-down/250?cb=20170828040025" style="position:relative; left:200px; top:0; width:150; height:100;"><br>
+
+<input type=button value="Go Left" onClick="{
+	let myLeft = document.getElementById('myimage01').style.left
+	document.getElementById('myimage01').style.left = myLeft++
+	document.getElementById('myDiv01').innerHTML = myLeft
+}">
+
+<input type=button value="Go Right" onClick="{
+	document.getElementById('myimage01').style.left = 
+	document.getElementById('myDiv01').innerHTML = 'He went right!'
+}">
+
+<div id="myDiv01">...</div>

@@ -1,0 +1,191 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body style="background-color:plum; font-size:120%;">
+<h2 align=center>t1a08 loops ambrose</h2>
+<a href="">good reference to javascript</a>
+<h4>Example input output code</h4>
+<pre>
+for (let myLoop = 0; myLoop < myMax;  myLoop++ ){ 
+   do stuff
+}
+</pre>
+<h4>example working code</h4>
+Loop Count: <input id="myNum01" type=number value="11"><br>
+<input type=button value="basic for loop" onClick="{
+   document.getElementById('myDiv01').innerHTML= ''
+   let myTemp = ''
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop * 2 > myMax){
+	    document.getElementById('myDiv01').innerHTML += myTemp
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoop + '<br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+
+<input type=button value="basic for loop with desicions" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop * 2 > myMax){
+		myTemp += 'cool '
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoop + '<br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+<input type=button value="check if even" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop % 2 == 0){
+		myTemp += '<font style=color:blue>  '
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoop + '</font><br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+<input type=button value="check if odd" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop % 2 == 1){
+		myTemp += '<font style=color:green>  '
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoop + '</font><br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+<input type=button value="check if multiple of 10" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop % 10 == 0){
+		myTemp += '<font style=color:red>  '
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoop + '</font><br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+<button type=button value="odd=green, mult. 10=red" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      if (myLoop % 10 == 0){
+		myTemp += '<font style=color:red>  '
+	  } else if (myLoop % 2 == 0) {
+	  myTemp += '<font style=color:blue> '
+	  } else if (myLoop % 2 == 1) {
+	  myTemp += '<font style=color:green> '
+	  } else {
+	  myTemp += '<font style=color:black> '
+	  }
+	  myTemp += 'loop number: ' + myLoop + '</font><br>'
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}"><span style=color:blue>even, </span><span style=color:green>odd, </span><span style=color:red>multiple 10</span></button>
+
+
+<input type=button value="make all odd numbers '▓'" onClick="{
+   let myMax = parseInt(document.getElementById('myNum01').value)
+   let myTemp = ''
+   for (let myLoop = 0; myLoop < myMax; myLoop++ ){ 
+      let myLoopCount = myLoop
+	  if (myLoop % 2 == 1){
+		myLoopCount = myLoop
+		myLoopCount = '▓'
+	  }
+	  
+	  myTemp += 'loop number: ' + myLoopCount + '<br>'
+	  
+	  }
+	  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+
+
+<div id='myDiv01'>...</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>

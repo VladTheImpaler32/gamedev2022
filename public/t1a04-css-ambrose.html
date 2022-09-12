@@ -1,0 +1,61 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.10</h5>
+</head>
+
+<body style="background: linear-gradient(45deg, plum, magenta); font-size: 150%;">
+<h1 align=center>t1a04 css by ambrose</h1>
+
+Reference Link: <a href="https://www.w3schools.com/cssref/">CSS Reference</a><br>
+Properly done with a .css file listing all css commands for your website<br><br>
+Another way to do CSS (cascading style sheets: determines colors locations extra effects on the tags on your webpage)<br>
+Here is typical in document style:
+<pre>
+h1 {
+   color: #00ff00;
+}
+</pre><br>
+
+I do css inside the tag, it overpowers all other methods.<br>
+<pre>
+<b> this is bold</b><br>
+<b style="color: #00ff00; background-color: #0000ff;" id="myB1">This is also bold</b><br>
+<input type=button value="Change Colors" onClick="{
+	document.getElementById('myB1').style.color = 'red'
+	document.getElementById('myB1').style.backgroundColor = '#ffff00'
+}">
+<br>
+
+<textarea style="position:relative; left:0; top:0; width:20; height:50;" id="myArea01" value="test textarea">
+</textarea><br>
+<input type=button value="Change Textarea Size" onClick="{
+	document.getElementById('myArea01').style.height = '100'
+	document.getElementById('myArea01').style.width = '200'
+}">
+<br>
+
+<img src="https://static.wikia.nocookie.net/slenderfortressnonofficial/images/8/89/Gman.png/revision/latest/scale-to-width-down/250?cb=20170828040025" width=50 style="opacity:100%;" id="myImg01">
+<input type=button value="Change Opacity" onClick="{
+	document.getElementById('myImg01').style.opacity = '50%'
+}">
+<br>
+
+<div id="myOutline01" style="outline:5px dotted green; width:280px;">Look at this cool outline!</div>
+<input type=button value="Chnage Outline" onClick="{
+	document.getElementById('myOutline01').style.outline = '2px dashed blue'
+}">
+<br>
+
+<div id="mySelect01" style="user-select:auto;">Select Me!</div>
+<input type=button value="Make Text Unselectable" onClick="{
+	document.getElementById('mySelect01').style.user-select = 'none'
+}">
+<br>
+
+
+
+<button onClick="window.location.reload();">Refresh Page</button><br>
+
+</body>

@@ -1,0 +1,142 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body id="myBody01" style="background-color:plum; font-size:120%;">
+<script>
+
+function myExFuncton(){
+   let myIn01 = parseInt(document.getElementById('myText01').value)
+   let mySum = myIn01 + myIn01
+   let myReply = myIn01 + ' + ' + myIn01 + ' = ' + mySum
+   return myReply
+}
+
+function myFunc01(){
+	let myIn01 = parseInt(document.getElementById('myText01').value)
+	if (myIn01 % 2 == 1){
+		let myReply = 'your number: ' + myIn01 + ' is odd!'
+		return myReply
+	} else { 
+		let myReply = 'your number: ' + myIn01 + ' is even!'
+		return myReply
+	}
+	
+}
+
+function myFunc02(){
+	let myIn01 = parseInt(document.getElementById('myText01').value)
+	if (myIn01 % 3 == 0){
+		let myReply = 'your number: ' + myIn01 + ' is a multiple of 3!'
+		return myReply
+	} else { 
+		let myReply = 'your number: ' + myIn01 + ' is not a multiple of 3!'
+		return myReply
+	}
+	
+}
+
+function myFunc03(){
+	let myIn01 = parseInt(document.getElementById('myText01').value)
+	let myIn02 = parseInt(document.getElementById('myText02').value)
+	let myOut = myIn01 ** myIn02
+	return myOut
+}
+
+function myFunc04(){
+	let myIn01 = parseInt(document.getElementById('myText01').value)
+	if (myIn01 % 2 == 1){
+		let myReply = 'your number: ' + myIn01 + ' is a multiple of 3!'
+		document.getElementById('myBody01').style.backgroundColor = 'slateblue';
+		return myReply
+	} else { 
+		let myReply = 'your number: ' + myIn01 + ' is not a multiple of 3!'
+		document.getElementById('myBody01').style.backgroundColor = 'darkturquoise';
+		return myReply
+	}
+	
+}
+
+function myFunc05(){
+	let myIn01 = parseInt(document.getElementById('myText01').value)
+	let myIn02 = parseInt(document.getElementById('myText02').value)
+	let myMath01 = myIn01 ** myIn02
+	let myOut = myIn01 + ' to the power of ' + myIn02 + ' is ' + myIn01 ** myIn02
+	if (myMath01 % 2 == 1) {
+	document.getElementById('myDiv01').style.color = 'red';
+	} else { 
+	document.getElementById('myDiv01').style.color = 'blue';
+	}
+	return myOut
+}
+
+function myFunc06(obj){
+    document.getElementById("myDiv02").innerHTML = obj.value.length;
+	document.getElementById('myText03').name = obj.value.length
+}
+
+function myFunc07(){
+	let myIn01 = parseInt(document.getElementById('myText03').name)
+	if (myIn01 % 2 == 1){
+		let myReply = 'your number: ' + myIn01 + ' is odd!'
+		document.getElementById('myBody01').style.backgroundColor = 'slateblue';
+		return myReply
+	} else { 
+		let myReply = 'your number: ' + myIn01 + ' is even!'
+		document.getElementById('myBody01').style.backgroundColor = 'darkturquoise';
+		return myReply
+	}
+	
+}
+</script>
+
+
+<h2 align=center>t1a09 functions ambrose</h2>
+<a href="https://www.w3schools.com/js/js_functions.asp">Good js function reference</a><br>
+<p>Functions are used to sensibly organize code. they are "called" elsewhere.<br>information can also be passed to functions (more advanced).</p>
+<h4>Example code</h4>
+<pre>
+function myGrabNumber(){
+   return parseInt(document.getElementById('myText01').value)
+}
+</pre>
+
+<h4>Example working code</h4>
+
+<input type=text id="myText01" value="3"><input type=text id="myText02" value="2"><br>
+<input type=button value="Add number to its self" onClick="{
+   document.getElementById('myDiv01').innerHTML = myExFuncton()
+}"><br>
+
+<input type=button value="Check X if Odd/Even" onClick="{
+   document.getElementById('myDiv01').innerHTML = myFunc01()
+}"><br>
+
+<input type=button value="Check X if multiple of 3" onClick="{
+   document.getElementById('myDiv01').innerHTML = myFunc02()
+}"><br>
+
+<input type=button value="X to the power of Y" onClick="{
+   document.getElementById('myDiv01').innerHTML = myFunc03()
+}"><br>
+
+<button type=button onClick="{
+   document.getElementById('myDiv01').innerHTML = myFunc04()
+}"><span style=color:slateblue>if X odd</span>,  <span style=color:darkturquoise>if X even</span></button><br>
+
+<button type=button onClick="{
+   document.getElementById('myDiv01').innerHTML = myFunc05()
+}">X**Y <span style=color:red>if output odd</span>,  <span style=color:blue>if output even</span></button><br><br>
+
+<div id="myDiv01" style="color:black;">...</div>
+
+<input type=text id="myText03" value="Type Here!" maxlength="10" name="0" onkeyup="myFunc06(this);">
+<input type=button value="Change Color Depending on Char Count" onClick="{
+   document.getElementById('myDiv02').innerHTML = myFunc07()
+}"><br>
+
+<div id="myDiv02" style="color:black;">...</div>
+</body>

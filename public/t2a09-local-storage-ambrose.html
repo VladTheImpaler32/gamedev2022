@@ -1,0 +1,75 @@
+<head>
+<style>
+
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body style="background-color:plum; font-size:120%;">
+<h2>t2a09-local-storage-name by Fred. Instructions:</h2>
+
+<body onload="{
+   myStorage01 = localStorage.getItem('myStoredText')
+   myStorage02 = localStorage.getItem('myStoredRange')
+   myStorage03 = localStorage.getItem('myStoredBox')
+
+   if(myStorage  != null){
+      document.getElementById('myText1').value = myStorage
+	  document.getElementById('myRange01').value = myStorage
+	  document.getElementById('myBox01').value = myStorage	  	  
+    }
+}">
+
+<body onunload="{
+   localstorage.setItem('myStoredText',document.getElementById('myText1').value)
+   localstorage.setItem('myStoredRange',document.getElementById('myRange01').value)
+   localstorage.setItem('myStoredBox',document.getElementById('myBox01').checked)
+}">   
+
+Text: <input id="myText1" type=text size=70 value="" placeholder="Write here to store"><br>
+
+<input type="button" value="Store Text" onClick="{
+   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
+   alert(document.getElementById('myText1').value + ' \nHas been stored')
+   document.getElementById('myText1').value = ''
+}">
+<input type="button" value="Retrieve Text" onClick="{
+   document.getElementById('myText1').value = localStorage.getItem('myStoredText')
+}"> 
+
+<br>
+
+<br>Range: <input type=range id="myRange01" style="width:100px;" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value; document.getElementById('myDiv01').innerHTML = document.getElementById('myRange01').value;">
+<div id="myDiv01"></div>
+<input type="button" value="Store Range" onClick="{
+   localStorage.setItem('myStoredRange', document.getElementById('myRange01').value)
+   alert(document.getElementById('myRange01').value + ' \nHas been stored')
+   document.getElementById('myRange01').value = ''
+   document.getElementById('myDiv01').innerHTML = ''
+}">
+<input type="button" value="Retrieve Range" onClick="{
+   document.getElementById('myRange01').value = localStorage.getItem('myStoredRange')
+   document.getElementById('myDiv01').innerHTML = document.getElementById('myRange01').value
+}">
+
+<br><br>
+
+(not fully working) Checkbox: <input id="myBox01" type=checkbox><div id="myDiv02"></div>
+<input type="button" value="Store Checkbox" onClick="{
+   localStorage.setItem('myStoredBox', document.getElementById('myBox01').checked)
+   alert(document.getElementById('myBox01').checked + ' \nHas been stored')
+   document.getElementById('myBox01').checked = ''
+}">
+<input type="button" value="Retrieve Checkbox" onClick="{
+   document.getElementById('myBox01').checked = localStorage.getItem('myStoredBox')
+   document.getElementById('myDiv02').innerHTML = localStorage.getItem('myStoredBox')
+   if (document.getElementById('myBox01').checked && localStorage.getItem('myStoredBox').checked) {
+		myTemp = ''
+	} else { 
+		document.getElementById('myBox01').click();
+	}
+}">
+<input type=button onclick="{
+	document.getElementById('myBox01').click();
+}">
+</body>

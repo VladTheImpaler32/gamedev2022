@@ -4,26 +4,19 @@
     <style>
     .cell {cursor: wait;}
 
-    h1 {
-        font-size: 72px;
-        background: -webkit-linear-gradient(#eee, #333);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        }
-        
     .spin {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
         position: relative;
         animation:
             myfirst 2s; 
             linear 1s;
-            alternate;    
+            alternate;      
 }
 
 @keyframes myfirst {
   0%    {left:400px; top:0px;}
-  20%   {left:1200px; top:200px}   
+  20%   {left:50vw; top:50vh}   
   40%   {transform: rotate( 45deg ) scale( 1 );}
   60%   {transform: rotate( 360deg ) scale( 5 );}
   80%   {left:400px; top:0px;}
@@ -100,12 +93,37 @@
       }">
      
     <div id="myDiv01">...</div><br><br><br>
-     
+    <script>
+      function myReload() {
+        document.getElementById('move').className = '';
+      }
+
+      function myCycle01() {
+        document.getElementById('text3').style.visibility = 'hidden'
+        document.getElementById('text1').style.visibility = 'visible'
+        setTimeout(myCycle02, 2000);
+      }
+
+      function myCycle02() {
+        document.getElementById('text1').style.visibility = 'hidden'
+        document.getElementById('text2').style.visibility = 'visible'
+        setTimeout(myCycle03, 2000);
+      }
+
+      function myCycle03() {
+        document.getElementById('text2').style.visibility = 'hidden'
+        document.getElementById('text3').style.visibility = 'visible'
+        setTimeout(myCycle01, 2000);
+      }
+      </script>
     <div style="font-size:150%;">
     <p>Hello guys welcome to my basic page</p><br>
-    <b>This text is bold!!! omg so cool!!</b><br>
-    <i>ok now look at this! this text is all slanted and stuff</i><br>
-    <u>ok ok last one... this text is like sooo underlined!!</u><br>
+    <input type=button value="click to see text" onclick="{
+      myCycle01()
+    }"><br><br>
+    <b id="text1" style="visibility:hidden;">This text is bold!!! omg so cool!!</b><br>
+    <i id="text2" style="visibility:hidden;">ok now look at this! this text is all slanted and stuff</i><br>
+    <u id="text3" style="visibility:hidden;">ok ok last one... this text is like sooo underlined!!</u><br>
     <img src="https://i.redd.it/zzpgvgm0dqg61.jpg" id="move" width="400" height="400"><br>
     <input type=button value="click 4 surprise" onclick="{
         document.getElementById('move').className = 'spin';

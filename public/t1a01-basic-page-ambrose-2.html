@@ -127,8 +127,9 @@
       </script>
     <div style="font-size:150%;">
     <p>Hello guys welcome to my basic page</p><br>
-    <input type=button value="click to see text" onclick="{
+    <input type=button id="button" value="click to see text" onclick="{
       myCycle01()
+      document.getElementById('button').style.visibility = 'hidden'
     }"><br><br>
     <b id="text1" style="visibility:hidden;">This text is bold!!! omg so cool!!</b><br>
     <i id="text2" style="visibility:hidden;">ok now look at this! this text is all slanted and stuff</i><br>

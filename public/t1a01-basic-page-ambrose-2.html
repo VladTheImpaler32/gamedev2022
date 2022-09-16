@@ -110,19 +110,19 @@
       function myCycle01() {
         document.getElementById('text3').style.visibility = 'hidden'
         document.getElementById('text1').style.visibility = 'visible'
-        setTimeout(myCycle02, 2000);
+        setTimeout(myCycle02, 1000);
       }
 
       function myCycle02() {
         document.getElementById('text1').style.visibility = 'hidden'
         document.getElementById('text2').style.visibility = 'visible'
-        setTimeout(myCycle03, 2000);
+        setTimeout(myCycle03, 1000);
       }
 
       function myCycle03() {
         document.getElementById('text2').style.visibility = 'hidden'
         document.getElementById('text3').style.visibility = 'visible'
-        setTimeout(myCycle01, 2000);
+        setTimeout(myCycle01, 1000);
       }
       </script>
     <div style="font-size:150%;">

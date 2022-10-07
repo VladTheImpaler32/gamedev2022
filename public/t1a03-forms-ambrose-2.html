@@ -1,0 +1,44 @@
+<head>
+	<link rel="stylesheet" href="global.css">
+<style>
+</style>
+    <h5> version 1.0.10 </h5>
+</head>
+
+<body>
+<h1>t1a03 forms ambrose</h1>
+<form>
+<fieldset style="background-color: #ff8142; border-width: 2px;">
+<legend>Basic Info</legend>
+Name: <input type="text" name="name" placeholder="Your Name"><br><div class="slidecontainer">
+Phone Number: <input type="range" min="1" max="9999999999" value="50" class="slider" id="myRange">
+    <p>Value: <span id="phone"></span></p></div>
+
+
+  
+
+
+
+
+
+</fieldset>
+
+
+
+
+</form>
+
+<script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("phone");
+    output.innerHTML = slider.value;
+    
+    var changed = output.innerHTML.replace(/^(\d{3})/, '($1) ');
+
+    slider.oninput = function() {
+      console.log(changed)
+      output.innerHTML = this.value;
+    }
+</script>
+
+</body>

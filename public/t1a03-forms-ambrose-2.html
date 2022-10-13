@@ -16,14 +16,19 @@
 .checkbox-round:checked {
     background-color: #0075ff;
 }
-
+.hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
+}
 </style>
     <h5> version 1.0.10 </h5>
 </head>
 
 <body>
 <h1>t1a03 forms ambrose</h1>
-<form action="">
+<form action="" onsubmit="return false">
 <fieldset style="background-color: #ff8142; border-width: 2px;">
 <legend>Basic Info</legend>
 Name: <input type="text" name="name" placeholder="Your Name"><br>
@@ -72,27 +77,32 @@ Cheap: <input type="checkbox" id="check3" class="checkbox-round">&nbsp;&nbsp;<br
 Which food:
 <select id="foods" value="food">
     <optgroup label="fruits">
-        <option value="Orange">orange</option>
+        <option value="banana">banana</option>
         <option value="watermelon">watermelon</option>
+        <option value="coconut">coconut</option>
+        <option value="pumpkin">pumpkin</option>
     </optgroup>
     <optgroup label="veggies">
         <option value="corn">corn</option>
         <option value="lettuce">lettuce</option>
     </optgroup>
     <optgroup label="other">
-        <option value="idk">idk</option>
+        <option value="popsicle">popsicle</option>
     </optgroup>
 </select>
 
 </fieldset>
 
-
-
-
-
-
-<input type="submit" value="submit">
+<input type="submit" value="submit" onclick="{
+  myfoodtype = document.getElementById('foods').value
+  document.getElementById('myimage').src = myfoodtype + '.gif'
+  console.log(document.getElementById('myimage').src = myfoodtype + '.gif')
+}">
 </form>
+
+<img src="orange.gif" id="myimage" style="width: 250px; height: 250px; ">
+
+
 <script>
     var slider = document.getElementById("myRange");
     var output = document.getElementById("phone");

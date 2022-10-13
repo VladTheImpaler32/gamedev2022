@@ -7,8 +7,8 @@
         position: relative;
         animation:
             myfirst 2s; 
-            linear 1s;
-            alternate;      
+            linear: 1s;
+            alternate;   
         }
 
         @keyframes myfirst {
@@ -86,14 +86,16 @@
    <tr><td>4</td><td>4A</td><td>4B</td><td>4C</td></tr>
    </table><br><br>
    
-   <h3>table with links and images, and border=0</h3>
+   <hr>
+
+   <h2>table with links and images, and border=0</h2>
    <table border=0 style="width:1000px; height:1000px;">
    <tr><td>swag skeleton</td><td>&nbsp&nbsp&nbsppic of skelyton</td><td>anotha one</td></tr>
    <tr><td><a href="https://en.wikipedia.org/wiki/Skeleton">skeletons</a></td><td><img src="http://i.imgflip.com/5bsbdr.jpg" height=400></td><td><img src="http://images5.fanpop.com/image/photos/29600000/Cool-Skeleton-micketo-29600383-1280-1024.jpg" height=400></td></tr>
    <tr><td><a href="https://en.wikipedia.org/wiki/Skeleton_(computer_programming)">skeleton code</a></td><td><img src="https://m.media-amazon.com/images/I/61eAoxTaPkL._AC_SY741_.jpg" height=400></td><td><img src="https://media.tenor.com/eLEu9TW021UAAAAd/spinning-skeleton-skeleton.gif" height=400></td></tr>
    <tr><td><a href="https://en.wikipedia.org/wiki/Skeleton_(undead)">skeleton (alive)</a></td><td><img src="https://i.pinimg.com/736x/a3/f1/56/a3f15652d2e99e6208e9ab0c4c3a5bb1.jpg" height=400></td><td><img src="https://i.pinimg.com/originals/41/0f/23/410f239e449800cf6d8e01dcc11ddd6e.jpg" height=400></td></tr>
    </table>
-   
+   <hr>
    <script>
     function myReload() {
       document.getElementById('move').className = '';
@@ -101,7 +103,7 @@
    </script>
 
    <h3>Now the really hard part</h3>
-   <image id="move" src="Gman.webp" style="position:relative; left:200px; top:0; width:150; height:100;"><br>
+   <image id="move" src="Gman.webp" style="position:relative; left:0px; top:0; width:150; height:100;"><br>
    
     <input type=button value="go left" onclick="{
         document.getElementById('move').className = 'spin';

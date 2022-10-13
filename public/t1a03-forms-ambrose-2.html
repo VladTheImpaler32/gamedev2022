@@ -1,43 +1,106 @@
 <head>
 	<link rel="stylesheet" href="global.css">
 <style>
+    .checkbox-round {
+    width: 0.9em;
+    height: 0.9em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px double #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.checkbox-round:checked {
+    background-color: #0075ff;
+}
+
 </style>
     <h5> version 1.0.10 </h5>
 </head>
 
 <body>
 <h1>t1a03 forms ambrose</h1>
-<form>
+<form action="">
 <fieldset style="background-color: #ff8142; border-width: 2px;">
 <legend>Basic Info</legend>
-Name: <input type="text" name="name" placeholder="Your Name"><br><div class="slidecontainer">
-Phone Number: <input type="range" min="1" max="9999999999" value="50" class="slider" id="myRange">
-    <p>Value: <span id="phone"></span></p></div>
+Name: <input type="text" name="name" placeholder="Your Name"><br>
+Phone Number: <input type="range" min="1" max="9999999999" class="slider" id="myRange" style="width: 50vw;"><br>
+Value: <span id="phone"></span><br>
+Level of Awesome: <input list="awesome" name="level">
+<datalist id="awesome">
+    <option value="Very Awesome"></option>
+    <option value="Swag"></option>
+    <option value="Not awesome"></option>
+    <option value="👎"></option>
+    <option value="capybara.png"></option>
+</datalist>
+</fieldset>
 
-
-  
-
-
-
-
+<fieldset style="background-color: #ff8142; border-width: 2px;">
+<legend>Order Info</legend>
+When do you want it done? <input type="date" max="2023-01-31" id="datePickerId"><br>
+<script>
+    datePickerId.min = new Date().toLocaleDateString('en-ca')
+</script>
+I want it done:&nbsp;&nbsp;&nbsp;&nbsp;
+Fast: <input type="checkbox" id="check1" class="checkbox-round">&nbsp;&nbsp;
+Well: <input type="checkbox" id="check2" class="checkbox-round">&nbsp;&nbsp;
+Cheap: <input type="checkbox" id="check3" class="checkbox-round">&nbsp;&nbsp;<br>
+<script>
+    window.onload = ()=>{
+  let checks = document.querySelectorAll('input[type=checkbox]');
+  checks[0].addEventListener('change', function(){
+    if(this.checked){
+      checks[1].checked = false;
+    }
+  });
+  checks[1].addEventListener('change', function(){
+    if(this.checked){
+      checks[2].checked = false;
+    }
+  });
+  checks[2].addEventListener('change', function(){
+    if(this.checked){
+      checks[0].checked = false;
+    }
+  });   
+}
+</script>
+Which food:
+<select id="foods" value="food">
+    <optgroup label="fruits">
+        <option value="Orange">orange</option>
+        <option value="watermelon">watermelon</option>
+    </optgroup>
+    <optgroup label="veggies">
+        <option value="corn">corn</option>
+        <option value="lettuce">lettuce</option>
+    </optgroup>
+    <optgroup label="other">
+        <option value="idk">idk</option>
+    </optgroup>
+</select>
 
 </fieldset>
 
 
 
 
-</form>
 
+
+<input type="submit" value="submit">
+</form>
 <script>
     var slider = document.getElementById("myRange");
     var output = document.getElementById("phone");
     output.innerHTML = slider.value;
-    
-    var changed = output.innerHTML.replace(/^(\d{3})/, '($1) ');
 
     slider.oninput = function() {
-      console.log(changed)
-      output.innerHTML = this.value;
+      console.log(output.innerHTML)
+      output.innerHTML = this.value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
     }
 </script>
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="global.css">
+    <title>t1a04</title>
+
+    <style>
+        .button {
+            --edge-size: 0.75em;
+
+            cursor: pointer;
+            background: white;
+            padding: 0.5em 1.5em;
+            border: 0;
+            position: relative;
+            display: inline-grid;
+            place-content: center;
+            clip-path: polygon(
+                var(--edge-size) 0%,
+                100% 0,
+                100% calc(100% - var(--edge-size)),
+                calc(100% - var(--edge-size)) 100%,
+                0 100%,
+                0% var(--edge-size)
+            );
+        }
+
+        .spin {
+        position: relative;
+        animation: myfirst 2s ease alternate;
+        }
+
+        @keyframes myfirst {
+        0%   {left:-200px; top:0px;}
+        25%  {left:0px; top:0px;}
+        50%  {left:0px; top:0px;}
+        100%  {left:-200px; top:0px;}
+        }
+    </style>
+    <script>
+    function myReload() {
+        document.getElementById('move').className = '';
+    }
+    </script>
+</head>
+<body>
+    <p>fancy polygon button</p>
+    <button class="button" onclick="{
+        document.getElementById('move').className = 'spin'; setTimeout(myReload, 2000);
+    }">click me</button><br>
+    <img id="move" src="Yeah_woo.gif" style="position:relative; left:-300px; top:0;">
+    
+
+</body>
+</html>

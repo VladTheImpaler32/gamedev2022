@@ -26,34 +26,36 @@
     <h5> version 1.0.10 </h5>
 </head>
 
-<body>
+<body style="font-size: 120%;">
 <h1>t1a03 forms ambrose</h1>
-<form action="" onsubmit="return false">
+<form action="form.php" onsubmit="return false">
 <fieldset style="background-color: #ff8142; border-width: 2px;">
 <legend>Basic Info</legend>
-Name: <input type="text" name="name" placeholder="Your Name"><br>
+Name: <input type="text" name="name" placeholder="Your Name" required><br>
+Email: <input type="email" id="email" name="email" placeholder="your email" required><br>
+Password: <input type="password" id="password" name="password" placeholder="Password" required><br><br>
 Phone Number: <input type="range" min="1" max="9999999999" class="slider" id="myRange" style="width: 50vw;"><br>
-Value: <span id="phone"></span><br>
-Level of Awesome: <input list="awesome" name="level">
+Value: <span id="phone"></span><br><br>
+Level of Awesome: <input list="awesome" name="level" required>
 <datalist id="awesome">
-    <option value="Very Awesome"></option>
-    <option value="Swag"></option>
-    <option value="Not awesome"></option>
-    <option value="👎"></option>
-    <option value="capybara.png"></option>
+  <option value="capybara.png"></option>
+  <option value="Swag"></option>
+  <option value="Very Awesome"></option>
+  <option value="Not awesome"></option>
+  <option value="👎"></option>
 </datalist>
 </fieldset>
 
 <fieldset style="background-color: #ff8142; border-width: 2px;">
 <legend>Order Info</legend>
-When do you want it done? <input type="date" max="2023-01-31" id="datePickerId"><br>
+When do you want it done? <input type="date" max="2023-01-31" id="datePickerId"><br><br>
 <script>
     datePickerId.min = new Date().toLocaleDateString('en-ca')
 </script>
-I want it done:&nbsp;&nbsp;&nbsp;&nbsp;
+I want it done:&nbsp;&nbsp;&nbsp;&nbsp;<br>
 Fast: <input type="checkbox" id="check1" class="checkbox-round">&nbsp;&nbsp;
 Well: <input type="checkbox" id="check2" class="checkbox-round">&nbsp;&nbsp;
-Cheap: <input type="checkbox" id="check3" class="checkbox-round">&nbsp;&nbsp;<br>
+Cheap: <input type="checkbox" id="check3" class="checkbox-round">&nbsp;&nbsp;<br><br>
 <script>
     window.onload = ()=>{
   let checks = document.querySelectorAll('input[type=checkbox]');
@@ -76,6 +78,7 @@ Cheap: <input type="checkbox" id="check3" class="checkbox-round">&nbsp;&nbsp;<br
 </script>
 Which food:
 <select id="foods" value="food">
+    <option value="0" disabled selected>Select your option</option>
     <optgroup label="fruits">
         <option value="banana">banana</option>
         <option value="watermelon">watermelon</option>
@@ -89,18 +92,25 @@ Which food:
     <optgroup label="other">
         <option value="popsicle">popsicle</option>
     </optgroup>
-</select>
+</select><br><br>
+Any notes to give your specialist? <br><textarea rows="5" cols="40" placeholder="notes for your specialist"></textarea><br><br>
+Image for your specialist to look at while completing order:<br>
+<input type="file" id="image">
+
 
 </fieldset>
 
 <input type="submit" value="submit" onclick="{
-  myfoodtype = document.getElementById('foods').value
-  document.getElementById('myimage').src = myfoodtype + '.gif'
-  console.log(document.getElementById('myimage').src = myfoodtype + '.gif')
+  console.log(document.getElementById('foods').value)
+  if (document.getElementById('foods').value != 0) {
+    document.getElementById('myimage').style.visibility = 'visible'
+    myfoodtype = document.getElementById('foods').value
+    document.getElementById('myimage').src = myfoodtype + '.gif'
+  }
 }">
 </form>
 
-<img src="orange.gif" id="myimage" style="width: 250px; height: 250px; ">
+<img src="orange.gif" id="myimage" style="width: 250px; height: 250px; visibility: hidden;">
 
 
 <script>

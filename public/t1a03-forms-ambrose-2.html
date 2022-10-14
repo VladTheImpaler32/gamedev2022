@@ -28,15 +28,15 @@
 
 <body style="font-size: 120%;">
 <h1>t1a03 forms ambrose</h1>
-<form action="form.php" onsubmit="return false">
+<form action="http://ambroseallison.com/other/form.php">
 <fieldset style="background-color: #ff8142; border-width: 2px;">
 <legend>Basic Info</legend>
-Name: <input type="text" name="name" placeholder="Your Name" required><br>
-Email: <input type="email" id="email" name="email" placeholder="your email" required><br>
-Password: <input type="password" id="password" name="password" placeholder="Password" required><br><br>
+Name: <input type="text" name="name" placeholder="Your Name" ><br>
+Email: <input type="email" id="email" name="email" placeholder="your email" ><br>
+Password: <input type="password" id="password" name="password" placeholder="Password" ><br><br>
 Phone Number: <input type="range" min="1" max="9999999999" class="slider" id="myRange" style="width: 50vw;"><br>
 Value: <span id="phone"></span><br><br>
-Level of Awesome: <input list="awesome" name="level" required>
+Level of Awesome: <input list="awesome" name="level" >
 <datalist id="awesome">
   <option value="capybara.png"></option>
   <option value="Swag"></option>
@@ -93,24 +93,28 @@ Which food:
         <option value="popsicle">popsicle</option>
     </optgroup>
 </select><br><br>
-Any notes to give your specialist? <br><textarea rows="5" cols="40" placeholder="notes for your specialist"></textarea><br><br>
+Any notes to give your specialist? <br><textarea name="notes" maxlength="1000" rows="5" cols="40" placeholder="notes for your specialist"></textarea><br><br>
 Image for your specialist to look at while completing order:<br>
 <input type="file" id="image">
 
 
 </fieldset>
 
-<input type="submit" value="submit" onclick="{
+<input type="button" value="SUBMIT" onclick="{
   console.log(document.getElementById('foods').value)
   if (document.getElementById('foods').value != 0) {
+    document.getElementById('div1').innerHTML = ''
     document.getElementById('myimage').style.visibility = 'visible'
     myfoodtype = document.getElementById('foods').value
     document.getElementById('myimage').src = myfoodtype + '.gif'
+  } else {
+    document.getElementById('div1').innerHTML = 'you did not select a food :|'
   }
-}">
+}" style="height: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" value="SUBMIT but way cooler">
 </form>
-
-<img src="orange.gif" id="myimage" style="width: 250px; height: 250px; visibility: hidden;">
+<div id="div1"></div>
+<img src="banana.gif" id="myimage" style="width: 250px; height: 250px; visibility: hidden;">
 
 
 <script>

@@ -1,0 +1,61 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+<style>
+    .canvas:hover {
+        /* lol */
+        border-color: red;
+    }
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body>
+<h2 align=center>t1a18-canvas by ambrose</h2>
+You use loops and variables to make fast fancy drawings <br><br>
+
+<input type=button value="Clear all" onclick="{
+    myContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+}"><br><br>
+
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000;" o></canvas>
+
+<script>
+    const element = document.getElementById('myCoolTag')
+    var pos = { x: 0, y: 0 };
+
+    document.addEventListener('mousemove', draw);
+    document.addEventListener('mousedown', setPosition);
+    document.addEventListener('mouseenter', setPosition);
+
+    function setPosition(e) {
+        pos.x = e.clientX - 10;
+        pos.y = e.clientY - 50  ;
+    }
+
+    function draw(e) {
+        console.log(e.buttons)
+        console.log(e)
+        if (e.buttons !== 1) return;
+
+        myContext.beginPath();
+        myContext.lineWidth = 5;
+        myContext.lineCap = 'round';
+        myContext.strokeStyle = '#42ddf5';
+
+        myContext.moveTo(pos.x, pos.y);
+        setPosition(e);
+        myContext.lineTo(pos.x, pos.y);
+
+        myContext.stroke();
+    }
+</script>
+
+
+
+
+<script>
+    // set up global variables
+    let myCanvas=document.getElementById('myCoolTag');
+    let myContext=myCanvas.getContext('2d');
+</script>
+</body>

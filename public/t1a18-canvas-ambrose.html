@@ -64,7 +64,7 @@ var myColors = []
 <script>
         const element = document.getElementById('myCoolTag')
         var pos = { x: 0, y: 0 };
-
+function MouseOverCanvas() {
         document.addEventListener('mousemove', draw);
         document.addEventListener('mousedown', setPosition);
         // document.addEventListener('mouseenter', setPosition);
@@ -73,7 +73,7 @@ var myColors = []
             pos.x = e.offsetX
             pos.y = e.offsetY
         }
-    function MouseOverCanvas() {
+    
         function draw(e) {
             // console.log(e.buttons)
             document.getElementById('x').innerHTML = "offsetx: " + e.offsetX;

@@ -1,0 +1,123 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+<style>
+    .hidden {
+        visibility: hidden;
+    }
+    .visible {
+        display: inline-block;
+        visibility: visible;
+        height: 25;
+        width: 25;
+        border-radius: 5px;
+        border: 2px solid #000000;
+    }
+</style>
+<h5>version 0.0.1</h5>
+</head>
+
+<body>
+<h2 align=center>t1a18-canvas by ambrose</h2>
+<p>10 most recently used colors save below color selector, click recently used color to switch to it</p>
+<script>
+const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
+var mycount = -1;
+var myColors = [];
+var CanvasType = 0;
+</script>
+
+<input type=button value="Clear all" onclick="{
+    myContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+}">
+
+<input type="color" id="color" onchange="{
+    mycount = mycount + 1;
+    currentColor = document.getElementById('color').value;
+    if (mycount <= 9) {
+        myColors[mycount] = currentColor;
+        console.log(myColors);
+        document.getElementById('Color' + mycount).className = 'visible';
+        document.getElementById('Color' + mycount).style.backgroundColor = currentColor;
+    } else if (mycount = 10) {
+        mycount = 0
+        myColors[mycount] = currentColor;
+        document.getElementById('Color' + mycount).className = 'visible';
+        document.getElementById('Color' + mycount).style.backgroundColor = currentColor;
+    }
+
+}">
+<input type="range" id="thickness" max="30" min="1" value="10"><span id="myvalue"></span>
+<input type="button" value="circle" onclick="{CanvasType = 2}">
+<input type="button" value="line" onclick="{CanvasType = 1}">
+<!-- <input type="button" id="eraser" onclick="{myContext.strokeStyle = '#FFFFFF'}"><br><br> -->
+<div id="Color0" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color0').style.backgroundColor);}"></div>
+<div id="Color1" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color1').style.backgroundColor);}"></div>
+<div id="Color2" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color2').style.backgroundColor);}"></div>
+<div id="Color3" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color3').style.backgroundColor);}"></div>
+<div id="Color4" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color4').style.backgroundColor);}"></div>
+<div id="Color5" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color5').style.backgroundColor);}"></div>
+<div id="Color6" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color6').style.backgroundColor);}"></div>
+<div id="Color7" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color7').style.backgroundColor);}"></div>
+<div id="Color8" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color8').style.backgroundColor);}"></div>
+<div id="Color9" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color9').style.backgroundColor);}"></div>
+<br>
+
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;" value="0" onmouseenter="{document.getElementById('myCoolTag').value = 1}" onmouseleave="{document.getElementById('myCoolTag').value = 0}"></canvas>
+
+<script>
+    const element = document.getElementById('myCoolTag')
+    var pos = { x: 0, y: 0 };
+
+        document.addEventListener('mousemove', draw);
+        document.addEventListener('mousedown', setPosition);
+        // document.addEventListener('mouseenter', setPosition);
+
+        function setPosition(e) {
+            pos.x = e.offsetX
+            pos.y = e.offsetY
+        }
+        
+
+        function draw(e) {
+            if (document.getElementById('myCoolTag').value == 1) {
+                // console.log(e)
+                document.getElementById('myvalue').innerHTML = "Size: " + document.getElementById('thickness').value;
+                if (e.buttons !== 1) return;
+                if (CanvasType == 1) {
+                    console.log(CanvasType)
+                    myContext.beginPath();
+                    myContext.lineWidth = document.getElementById('thickness').value;
+                    myContext.lineCap = 'round';
+                    myContext.strokeStyle = document.getElementById("color").value;
+
+                    myContext.moveTo(pos.x, pos.y);
+                    setPosition(e);
+                    myContext.lineTo(pos.x, pos.y);
+
+                    myContext.stroke();
+                } else if (CanvasType == 2) {
+                    console.log(CanvasType)
+                    myContext.beginPath();
+                    myContext.lineWidth = document.getElementById('thickness').value;
+                    myContext.lineCap = 'round';
+                    myContext.strokeStyle = document.getElementById("color").value;
+
+                    setPosition(e)
+                    myContext.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);  
+
+                    myContext.stroke();
+                }
+            }
+        }
+</script>
+
+<script>
+    // set up global variables
+    let myCanvas=document.getElementById('myCoolTag');
+    let myContext=myCanvas.getContext('2d');
+</script>
+
+<div id="x">...</div>
+<div id="y">...</div>
+
+</body>

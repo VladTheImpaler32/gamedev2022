@@ -59,10 +59,9 @@ var myColors = []
 <div id="Color9" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color9').style.backgroundColor);}"></div>
 <br>
 
-<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;" onmouseenter="draw()"></canvas>
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;" onmouseenter="MouseOverCanvas()"></canvas>
 
 <script>
-    function draw() {
         const element = document.getElementById('myCoolTag')
         var pos = { x: 0, y: 0 };
 
@@ -74,7 +73,7 @@ var myColors = []
             pos.x = e.offsetX
             pos.y = e.offsetY
         }
-
+    function MouseOverCanvas() {
         function draw(e) {
             // console.log(e.buttons)
             document.getElementById('x').innerHTML = "offsetx: " + e.offsetX;

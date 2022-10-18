@@ -59,40 +59,38 @@ var myColors = []
 <div id="Color9" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color9').style.backgroundColor);}"></div>
 <br>
 
-<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;" onmouseenter="MouseOverCanvas()"></canvas>
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;"></canvas>
 
 <script>
-        const element = document.getElementById('myCoolTag')
-        var pos = { x: 0, y: 0 };
-function MouseOverCanvas() {
-        document.addEventListener('mousemove', draw);
-        document.addEventListener('mousedown', setPosition);
-        // document.addEventListener('mouseenter', setPosition);
+    const element = document.getElementById('myCoolTag')
+    var pos = { x: 0, y: 0 };
+    document.addEventListener('mousemove', draw);
+    document.addEventListener('mousedown', setPosition);
+    // document.addEventListener('mouseenter', setPosition);
 
-        function setPosition(e) {
-            pos.x = e.offsetX
-            pos.y = e.offsetY
-        }
-    
-        function draw(e) {
-            // console.log(e.buttons)
-            document.getElementById('x').innerHTML = "offsetx: " + e.offsetX;
-            document.getElementById('y').innerHTML = "offsety: " + e.offsetY;
-            document.getElementById('myvalue').innerHTML = "Size: " + document.getElementById('thickness').value;
-            if (e.buttons !== 1) return;
+    function setPosition(e) {
+        pos.x = e.offsetX
+        pos.y = e.offsetY
+    }
 
-            myContext.beginPath();
-            myContext.lineWidth = document.getElementById('thickness').value;
-            myContext.lineCap = 'round';
-            myContext.strokeStyle = document.getElementById("color").value;
-            console.log(myContext.strokeStyle)
+    function draw(e) {
+        console.log(e.buttons)
+        document.getElementById('x').innerHTML = "offsetx: " + e.offsetX;
+        document.getElementById('y').innerHTML = "offsety: " + e.offsetY;
+        document.getElementById('myvalue').innerHTML = "Size: " + document.getElementById('thickness').value;
+        if (e.buttons !== 1) return;
 
-            myContext.moveTo(pos.x, pos.y);
-            setPosition(e);
-            myContext.lineTo(pos.x, pos.y);
+        myContext.beginPath();
+        myContext.lineWidth = document.getElementById('thickness').value;
+        myContext.lineCap = 'round';
+        myContext.strokeStyle = document.getElementById("color").value;
+        console.log(myContext.strokeStyle)
 
-            myContext.stroke();
-        }
+        myContext.moveTo(pos.x, pos.y);
+        setPosition(e);
+        myContext.lineTo(pos.x, pos.y);
+
+        myContext.stroke();
     }
 </script>
 

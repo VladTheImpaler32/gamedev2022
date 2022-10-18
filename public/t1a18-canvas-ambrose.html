@@ -23,7 +23,6 @@
 const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
 var mycount = -1;
 var myColors = []
-var InsideCanvas = 0;
 </script>
 
 <input type=button value="Clear all" onclick="{
@@ -60,7 +59,7 @@ var InsideCanvas = 0;
 <div id="Color9" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color9').style.backgroundColor);}"></div>
 <br>
 
-<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;" onmouseenter="{InsideCanvas = 1}"></canvas>
+<canvas id="myCoolTag" width="1000" height="600" style="border:1px solid #000000; background-color: white;"></canvas>
 
 <script>
     const element = document.getElementById('myCoolTag')

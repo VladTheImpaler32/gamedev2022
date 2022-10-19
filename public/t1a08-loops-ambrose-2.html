@@ -1,0 +1,177 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+    <title>Loops</title>
+    <style>
+        .light {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: gold;
+            border-radius: 15px;
+        }
+        .wrapper {
+            width: 100%;
+            text-align: center;
+            position: relative;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <div id="block1" class="light"></div>
+    <div id="block2" class="light"></div>
+    <div id="block3" class="light"></div>
+    <div id="block4" class="light"></div>
+    <div id="block5" class="light"></div>
+    <div id="block6" class="light"></div>
+    <div id="block7" class="light"></div>
+    <div id="block8" class="light"></div>
+    <div id="block9" class="light"></div>
+</div>
+
+<script>
+    const delay = 500;
+
+function startgame() {
+    mymax = 18
+    for (let mycount = 1; mycount < mymax; mycount++ ) {
+        setTimeout(function() {
+            switch (mycount) {
+                case 1:
+                setTimeout(function(){
+                    document.getElementById('block2').style.backgroundColor = 'gold';
+                    document.getElementById('block1').style.backgroundColor = 'red';
+                    console.log('case 1');
+                }, delay); 
+                break;
+                case 2:
+                setTimeout(function(){
+                        document.getElementById('block1').style.backgroundColor = 'gold';
+                        document.getElementById('block2').style.backgroundColor = 'red';
+                        console.log('case 2');
+                    }, delay);
+                    break;
+                case 3:
+                setTimeout(function(){
+                        document.getElementById('block2').style.backgroundColor = 'gold';
+                        document.getElementById('block3').style.backgroundColor = 'red';
+                        console.log('case 3');
+                    }, delay);
+                    break;
+                case 4:
+                setTimeout(function(){
+                        document.getElementById('block3').style.backgroundColor = 'gold';
+                        document.getElementById('block4').style.backgroundColor = 'red';
+                        console.log('case 4');
+                    }, delay);
+                    break;
+                case 5: 
+                setTimeout(function(){
+                        document.getElementById('block4').style.backgroundColor = 'gold';
+                        document.getElementById('block5').style.backgroundColor = 'red';
+                        console.log('case 5');
+                    }, delay);
+                    break;
+                case 6: 
+                setTimeout(function(){
+                        document.getElementById('block5').style.backgroundColor = 'gold';
+                        document.getElementById('block6').style.backgroundColor = 'red';
+                        console.log('case 6');
+                    }, delay);
+                    break;
+                case 7: 
+                setTimeout(function(){
+                        document.getElementById('block6').style.backgroundColor = 'gold';
+                        document.getElementById('block7').style.backgroundColor = 'red';
+                        console.log('case 7');
+                    }, delay);
+                    break;
+                case 8: 
+                setTimeout(function(){
+                        document.getElementById('block7').style.backgroundColor = 'gold';
+                        document.getElementById('block8').style.backgroundColor = 'red';
+                        console.log('case 8');
+                    }, delay);
+                    break;
+                case 9: 
+                setTimeout(function(){
+                        document.getElementById('block8').style.backgroundColor = 'gold';
+                        document.getElementById('block9').style.backgroundColor = 'red';
+                        console.log('case 9');
+                    }, delay);
+                    break;
+                case 10: 
+                setTimeout(function(){
+                        document.getElementById('block9').style.backgroundColor = 'gold';
+                        document.getElementById('block8').style.backgroundColor = 'red';
+                        console.log('case 8');
+                    }, delay);
+                    break;
+                case 11: 
+                setTimeout(function(){
+                        document.getElementById('block8').style.backgroundColor = 'gold';
+                        document.getElementById('block7').style.backgroundColor = 'red';
+                        console.log('case 7');
+                    }, delay);
+                    break;
+                case 12: 
+                setTimeout(function(){
+                        document.getElementById('block7').style.backgroundColor = 'gold';
+                        document.getElementById('block6').style.backgroundColor = 'red';
+                        console.log('case 6');
+                    }, delay);
+                    break;
+                case 13: 
+                setTimeout(function(){
+                        document.getElementById('block6').style.backgroundColor = 'gold';
+                        document.getElementById('block5').style.backgroundColor = 'red';
+                        console.log('case 5');
+                    }, delay);
+                    break;
+                case 14: 
+                setTimeout(function(){
+                        document.getElementById('block5').style.backgroundColor = 'gold';
+                        document.getElementById('block4').style.backgroundColor = 'red';
+                        console.log('case 4');
+                    }, delay);
+                    break;
+                case 15: 
+                setTimeout(function(){
+                        document.getElementById('block4').style.backgroundColor = 'gold';
+                        document.getElementById('block3').style.backgroundColor = 'red';
+                        console.log('case 3');
+                    }, delay);
+                    break;
+                case 16: 
+                setTimeout(function(){
+                        document.getElementById('block3').style.backgroundColor = 'gold';
+                        document.getElementById('block2').style.backgroundColor = 'red';
+                        console.log('case 2');
+                    }, delay);
+                    break;
+                case 17: 
+                setTimeout(function(){
+                        document.getElementById('block2').style.backgroundColor = 'gold';
+                        document.getElementById('block1').style.backgroundColor = 'red';
+                        console.log('case 1');
+                    }, delay);
+                    break;
+                }
+            console.log(mycount)
+        }, mycount * delay);
+    }
+}
+</script>
+
+<input type="button" value="start" onclick="{
+    startgame();
+}">
+
+
+
+
+
+</body>

@@ -1,5 +1,6 @@
 <head>
     <link rel="stylesheet" href="global.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Light Game</title>
     <style>
         .light {
@@ -45,9 +46,16 @@
         }
         .mobilespace {
             visibility: hidden;
+            border-radius: 20px;
+            color: #000000;
+            font-size: 40px;
+            background: gold;
+            padding: 10px 20px 10px 20px;
+            border: none;
         }
-        @media only screen and (max-width: 600px) {
+        @media screen and (max-width: 600px) {
             .mobilespace {
+                visibility: visible;
                 border-radius: 20px;
                 color: #000000;
                 font-size: 40px;

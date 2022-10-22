@@ -1,0 +1,132 @@
+<head>
+<style>
+    .wrapper {
+        padding: 20px;
+    }
+    .myCanvas {
+        display: inline-block;
+        position: absolute;
+        left: 25%;
+    }
+    div {
+        float: left;
+    }
+    .sortbutton:disabled {
+        color: grey;
+    }
+</style>
+<link rel="stylesheet" href="global.css">
+<h5>version 0.0.8</h5>
+</head>
+
+<body>
+<h1 align=center>t2a12 Sort by Ambrose</h1>
+<!-- <input type="number" max="100" min="3" id="loopCount" value=""> -->
+
+<script>
+    let delay = 50;
+    let myMax = 100;
+    let myCards = [1];
+    let myLoop = 0;
+    for (let myLoop = 2; myLoop < myMax; myLoop++) {
+        myCards.push(myLoop);
+        if (myCards[myLoop] == undefined) {
+            myCards[myLoop] = myMax;
+        }
+    }
+</script>
+
+<input type=button value="Randomize" onclick="{
+    document.getElementById('bubble').disabled = false;
+    document.getElementById('insert').disabled = false;
+    // document.getElementById('bogo').disabled = false;
+    // document.getElementById('select').disabled = false;
+    for (let myLoop = myCards.length - 1; myLoop > 0; myLoop--) {
+        var myTemp = Math.floor(Math.random() * (myLoop + 1));
+        var temp = myCards[myLoop];
+        myCards[myLoop] = myCards[myTemp];
+        myCards[myTemp] = temp;	
+    }
+    document.getElementById('myShow').click();
+}">
+
+<input type=button value="Bubble Sort" id="bubble" class="sortbutton" disabled onclick="{
+	bubbleSort();
+}">
+
+<input type=button value="Insertion Sort" id="insert" class="sortbutton" disabled onclick="{
+	insertionSort();
+}">
+
+<input type=button value="Bogo Sort" id="bogo" class="sortbutton" disabled onclick="{
+	bogoSort();
+}">
+
+<input type=button value="Selection Sort" id="select" class="sortbutton" disabled onclick="{
+	selectionSort();
+}">
+
+<input type=button id="myShow" value="Show" style="visibility: hidden;" onclick="{
+    let myTemp = ''
+    ctx.clearRect(0, 0, 1000, 500)
+    for (let myLoop = 0;  myLoop < myMax;  myLoop++){
+        myTemp += '#' + myLoop + ' = '+ myCards[myLoop] + '<br>';
+        ctx.fillRect(1000/myMax * myLoop + 10, 5, 750/myMax, ((490/myMax) * myCards[myLoop]));
+    }
+    document.getElementById('myDiv01').innerHTML = myTemp
+}"><br>
+
+<div class="wrapper">
+<div id="myDiv01"></div>
+<canvas id="myCanvas" class="myCanvas" width="1015" height="500" style="border: 1px solid #000000;"></canvas>
+<script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.transform(1, 0, 0, -1, 0, 500);
+
+    function bubbleSort() {
+        for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
+            let myTemp = 0
+            setTimeout(function(){
+            for (let myLoop = 0;   myLoop < myMax;  myLoop++){
+                if (myCards[myLoop] >= myCards[myLoop+1]) {
+                    myTemp = myCards[myLoop]
+                    myCards[myLoop] = myCards[myLoop+1]
+                    myCards[myLoop+1] = myTemp
+                }
+                document.getElementById('myShow').click();
+            }}, myLoop * delay);
+        }
+    }
+
+    function insertionSort(){
+        for (let myLoop = 1; myLoop < myMax; myLoop++) {
+            let myTemp = 0
+            setTimeout(function(){
+            for (let myLoop2 = myLoop - 1; myLoop2 > -1; myLoop2--){
+                if (myCards[myLoop2 + 1] <= myCards[myLoop2]) {
+                    myTemp = myCards[myLoop2]
+                    myCards[myLoop2] = myCards[myLoop2+1]
+                    myCards[myLoop2+1] = myTemp
+                }
+                document.getElementById('myShow').click();
+            }}, myLoop * delay);
+        }
+    }
+
+    function bogoSort() {
+        for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
+            let myTemp = 0
+            setTimeout(function(){
+            for (let myLoop = myCards.length - 1; myLoop > 0; myLoop--) {
+                var myTemp = Math.floor(Math.random() * (myLoop + 1));
+                var temp = myCards[myLoop];
+                myCards[myLoop] = myCards[myTemp];
+                myCards[myTemp] = temp;	
+                document.getElementById('myShow').click();
+            }}, myLoop * delay);
+        }
+    }
+</script>
+</div>
+</body>

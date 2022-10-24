@@ -5,18 +5,47 @@
     <style>
         .light {
             display: inline-block;
+            position: absolute;
+            left: calc(50% - 25px);
+            top: calc(50% - 25px);
             width: 50px;
             height: 50px;
             background-color: goldenrod;
-            border-radius: 25px;
+            border-radius: 25px;    
+            --angle: 21.1;
         }
+        
+
+        .light:nth-child(1) {transform: rotate(calc(21.18deg * 1)) translateX(275px);}
+        .light:nth-child(2) {transform: rotate(calc(21.18deg * 2)) translateX(275px);}
+        .light:nth-child(3) {transform: rotate(calc(21.18deg * 3)) translateX(275px);}
+        .light:nth-child(4) {transform: rotate(calc(21.18deg * 4)) translateX(275px);}
+        .light:nth-child(5) {transform: rotate(calc(21.18deg * 5)) translateX(275px);}
+        .light:nth-child(6) {transform: rotate(calc(21.18deg * 6)) translateX(275px);}
+        .light:nth-child(7) {transform: rotate(calc(21.18deg * 7)) translateX(275px);}
+        .light:nth-child(8) {transform: rotate(calc(21.18deg * 8)) translateX(275px);}
+        .light:nth-child(9) {transform: rotate(calc(21.18deg * 9)) translateX(275px);}
+        .light:nth-child(10) {transform: rotate(calc(21.18deg * 10)) translateX(275px);}
+        .light:nth-child(11) {transform: rotate(calc(21.18deg * 11)) translateX(275px);}
+        .light:nth-child(12) {transform: rotate(calc(21.18deg * 12)) translateX(275px);}
+        .light:nth-child(13) {transform: rotate(calc(21.18deg * 13)) translateX(275px);}
+        .light:nth-child(14) {transform: rotate(calc(21.18deg * 14)) translateX(275px);}
+        .light:nth-child(15) {transform: rotate(calc(21.18deg * 15)) translateX(275px);}
+        .light:nth-child(16) {transform: rotate(calc(21.18deg * 16)) translateX(275px);}
+        .light:nth-child(17) {transform: rotate(calc(21.18deg * 17)) translateX(275px);}
         .wrapper {
             width: 100%;
             text-align: center;
             position: relative;
-            top: 50%;
+            top: 40%;
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
+        }
+        .lightwrapper {
+            position: absolute;
+            transform: rotate(-90deg);
+            top: 70%;
+            left: 50%;
         }
         .start {
             border-radius: 20px;
@@ -63,13 +92,29 @@
                 padding: 10px 20px 10px 20px;
                 border: none;
             }
+            .light {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-color: goldenrod;
+            border-radius: 25px;
+            }
+            .start {
+            border-radius: 20px;
+            color: #000000;
+            font-size: 20px;
+            background: gold;
+            padding: 10px 20px 10px 20px;
+            border: none;
+            }
         }
     </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
-    <div id="instructions" class="instructions">Press spacebar when the light gets here!</div>
-    <div id="arrow" class="arrow">↓</div><br><br>
+    <div id="arrow" class="arrow">↑</div>
+    <div id="instructions" class="instructions">Press spacebar when the light gets here!</div><br><br>
+    <div id="lightwrapper" class="lightwrapper">
     <div id="block1" class="light"></div>
     <div id="block2" class="light"></div>
     <div id="block3" class="light"></div>
@@ -79,6 +124,15 @@
     <div id="block7" class="light"></div>
     <div id="block8" class="light"></div>
     <div id="block9" class="light"></div>
+    <div id="block10" class="light"></div>
+    <div id="block11" class="light"></div>
+    <div id="block12" class="light"></div>
+    <div id="block13" class="light"></div>
+    <div id="block14" class="light"></div>
+    <div id="block15" class="light"></div>
+    <div id="block16" class="light"></div>
+    <div id="block17" class="light"></div>
+    </div>
     <br><br>
     <input type="button" id="easy" class="start" value="Easy" onclick="{
         delay = 100
@@ -93,7 +147,7 @@
         startgame();
     }"><br><br>
     <input type="button" id="mobilespace" class="mobilespace" value="space" onclick="{
-        if (document.getElementById('block5').style.backgroundColor == onColor) {
+        if (document.getElementById('block17').style.backgroundColor == onColor) {
             document.getElementById('instructions').innerHTML = 'You Won!';
             document.getElementById('arrow').style.visibility = 'hidden';
             mycount -= 1;
@@ -113,22 +167,25 @@ var mycount = 1;
 var onColor = 'gold';
 var offColor = 'goldenrod';
 
-document.body.onkeyup = function(e) {
+document.body.onkeydown = function(e) {
   if (e.keyCode == 32 && document.getElementById('easy').style.visibility == 'hidden') {
-    if (document.getElementById('block5').style.backgroundColor == onColor) {
+    if (document.getElementById('block17').style.backgroundColor == onColor) {
         document.getElementById('instructions').style.fontSize = '300%';
         document.getElementById('instructions').innerHTML = '🎉You Won!🎉';
         document.getElementById('arrow').style.visibility = 'hidden';
         mycount -= 1;
         delay = 99999999;
+    } else if (document.getElementById('instructions').style.fontSize == '300%') {
+        location.reload();
     } else {
+        document.getElementById('instructions').style.fontSize = '300%';
         document.getElementById('instructions').innerHTML = 'Try Again';
-        document.getElementById('arrow').className = 'verarrow'
+        document.getElementById('arrow').className = 'verarrow';
         document.getElementById('arrow').innerHTML = ':(';
         mycount -= 1;
         delay = 99999999;
     }
-  }
+    }
 }
 
 function startgame() {
@@ -139,7 +196,7 @@ function startgame() {
     setTimeout(function() { 
         gameloop(mycount); 
         mycount++;       
-        if (mycount < 17) {
+        if (mycount < 18) {
             startgame();
         } else {
             mycount = 1
@@ -151,7 +208,7 @@ function startgame() {
 function gameloop(mycount) {
     switch (mycount) {
         case 1:
-            document.getElementById('block2').style.backgroundColor = offColor;
+            document.getElementById('block17').style.backgroundColor = offColor;
             document.getElementById('block1').style.backgroundColor = onColor;
             console.log('light 1');
             break;
@@ -197,43 +254,43 @@ function gameloop(mycount) {
             break;
         case 10: 
             document.getElementById('block9').style.backgroundColor = offColor;
-            document.getElementById('block8').style.backgroundColor = onColor;
-            console.log('light 8');
+            document.getElementById('block10').style.backgroundColor = onColor;
+            console.log('light 10');
             break;
         case 11:
-            document.getElementById('block8').style.backgroundColor = offColor;
-            document.getElementById('block7').style.backgroundColor = onColor;
-            console.log('light 7');
+            document.getElementById('block10').style.backgroundColor = offColor;
+            document.getElementById('block11').style.backgroundColor = onColor;
+            console.log('light 11');
             break;
         case 12: 
-            document.getElementById('block7').style.backgroundColor = offColor;
-            document.getElementById('block6').style.backgroundColor = onColor;
-            console.log('light 6');
+            document.getElementById('block11').style.backgroundColor = offColor;
+            document.getElementById('block12').style.backgroundColor = onColor;
+            console.log('light 12');
             break;
         case 13: 
-            document.getElementById('block6').style.backgroundColor = offColor;
-            document.getElementById('block5').style.backgroundColor = onColor;
-            console.log('light 5');
+            document.getElementById('block12').style.backgroundColor = offColor;
+            document.getElementById('block13').style.backgroundColor = onColor;
+            console.log('light 13');
             break;
         case 14: 
-            document.getElementById('block5').style.backgroundColor = offColor;
-            document.getElementById('block4').style.backgroundColor = onColor;
-            console.log('light 4');
+            document.getElementById('block13').style.backgroundColor = offColor;
+            document.getElementById('block14').style.backgroundColor = onColor;
+            console.log('light 14');
             break;
         case 15: 
-            document.getElementById('block4').style.backgroundColor = offColor;
-            document.getElementById('block3').style.backgroundColor = onColor;
-            console.log('light 3');
+            document.getElementById('block14').style.backgroundColor = offColor;
+            document.getElementById('block15').style.backgroundColor = onColor;
+            console.log('light 15');
             break;
         case 16: 
-            document.getElementById('block3').style.backgroundColor = offColor;
-            document.getElementById('block2').style.backgroundColor = onColor;
-            console.log('light 2');
+            document.getElementById('block15').style.backgroundColor = offColor;
+            document.getElementById('block16').style.backgroundColor = onColor;
+            console.log('light 16');
             break;
         case 17: 
-            document.getElementById('block2').style.backgroundColor = offColor;
-            document.getElementById('block1').style.backgroundColor = onColor;
-            console.log('light 1');
+            document.getElementById('block16').style.backgroundColor = offColor;
+            document.getElementById('block17').style.backgroundColor = onColor;
+            console.log('light 17');
             break;
     }
 }

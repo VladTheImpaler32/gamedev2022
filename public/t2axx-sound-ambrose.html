@@ -1,0 +1,27 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+    <title>sound</title>
+</head>
+<body>
+    
+
+<input type="button" onclick="{play()}" value="play">
+<input type="range" min="200" max="18000" id="slider">
+
+
+
+<script>
+function play(){
+  var context = new AudioContext()
+  var o = context.createOscillator()
+  var  g = context.createGain()
+  var frequency = document.getElementById('slider').value
+  o.frequency.value = frequency
+  o.connect(g)
+  g.connect(context.destination)
+  o.start(0)
+}
+</script>
+
+</body>
+</html>

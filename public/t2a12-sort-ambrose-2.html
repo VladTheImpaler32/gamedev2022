@@ -6,7 +6,7 @@
     .myCanvas {
         display: inline-block;
         position: absolute;
-        left: 15%;
+        left: 25%;
     }
     div {
         float: left;
@@ -25,7 +25,7 @@
 
 <script>
     let delay = 50;
-    let myMax = 100;
+    let myMax = 10;
     let myCards = [1];
     let myLoop = 0;
     for (let myLoop = 2; myLoop < myMax; myLoop++) {
@@ -39,7 +39,6 @@
 <input type=button value="Randomize" onclick="{
     document.getElementById('bubble').disabled = false;
     document.getElementById('insert').disabled = false;
-    // document.getElementById('bogo').disabled = false;
     document.getElementById('select').disabled = false;
     for (let myLoop = myMax - 1; myLoop > 0; myLoop--) {
         var myTemp = Math.floor(Math.random() * (myLoop + 1));
@@ -58,10 +57,6 @@
 	insertionSort();
 }">
 
-<!--<input type=button value="Bogo Sort" id="bogo" class="sortbutton" disabled onclick="{
-	bogoSort();
-}">-->
-
 <input type=button value="Selection Sort" id="select" class="sortbutton" disabled onclick="{
 	selectionSort();
 }"><br>
@@ -73,17 +68,32 @@
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
     ctx.transform(1, 0, 0, -1, 0, 500);
+    var frequency = undefined;
 
     function myShow() {
         let myTemp = ''
         ctx.clearRect(0, 0, 1015, 500)
-        for (let myLoop = 0;  myLoop < myMax;  myLoop++){
+        for (let myLoop = 0;  myLoop < myMax;  myLoop++){ 
             myTemp += '#' + myLoop + ' = '+ myCards[myLoop] + '<br>';
             ctx.fillRect(1000/myMax * myLoop + 10, 5, 750/myMax, ((490/myMax) * myCards[myLoop]));
+            frequency = ((1000) / (myCards[myLoop])) * 2;
+            play(frequency)
         }
         document.getElementById('myDiv01').innerHTML = myTemp
     }
 
+    function play(frequency, stopBool) {
+        console.log('playing');
+        console.log(frequency);
+        var context = new AudioContext()
+        var o = context.createOscillator()
+        var  g = context.createGain()
+        o.frequency.value = frequency
+        o.connect(g)
+        g.connect(context.destination)
+        o.start(0)
+        o.stop(context.currentTime + 0.1);
+    }
 
     function bubbleSort() {
         for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
@@ -135,19 +145,6 @@
             }
         }
 
-    function bogoSort() {
-        for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
-            let myTemp = 0
-            setTimeout(function(){
-            for (let myLoop = myCards.length - 1; myLoop > 0; myLoop--) {
-                var myTemp = Math.floor(Math.random() * (myLoop + 1));
-                var temp = myCards[myLoop];
-                myCards[myLoop] = myCards[myTemp];
-                myCards[myTemp] = temp;	
-                myShow();
-            }}, myLoop * delay);
-        }
-    }
 </script>
 </div>
 </body>

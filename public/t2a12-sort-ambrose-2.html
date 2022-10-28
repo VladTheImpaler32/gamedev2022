@@ -6,7 +6,7 @@
     .myCanvas {
         display: inline-block;
         position: absolute;
-        left: 25%;
+        left: 15%;
     }
     div {
         float: left;
@@ -25,7 +25,7 @@
 
 <script>
     let delay = 50;
-    let myMax = 10;
+    let myMax = 100;
     let myCards = [1];
     let myLoop = 0;
     for (let myLoop = 2; myLoop < myMax; myLoop++) {
@@ -76,8 +76,8 @@
         for (let myLoop = 0;  myLoop < myMax;  myLoop++){ 
             myTemp += '#' + myLoop + ' = '+ myCards[myLoop] + '<br>';
             ctx.fillRect(1000/myMax * myLoop + 10, 5, 750/myMax, ((490/myMax) * myCards[myLoop]));
-            frequency = ((1000) / (myCards[myLoop])) * 2;
-            play(frequency)
+            // frequency = ((1000) / (myCards[myLoop])) * 2;
+            // play(frequency)
         }
         document.getElementById('myDiv01').innerHTML = myTemp
     }

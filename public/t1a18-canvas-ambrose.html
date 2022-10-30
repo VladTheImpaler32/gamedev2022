@@ -23,12 +23,8 @@
 const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
 var mycount = -1;
 var myColors = [];
-var CanvasType = 0;
+var CanvasType = 1;
 </script>
-
-<input type=button value="Clear all" onclick="{
-    myContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
-}">
 
 <input type="color" id="color" onchange="{
     mycount = mycount + 1;
@@ -46,10 +42,16 @@ var CanvasType = 0;
     }
 
 }">
-<input type="range" id="thickness" max="30" min="1" value="10"><span id="myvalue"></span>
-<input type="button" value="circle" onclick="{CanvasType = 2}">
-<input type="button" value="line" onclick="{CanvasType = 1}">
-<!-- <input type="button" id="eraser" onclick="{myContext.strokeStyle = '#FFFFFF'}"><br><br> -->
+<input type="range" id="thickness" max="50" min="1" value="10"><span id="myvalue"></span>
+<!-- <input type="button" value="circle" onclick="{CanvasType = 2}">
+<input type="button" value="free draw" onclick="{CanvasType = 1}"> -->
+<input type=button value="Clear all" onclick="{
+    myContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+}">
+<input type="button" value="Eraser" id="eraser" onclick="{document.getElementById('color').value = '#FFFFFF'}">
+<input type="button" value="Pen" id="pen" onclick="{document.getElementById('color').value = '#000000'}"><br><br>
+Recent Colors: <br>
+
 <div id="Color0" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color0').style.backgroundColor);}"></div>
 <div id="Color1" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color1').style.backgroundColor);}"></div>
 <div id="Color2" class="hidden" onclick="{document.getElementById('color').value = rgb2hex(document.getElementById('Color2').style.backgroundColor);}"></div>
@@ -116,8 +118,4 @@ var CanvasType = 0;
     let myCanvas=document.getElementById('myCoolTag');
     let myContext=myCanvas.getContext('2d');
 </script>
-
-<div id="x">...</div>
-<div id="y">...</div>
-
 </body>

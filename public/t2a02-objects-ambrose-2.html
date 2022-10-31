@@ -1,0 +1,92 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+    <title>objects</title>
+</head>
+<body onload="startSim()">
+
+    <canvas id="myCanvas" class="myCanvas" width="1000" height="500" style="border: 1px solid #000000;"></canvas>
+<script>
+function startSim() {
+    mySimPiece = new component(30, 30, "red", 80, 75);
+    mySimArea.start();
+}
+
+var mySimArea = {
+    canvas : document.getElementById("myCanvas"),
+    start : function() {
+        this.canvas.width = document.getElementById("myCanvas").width;
+        this.canvas.height = document.getElementById("myCanvas").height;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateSimArea, 20);     
+    },
+
+    stop : function() {
+        clearInterval(this.interval)
+    },
+
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    this.speedX = -1;
+    this.speedY = 0;    
+    this.gravity = 0.1;
+    this.gravitySpeed = 0;
+    this.bounce = 1.1;
+    this.update = function() {
+        ctx = mySimArea.context;
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+        this.hitTop();
+        console.log('Speed y: ' + this.speedY);
+        console.log('x: ' + this.x)
+        console.log('y: ' + this.y)
+    }
+    this.hitBottom = function() {
+        var bottom = mySimArea.canvas.height - this.height;
+        console.log('bottom: ' + bottom);
+        if (this.y > bottom) {
+            this.y = bottom;
+            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+        }
+    this.hitTop = function() {
+        var top = 0;
+        console.log('top: ' + top);
+        if (this.y < top) {
+            this.y = top;
+            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+            console.log(gravitySpeed);
+        }
+    }
+    this.hitLeft = function() {
+        var left = 0;
+        if (this.x < left) {
+            this.x = left;
+            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+        }
+    }
+
+    }
+}
+
+function updateSimArea() {
+    mySimArea.clear();
+    mySimPiece.newPos();
+    mySimPiece.update();
+}
+</script>
+
+</body>

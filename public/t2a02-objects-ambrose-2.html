@@ -2,12 +2,28 @@
     <link rel="stylesheet" href="global.css">
     <title>objects</title>
 </head>
-<body onload="startSim()">
+<body>
+<script>
+    var grav1 = undefined;
+    var Xgrav1 = undefined;
+    var b1 = undefined;
+</script>
 
+    <input type="button" value="start" onclick="{
+        grav1 = parseFloat(document.getElementById('grav1').value);
+        Xgrav1 = parseFloat(document.getElementById('xgrav1').value);
+        b1 = parseFloat(document.getElementById('b1').value);
+        console.log(grav1);
+        startSim();
+        }"><br>
+    vertical gravity: <input type="number" name="grav1" id="grav1" value="0.1"><br>
+    horizontal gravity: <input type="number" name="xgrav1" id="xgrav1" value="0.1"><br>
+    bounce multiplier: <input type="number" name="b1" id="b1" value="0.6"><br>
     <canvas id="myCanvas" class="myCanvas" width="1000" height="500" style="border: 1px solid #000000;"></canvas>
 <script>
 function startSim() {
-    mySimPiece = new component(30, 30, "red", 80, 75);
+    mySimPiece1 = new component(30, 30, "red", 80, 75, grav1, Xgrav1, b1);
+    mySimPiece2 = new component(30, 30, "blue", 180, 10, 0.1, 0, 0.6);
     mySimArea.start();
 }
 
@@ -30,16 +46,18 @@ var mySimArea = {
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, grav, Xgrav, b) {
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;    
-    this.speedX = 3;
-    this.speedY = 0;    
-    this.gravity = 0.1;
+    this.speedX = 0;
+    this.speedY = 0; 
+    this.Xgravity = Xgrav;   
+    this.gravity = grav;
+    this.XgravitySpeed = 0;
     this.gravitySpeed = 0;
-    this.bounce = 1.1;
+    this.bounce = b;
     this.update = function() {
         ctx = mySimArea.context;
         ctx.fillStyle = color;
@@ -47,7 +65,8 @@ function component(width, height, color, x, y) {
     }
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
+        this.XgravitySpeed += this.Xgravity;
+        this.x += this.speedX + this.XgravitySpeed;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
         this.hitTop();
@@ -60,46 +79,44 @@ function component(width, height, color, x, y) {
     }
     this.hitBottom = function() {
         var bottom = mySimArea.canvas.height - this.height;
-        console.log('bottom: ' + bottom);
         if (this.y > bottom) {
             this.y = bottom;
             this.gravitySpeed = -(this.gravitySpeed * this.bounce);
         }
+    }
     this.hitTop = function() {
         var top = 0;
-        console.log('top: ' + top);
         if (this.y < top) {
             this.y = top;
             this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-            console.log(gravitySpeed);
+            console.log(this.gravitySpeed);
         }
     }
     this.hitLeft = function() {
         var left = 0;
-        console.log('left: ' + left);
         if (this.x < left) {
             this.x = left;
-            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-            console.log(gravitySpeed);  
+            this.XgravitySpeed = -(this.XgravitySpeed * this.bounce);
+            console.log(this.XgravitySpeed);  
         }
     }
     this.hitRight = function() {
         var right = mySimArea.canvas.width - this.width;
-        console.log('right: ' + right);
         if (this.x > right) {
             this.x = right;
-            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-            console.log(gravitySpeed);  
+            this.XgravitySpeed = -(this.XgravitySpeed * this.bounce);
+            console.log(this.XgravitySpeed);  
         }
     }
 
-    }
 }
 
 function updateSimArea() {
     mySimArea.clear();
-    mySimPiece.newPos();
-    mySimPiece.update();
+    mySimPiece1.newPos();
+    mySimPiece1.update();
+    mySimPiece2.newPos();
+    mySimPiece2.update();
 }
 </script>
 

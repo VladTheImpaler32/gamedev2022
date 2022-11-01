@@ -3,120 +3,144 @@
     <title>objects</title>
 </head>
 <body>
-<script>
-    var grav1 = undefined;
-    var Xgrav1 = undefined;
-    var b1 = undefined;
-</script>
-
     <input type="button" value="start" onclick="{
-        grav1 = parseFloat(document.getElementById('grav1').value);
-        Xgrav1 = parseFloat(document.getElementById('xgrav1').value);
-        b1 = parseFloat(document.getElementById('b1').value);
-        console.log(grav1);
-        startSim();
-        }"><br>
-    vertical gravity: <input type="number" name="grav1" id="grav1" value="0.1"><br>
-    horizontal gravity: <input type="number" name="xgrav1" id="xgrav1" value="0.1"><br>
-    bounce multiplier: <input type="number" name="b1" id="b1" value="0.6"><br>
+        main();
+    }"><br>
     <canvas id="myCanvas" class="myCanvas" width="1000" height="500" style="border: 1px solid #000000;"></canvas>
 <script>
-function startSim() {
-    mySimPiece1 = new component(30, 30, "red", 80, 75, grav1, Xgrav1, b1);
-    mySimPiece2 = new component(30, 30, "blue", 180, 10, 0.1, 0, 0.6);
-    mySimArea.start();
+    let scale = 1;
+    let speed = 1;
+    let canvas;
+    let ctx;
+
+    let block1 = {
+        x: 100,
+        y: 0,
+        xspeed: 0,
+        yspeed: 1,
+        width: 30,
+        height: 30
+    };
+
+    let block2 = {
+        x: 200,
+        y: 0,
+        xspeed: 0,
+        yspeed: 1.2,
+        width: 30,
+        height: 30
+    };
+
+    let block3 = {
+        x: 300,
+        y: 0,
+        xspeed: 0,
+        yspeed: 1.3,
+        width: 30,
+        height: 30
+    };
+
+    let block4 = {
+        x: 400,
+        y: 0,
+        xspeed: 0,
+        yspeed: 1.4,
+        width: 30,
+        height: 30
+    };
+
+function main() {
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+
+    update();
 }
 
-var mySimArea = {
-    canvas : document.getElementById("myCanvas"),
-    start : function() {
-        this.canvas.width = document.getElementById("myCanvas").width;
-        this.canvas.height = document.getElementById("myCanvas").height;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateSimArea, 20);     
-    },
-
-    stop : function() {
-        clearInterval(this.interval)
-    },
-
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
+function update() {
+    setTimeout(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        draw1();
+        draw2();
+        draw3();
+        draw4();
+        checkHitBox();
+        update();   
+    }, speed)
 }
 
-function component(width, height, color, x, y, grav, Xgrav, b) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;    
-    this.speedX = 0;
-    this.speedY = 0; 
-    this.Xgravity = Xgrav;   
-    this.gravity = grav;
-    this.XgravitySpeed = 0;
-    this.gravitySpeed = 0;
-    this.bounce = b;
-    this.update = function() {
-        ctx = mySimArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    this.newPos = function() {
-        this.gravitySpeed += this.gravity;
-        this.XgravitySpeed += this.Xgravity;
-        this.x += this.speedX + this.XgravitySpeed;
-        this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
-        this.hitTop();
-        this.hitLeft();
-        this.hitRight();
-        console.log('Speed y: ' + this.speedY);
-        console.log('Speed x: ' + this.speedX);
-        console.log('x: ' + this.x)
-        console.log('y: ' + this.y)
-    }
-    this.hitBottom = function() {
-        var bottom = mySimArea.canvas.height - this.height;
-        if (this.y > bottom) {
-            this.y = bottom;
-            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-        }
-    }
-    this.hitTop = function() {
-        var top = 0;
-        if (this.y < top) {
-            this.y = top;
-            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-            console.log(this.gravitySpeed);
-        }
-    }
-    this.hitLeft = function() {
-        var left = 0;
-        if (this.x < left) {
-            this.x = left;
-            this.XgravitySpeed = -(this.XgravitySpeed * this.bounce);
-            console.log(this.XgravitySpeed);  
-        }
-    }
-    this.hitRight = function() {
-        var right = mySimArea.canvas.width - this.width;
-        if (this.x > right) {
-            this.x = right;
-            this.XgravitySpeed = -(this.XgravitySpeed * this.bounce);
-            console.log(this.XgravitySpeed);  
-        }
-    }
-
+function draw1() {
+    ctx.fillStyle = 'red';
+        ctx.fillRect(block1.x, block1.y, block1.width, block1.height);
+        block1.x += block1.xspeed;
+        block1.y += block1.yspeed; 
 }
 
-function updateSimArea() {
-    mySimArea.clear();
-    mySimPiece1.newPos();
-    mySimPiece1.update();
-    mySimPiece2.newPos();
-    mySimPiece2.update();
+function draw2() {
+    ctx.fillStyle = 'blue';
+        ctx.fillRect(block2.x, block2.y, block2.width, block2.height);
+        block2.x += block2.xspeed;
+        block2.y += block2.yspeed; 
+}
+
+function draw3() {
+    ctx.fillStyle = 'green';
+        ctx.fillRect(block3.x, block3.y, block3.width, block3.height);
+        block3.x += block3.xspeed;
+        block3.y += block3.yspeed; 
+}
+
+function draw4() {
+    ctx.fillStyle = 'yellow';
+        ctx.fillRect(block4.x, block4.y, block4.width, block4.height);
+        block4.x += block4.xspeed;
+        block4.y += block4.yspeed; 
+}
+
+function checkHitBox(){
+    collision1();   
+    collision2();  
+    collision3();   
+    collision4(); 
+}
+
+function collision1() {
+    if (block1.x + block1.width >= canvas.width || block1.x <= 0){
+        block1.xspeed *= -1;
+    }
+        
+    if (block1.y + block1.height >= canvas.height || block1.y <= 0){
+        block1.yspeed *= -1;
+    } 
+}
+
+function collision2() {
+    if (block2.x + block2.width >= canvas.width || block2.x <= 0){
+        block2.xspeed *= -1;
+    }
+        
+    if (block2.y + block2.height >= canvas.height || block2.y <= 0){
+        block2.yspeed *= -1;
+    } 
+}
+
+function collision3() {
+    if (block3.x + block3.width >= canvas.width || block3.x <= 0){
+        block3.xspeed *= -1;
+    }
+        
+    if (block3.y + block3.height >= canvas.height || block3.y <= 0){
+        block3.yspeed *= -1;
+    } 
+}
+
+function collision4() {
+    if (block4.x + block4.width >= canvas.width || block4.x <= 0){
+        block4.xspeed *= -1;
+    }
+        
+    if (block4.y + block4.height >= canvas.height || block4.y <= 0){
+        block4.yspeed *= -1;
+    } 
 }
 </script>
 

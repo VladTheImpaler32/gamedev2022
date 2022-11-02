@@ -1,145 +1,314 @@
 <head>
+    <h5>version 0.0.8</h5>
+    <h1 align=center>t2a12 Sort by Ambrose</h1>
     <link rel="stylesheet" href="global.css">
     <title>objects</title>
+    <style>
+        canvas {
+            display: inline-block;
+            position: absolute;
+            left: 35%;
+            top: 25%;
+        }
+
+        .canvas0 {
+            display: inline-block;
+            position: absolute;
+            left: 11%;
+            top: 2%;
+        }
+
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            position: absolute;
+            top: 55%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+        }
+
+        .center1 {
+            margin: auto;
+            width: 0%;
+            padding: 10px;
+            position: absolute;
+            top: 55%;
+            left: 1%;
+            transform: translate(-50%, -50%);
+        }
+
+        .explination {
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
-    <input type="button" value="start" onclick="{
+    <div class="center" id="wrapper">
+        <div id="explination" class="explination">
+            <h4>
+            i dont really know what this is, but i had the idea and decided to make it.<br>
+            oh yeah turn your sound on if you havent already :D
+            </h4>
+        </div>
+    <input type="button" id="dvd" value="dvd logo" onclick="{
         main();
-    }"><br>
-    <canvas id="myCanvas" class="myCanvas" width="1000" height="500" style="border: 1px solid #000000;"></canvas>
+        document.getElementById('music').style.visibility = 'hidden';
+    }">
+    <input type="button" id="music" value="music" onclick="{
+        music();
+        document.getElementById('dvd').style.visibility = 'hidden';
+        document.getElementById('explination').style.visibility = 'visible';
+    }"></div>
+    <canvas id="myCanvas" class="myCanvas" width="500" height="250" style="border: 1px solid #000000; background-color: #000000;"></canvas>
 <script>
-    let scale = 1;
-    let speed = 1;
+    var context = new AudioContext()
+    var color = 'white';
+    let Speed = 1;
     let canvas;
     let ctx;
+    let image = new Image();
+
+    let block0 = {
+        x: 100,
+        y: 100,
+        xSpeed: 1,
+        ySpeed: 1,
+        width: 200,
+        height: 80
+    };
 
     let block1 = {
-        x: 100,
+        x: 35,
         y: 0,
-        xspeed: 0,
-        yspeed: 1,
+        xSpeed: 0,
+        ySpeed: 1.1,
         width: 30,
         height: 30
     };
 
     let block2 = {
-        x: 200,
+        x: 135,
         y: 0,
-        xspeed: 0,
-        yspeed: 1.2,
+        xSpeed: 0,
+        ySpeed: 1.2,
         width: 30,
         height: 30
     };
 
     let block3 = {
-        x: 300,
+        x: 235,
         y: 0,
-        xspeed: 0,
-        yspeed: 1.3,
+        xSpeed: 0,
+        ySpeed: 1.3,
         width: 30,
         height: 30
     };
 
     let block4 = {
-        x: 400,
+        x: 335,
         y: 0,
-        xspeed: 0,
-        yspeed: 1.4,
+        xSpeed: 0,
+        ySpeed: 1.4,
         width: 30,
         height: 30
     };
 
+    let block5 = {
+        x: 435,
+        y: 0,
+        xSpeed: 0,
+        ySpeed: 1.5,
+        width: 30,
+        height: 30
+    };
+
+function play(frequency) {
+    context.resume();
+    console.log(frequency);
+    o = context.createOscillator();
+    g = context.createGain();
+    g.gain.value = 0.1;
+    o.frequency.value = frequency;
+    o.connect(g);
+    g.connect(context.destination);
+    o.start(0);
+    g.gain.setTargetAtTime(0, context.currentTime + 0.01, 0.1)
+}
+
 function main() {
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
+    document.getElementById('myCanvas').width = '1500';
+    document.getElementById('myCanvas').height = '900';
+    document.getElementById('myCanvas').className = 'canvas0';
+    document.getElementById('wrapper').className = 'center1';
+    image.src = 'DVD_logo.png';
 
-    update();
+    update0();
 }
 
-function update() {
+function music() {
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+
+    update1();
+}
+
+function update0() {
+    setTimeout(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        draw0();
+        hitWall0();
+        update0();   
+    }, Speed)
+}
+
+function update1() {
     setTimeout(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw1();
         draw2();
         draw3();
         draw4();
-        checkHitBox();
-        update();   
-    }, speed)
+        draw5();
+        hitWall();
+        update1();   
+    }, Speed)
+}
+
+function changecolor() {
+    red = Math.round(Math.random() * 255);
+    green = Math.round(Math.random() * 255);
+    blue = Math.round(Math.random() * 255);
+    color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+}
+
+function draw0() {
+    ctx.fillStyle = color;
+    ctx.fillRect(block0.x, block0.y, block0.width, block0.height);
+    ctx.drawImage(image, block0.x, block0.y, block0.width, block0.height);
+    block0.x += block0.xSpeed;
+    block0.y += block0.ySpeed; 
 }
 
 function draw1() {
     ctx.fillStyle = 'red';
-        ctx.fillRect(block1.x, block1.y, block1.width, block1.height);
-        block1.x += block1.xspeed;
-        block1.y += block1.yspeed; 
+    ctx.fillRect(block1.x, block1.y, block1.width, block1.height);
+    block1.x += block1.xSpeed;
+    block1.y += block1.ySpeed; 
 }
 
 function draw2() {
     ctx.fillStyle = 'blue';
-        ctx.fillRect(block2.x, block2.y, block2.width, block2.height);
-        block2.x += block2.xspeed;
-        block2.y += block2.yspeed; 
+    ctx.fillRect(block2.x, block2.y, block2.width, block2.height);
+    block2.x += block2.xSpeed;
+    block2.y += block2.ySpeed; 
 }
 
 function draw3() {
     ctx.fillStyle = 'green';
-        ctx.fillRect(block3.x, block3.y, block3.width, block3.height);
-        block3.x += block3.xspeed;
-        block3.y += block3.yspeed; 
+    ctx.fillRect(block3.x, block3.y, block3.width, block3.height);
+    block3.x += block3.xSpeed;
+    block3.y += block3.ySpeed; 
 }
 
 function draw4() {
     ctx.fillStyle = 'yellow';
-        ctx.fillRect(block4.x, block4.y, block4.width, block4.height);
-        block4.x += block4.xspeed;
-        block4.y += block4.yspeed; 
+    ctx.fillRect(block4.x, block4.y, block4.width, block4.height);
+    block4.x += block4.xSpeed;
+    block4.y += block4.ySpeed; 
 }
 
-function checkHitBox(){
+function draw5() {
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(block5.x, block5.y, block5.width, block5.height);
+    block5.x += block5.xSpeed;
+    block5.y += block5.ySpeed; 
+}
+
+function hitWall0(){
+    collision0();   
+
+}
+
+function hitWall(){
     collision1();   
     collision2();  
     collision3();   
     collision4(); 
+    collision5(); 
+}
+
+function collision0() {
+    if (block0.x + block0.width >= canvas.width || block0.x <= 0){
+        block0.xSpeed *= -1;
+        changecolor();
+    }
+        
+    if (block0.y + block0.height >= canvas.height || block0.y <= 0){
+        block0.ySpeed *= -1;
+        changecolor();
+    } 
 }
 
 function collision1() {
     if (block1.x + block1.width >= canvas.width || block1.x <= 0){
-        block1.xspeed *= -1;
+        block1.xSpeed *= -1;
+        play(100)
     }
         
     if (block1.y + block1.height >= canvas.height || block1.y <= 0){
-        block1.yspeed *= -1;
+        block1.ySpeed *= -1;
+        play(100)
     } 
 }
 
 function collision2() {
     if (block2.x + block2.width >= canvas.width || block2.x <= 0){
-        block2.xspeed *= -1;
+        block2.xSpeed *= -1;
+        play(150)
     }
         
     if (block2.y + block2.height >= canvas.height || block2.y <= 0){
-        block2.yspeed *= -1;
+        block2.ySpeed *= -1;
+        play(150)
     } 
 }
 
 function collision3() {
     if (block3.x + block3.width >= canvas.width || block3.x <= 0){
-        block3.xspeed *= -1;
+        block3.xSpeed *= -1;
+        play(200)
     }
         
     if (block3.y + block3.height >= canvas.height || block3.y <= 0){
-        block3.yspeed *= -1;
+        block3.ySpeed *= -1;
+        play(200)
     } 
 }
 
 function collision4() {
     if (block4.x + block4.width >= canvas.width || block4.x <= 0){
-        block4.xspeed *= -1;
+        block4.xSpeed *= -1;
+        play(250)
     }
         
     if (block4.y + block4.height >= canvas.height || block4.y <= 0){
-        block4.yspeed *= -1;
+        block4.ySpeed *= -1;
+        play(250)
+    } 
+}
+
+function collision5() {
+    if (block5.x + block5.width >= canvas.width || block5.x <= 0){
+        block5.xSpeed *= -1;
+        play(300)
+    }
+        
+    if (block5.y + block5.height >= canvas.height || block5.y <= 0){
+        block5.ySpeed *= -1;
+        play(300)
     } 
 }
 </script>

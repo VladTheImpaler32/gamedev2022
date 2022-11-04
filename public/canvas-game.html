@@ -82,23 +82,23 @@ function main() {
     update();
 }
 
-document.addEventListener('keydown', function(event) {
-    key[event.keyCode] = true;
-}, true);
-document.addEventListener('keyup', function(event) {
-    key[event.keyCode] = false;
-}, true);
+window.addEventListener('keydown', function (e) {
+    key = (key || []);
+    key[e.keyCode] = (e.type == "keydown");
+})
+window.addEventListener('keyup', function (e) {
+    key[e.keyCode] = (e.type == "keydown");            
+})
 
 function update() {
     setTimeout(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         hitWall();
         // if (key == 0) {block0.xSpeed = 0; block0.ySpeed = 0;}
-        if (key[65] == true) {block0.xSpeed = -2;} else {block0.xSpeed = 0;}
-        if (key[68] == true) {block0.xSpeed = 2;} else {block0.xSpeed = 0;}
-        if (key[83] == true) {block0.ySpeed = 2;} else {block0.ySpeed = 0;}
-        if (key[87] == true) {block0.ySpeed = -2;} else {block0.ySpeed = 0;}
-        console.log(block0.ySpeed)
+        if (key && key[37]) {block0.xSpeed = -1; }
+        if (key && key[39]) {block0.xSpeed = 1; }
+        if (key && key[38]) {block0.ySpeed = -1; }
+        if (key && key[40]) {block0.ySpeed = 1; };
         draw0();
         update();   
     }, Speed)

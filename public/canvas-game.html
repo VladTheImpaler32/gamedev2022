@@ -1,6 +1,6 @@
 <head>
     <h5>version 0.0.8</h5>
-    <h1 align=center>t2a02 Objects by Ambrose</h1>
+    <h1 align=center>shoutout gaming</h1>
     <link rel="stylesheet" href="global.css">
     <title>objects</title>
     <style>
@@ -18,9 +18,11 @@
 <body>
     <input type="button" id="dvd" value="start" onclick="{
         main();
-    }">
+    }"><div id="timer"></div>
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;"></canvas>
 <script>
+    var died = false;
+    let timer = 0;
     let dx;
     let dy;
     let distance;
@@ -43,12 +45,13 @@
 
     const Enemies = [];
     class Enemy {
-        constructor(x, y, xSpeed, ySpeed, Speed) {
+        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor) {
             this.x = x;
             this.y = y;
             this.xSpeed = xSpeed;
             this.ySpeed = ySpeed;
             this.Speed = Speed;
+            this.enemyColor = enemyColor;
         }
         update() {
             dx = block0.x - this.x;
@@ -60,7 +63,7 @@
         }
         draw() {
             ctx.beginPath();
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = this.enemyColor;
             ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
             ctx.fill(); 
             this.x += this.xSpeed;
@@ -79,13 +82,51 @@
             if (this.y > canvas.height){
                 this.y = 0
             } 
-        console.log(this.x - block0.x)
-        console.log(this.y - block0.y)
-        if (this.x + radius > block0.x && this.x < block0.x + block0.radius && this.y + radius > block0.y && this.y < block0.y + block0.radius) {
-            //uhh idk
         }
+        enemyCollide() {
+            let G = 5
+            let player_detect_radius = 5;
+            let detect_radius = 100;
+            Enemies.forEach((enemy) => {
+
+                dx = block0.x - this.x;
+                dy = block0.y - this.y;
+                distance = Math.sqrt(dx*dx + dy*dy);
+
+                let Edx = enemy.x - this.x;
+                let Edy = enemy.y - this.y;               
+                let enemyDistance = Math.sqrt(Edx*Edx + Edy*Edy);
+                let theta = Math.acos(this.x/1000);
+
+                if (this.x > enemy.x && this.y > enemy.y) {
+                    theta = theta
+                }else if (this.x > enemy.x && this.y < enemy.y) {
+                    theta = 2 * Math.PI - theta
+                }else if (this.x < enemy.x && this.y > enemy.y) {
+                    theta = Math.PI + theta
+                }else if (this.x < enemy.x && this.y < enemy.y) {
+                    theta = Math.PI - theta
+                }
+                //Credit goes to Caleb Janzen and mr.gill's(chump) mind. because mrgill invented theta and math and cos. shoutout newton for gravity, he a real one
+
+                let force = G / enemyDistance
+                let xforce = Math.cos(theta) * force
+                let yforce = Math.sin(theta) * force
+
+                if (enemyDistance <= detect_radius && enemyDistance != 0) {
+                    this.enemyColor = 'green';
+                    this.x += xforce;
+                    this.y += yforce;
+                } 
+
+                if (distance <= player_detect_radius && distance != 0) {
+                    died = true;
+                }
+            })
+        }
+
     }
-    }
+
 
 function main() {
     canvas = document.getElementById("myCanvas");
@@ -105,17 +146,20 @@ window.addEventListener('keyup', function (e) {
 
 function spawnEnemy() {
     setTimeout(() => {
-        Enemies.push(new Enemy(Math.floor(Math.random() * 500), Math.floor(Math.random() * 500), 0, 0, 0.8));
+        Enemies.push(new Enemy(Math.floor(Math.random() * 500), Math.floor(Math.random() * 500), 0, 0, 0.8, 'red'));
         spawnEnemy();
     }, 1000)
 }
 
 function update() {
-    setTimeout(() => {
+    const myTimeout = setTimeout(() => {
+        timer += 0.01;
+        document.getElementById('timer').innerHTML = Math.round(timer);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         hitWall();
         block0.xSpeed = 0;
         block0.ySpeed = 0;
+
         // if (key == 0) {block0.xSpeed = 0; block0.ySpeed = 0;}
         if (key && key[65]) {block0.xSpeed = -1; }
         if (key && key[68]) {block0.xSpeed = 1; }
@@ -124,14 +168,24 @@ function update() {
 
 
         Enemies.forEach((enemy) => {
+            enemy.enemyColor = 'red';
             enemy.update();
             enemy.draw();
             enemy.collision();
+            enemy.enemyCollide();
         });
 
         draw0();
         update();   
     }, Speed)
+    if (died == true) {
+        clearTimeout(myTimeout);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white'
+        ctx.font = '48px Comic Sans'
+        ctx.fillText('lmao noob', 250, 250)
+    }
 }
 
 function draw0() {

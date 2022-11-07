@@ -171,9 +171,10 @@ function spawnEnemy() {
             if (enemyCount % 10 == 0) {
                 Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'blue', 15));
                 spawnEnemy();
+            } else {
+                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5));
+                spawnEnemy();
             }
-            Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5));
-            spawnEnemy();
         }
     }, 1000)
 }

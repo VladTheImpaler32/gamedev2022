@@ -20,13 +20,13 @@
 
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;"></canvas>
 <script>
+    let enemyCount = 0;
     var died = false;
     let timer = 0;
     let dx;
     let dy;
     let distance;
     let factor;
-    let radius = 7.5;
     let key = [];
     var color = 'white';
     let Speed = 1;
@@ -49,13 +49,14 @@
 
     const Enemies = [];
     class Enemy {
-        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor) {
+        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor, radius) {
             this.x = x;
             this.y = y;
             this.xSpeed = xSpeed;
             this.ySpeed = ySpeed;
             this.Speed = Speed;
             this.enemyColor = enemyColor;
+            this.radius = radius;
         }
         update() {
             dx = block0.x - this.x;
@@ -74,7 +75,7 @@
         draw() {
             ctx.beginPath();
             ctx.fillStyle = this.enemyColor;
-            ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
             ctx.fill(); 
             this.x += this.xSpeed;
             this.y += this.ySpeed; 
@@ -124,7 +125,6 @@
                 let yforce = Math.sin(theta) * force
 
                 if (enemyDistance <= detect_radius && enemyDistance != 0) {
-                    this.enemyColor = 'green';
                     this.x += xforce;
                     this.y += yforce;
                 } 
@@ -156,6 +156,7 @@ window.addEventListener('keyup', function (e) {
 
 function spawnEnemy() {
     setTimeout(() => {
+        enemyCount += 1;
         deadzone = 100;
         x = Math.floor(Math.random() * canvas.width);
         y = Math.floor(Math.random() * canvas.height)
@@ -167,7 +168,11 @@ function spawnEnemy() {
         if (distance <= deadzone) {
             spawnEnemy();
         } else {
-            Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red'));
+            if (enemyCount % 10 == 0) {
+                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'blue', 15));
+                spawnEnemy();
+            }
+            Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5));
             spawnEnemy();
         }
     }, 1000)
@@ -189,7 +194,7 @@ function update() {
 
 
         Enemies.forEach((enemy) => {
-            enemy.enemyColor = 'red';
+            // enemy.enemyColor = 'red';
             enemy.update();
             enemy.draw();
             enemy.collision();

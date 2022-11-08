@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="global.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width, initial-scale=1.0">
+    <title>t2a12 pay</title>
+</head>
+<body>
+    <h1>t2a12 pay ambrose</h1>
+    <input type="text" placeholder="$/hr" id="pay"><br>
+    <input type="text" placeholder="hours" id="hours"><br>
+    <input type="text" placeholder="tax bracket (%)" id="tax"><br>
+    <input type="button" value="Submit" onclick="{calc();}">
+    <div id="gross"></div>
+    <div id="net"></div>
+
+
+    <script>
+       function calc() {
+        pay = document.getElementById('pay').value;
+        hours = document.getElementById('hours').value;
+        tax = document.getElementById('tax').value;
+        let gross;
+        let net;
+
+        gross = pay * hours;
+        net = gross - (gross * (tax/100));
+
+        document.getElementById('gross').innerHTML = 'Gross Pay: ' + gross;
+        document.getElementById('net').innerHTML = 'Net Pay: ' + net;
+
+
+       }
+    </script>
+</body>
+</html>

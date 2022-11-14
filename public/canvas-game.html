@@ -18,7 +18,7 @@
         main();
     }"><div id="timer">score: </div>
 
-    <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;"></canvas>
+    <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
 <script>
     let enemyCount = 0;
     let died = false;
@@ -27,6 +27,8 @@
     let dy;
     let distance;
     let factor;
+    let mouseX;
+    let mouseY;
     let key = [];
     let color = 'white';
     let Speed = 1;
@@ -156,18 +158,8 @@
             this.radius = radius;
         }
         update() {
-            dx = block0.x - this.x;
-            dy = block0.y - this.y;
-            distance = Math.sqrt(dx*dx + dy*dy);
-            factor = distance / this.Speed;
-            let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
-            if (distance >= canvas_diagonal/2) {
-                this.xSpeed = -(dx / factor);
-                this.ySpeed = -(dy / factor);
-            } else {
-                this.xSpeed = dx / factor;
-                this.ySpeed = dy / factor;
-            }
+            this.x += this.xSpeed;
+            this.y += this.ySpeed;
         }
         draw() {
             ctx.beginPath();
@@ -179,16 +171,16 @@
         }
         collision() {
             if (this.x < 0){
-                this.x = canvas.width;
+                delete this.bullet
             } 
             if (this.x > canvas.width){
-                this.x = 0
+                delete this.bullet
             }  
             if (this.y < 0){
-                this.y = canvas.height;
+                delete this.bullet;
             } 
             if (this.y > canvas.height){
-                this.y = 0
+                delete this.bullet;
             } 
         }
         bulletCollide() {
@@ -199,14 +191,18 @@
                 dx = block0.x - this.x;
                 dy = block0.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
-
-                let Edx = bullet.x - this.x;
-                let Edy = bullet.y - this.y;               
+                let Edx;
+                let Edy;
+                Enemies.forEach((enemy) => {
+                    Edx = bullet.x - enemy.x;
+                    Edy = bullet.y - enemy.y; 
+                });              
                 let bulletDistance = Math.sqrt(Edx*Edx + Edy*Edy);
+                console.log(bulletDistance)
 
-                if (distance <= player_detect_radius && distance != 0) {
-                    died = true;
-                }
+                // if (distance <= player_detect_radius && distance != 0) {
+                //     died = true;
+                // }
             })
         }
 
@@ -224,9 +220,14 @@ window.addEventListener('keydown', function (e) {
 window.addEventListener('keyup', function (e) {
     key[e.keyCode] = (e.type == "keydown");            
 })
-window.addEventListener('click', function (e){
+window.addEventListener('click', function (e) {
     spawnBullet();
 })
+
+function cursor(event) {
+    mouseX = event.offsetX;
+    mouseY = event.offsetY;
+}
 
 function spawnEnemy() {
     setTimeout(() => {
@@ -254,10 +255,16 @@ function spawnEnemy() {
 }
 
 function spawnBullet() {
-    x = Math.floor(Math.random() * canvas.width);
-    y = Math.floor(Math.random() * canvas.height)
+    x = block0.x;
+    y = block0.y;
+    let Cursordx = mouseX - block0.x;
+    let Cursordy = mouseY - block0.y;
+    distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
+    factor = distance / 1;
+    xSpeed = Cursordx / factor;
+    ySpeed = Cursordy / factor;
     console.log('pow')
-    Bullets.push(new Bullet(x, y, 0, 0, 0.8, 'goldenrod', 15));
+    Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
 
 }
 

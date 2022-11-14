@@ -144,11 +144,75 @@
 
     }
 
+    const Bullets = []
+    class Bullet {
+        constructor(x, y, xSpeed, ySpeed, Speed, bulletColor, radius) {
+            this.x = x;
+            this.y = y;
+            this.xSpeed = xSpeed;
+            this.ySpeed = ySpeed;
+            this.Speed = Speed;
+            this.bulletColor = bulletColor;
+            this.radius = radius;
+        }
+        update() {
+            dx = block0.x - this.x;
+            dy = block0.y - this.y;
+            distance = Math.sqrt(dx*dx + dy*dy);
+            factor = distance / this.Speed;
+            let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
+            if (distance >= canvas_diagonal/2) {
+                this.xSpeed = -(dx / factor);
+                this.ySpeed = -(dy / factor);
+            } else {
+                this.xSpeed = dx / factor;
+                this.ySpeed = dy / factor;
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.fillStyle = this.bulletColor;
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
+            ctx.fill(); 
+            this.x += this.xSpeed;
+            this.y += this.ySpeed; 
+        }
+        collision() {
+            if (this.x < 0){
+                this.x = canvas.width;
+            } 
+            if (this.x > canvas.width){
+                this.x = 0
+            }  
+            if (this.y < 0){
+                this.y = canvas.height;
+            } 
+            if (this.y > canvas.height){
+                this.y = 0
+            } 
+        }
+        bulletCollide() {
+            let player_detect_radius = 10;
+            let detect_radius = 50;
+            Bullets.forEach((bullet) => {
+
+                dx = block0.x - this.x;
+                dy = block0.y - this.y;
+                distance = Math.sqrt(dx*dx + dy*dy);
+
+                let Edx = bullet.x - this.x;
+                let Edy = bullet.y - this.y;               
+                let bulletDistance = Math.sqrt(Edx*Edx + Edy*Edy);
+
+                if (distance <= player_detect_radius && distance != 0) {
+                    died = true;
+                }
+            })
+        }
+
+    }
 
 function main() {
-
-    
-
     spawnEnemy();
     update();
 }
@@ -159,6 +223,9 @@ window.addEventListener('keydown', function (e) {
 })
 window.addEventListener('keyup', function (e) {
     key[e.keyCode] = (e.type == "keydown");            
+})
+window.addEventListener('click', function (e){
+    spawnBullet();
 })
 
 function spawnEnemy() {
@@ -186,6 +253,14 @@ function spawnEnemy() {
     }, 1000)
 }
 
+function spawnBullet() {
+    x = Math.floor(Math.random() * canvas.width);
+    y = Math.floor(Math.random() * canvas.height)
+    console.log('pow')
+    Bullets.push(new Bullet(x, y, 0, 0, 0.8, 'goldenrod', 15));
+
+}
+
 function update() {
     const myTimeout = setTimeout(() => {
         timer += 0.01;
@@ -195,6 +270,7 @@ function update() {
         block0.xSpeed = 0;
         block0.ySpeed = 0;
 
+
         if (key && key[65]) {block0.xSpeed = -1; }
         if (key && key[68]) {block0.xSpeed = 1; }
         if (key && key[87]) {block0.ySpeed = -1; }
@@ -202,11 +278,17 @@ function update() {
 
 
         Enemies.forEach((enemy) => {
-            // enemy.enemyColor = 'red';
             enemy.update();
             enemy.draw();
             enemy.collision();
             enemy.enemyCollide();
+        });
+
+        Bullets.forEach((bullet) => {
+            bullet.update();
+            bullet.draw();
+            bullet.collision();
+            bullet.bulletCollide();
         });
 
         draw0();

@@ -14,15 +14,17 @@
     </style>
 </head>
 <body>
-    <input type="button" id="dvd" value="start" onclick="{
-        main();
-    }"><div id="timer">score: </div>
     <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
     <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
     <input type="button" id="sniper" value="sniper" onclick="{gunType = 3;}">
     <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;}">
+    <!-- <input type="button" id="dvd" value="start" onclick="{
+        main();}">-->
+    <div id="timer">score: </div>
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
 <script>
+    let bulletSpeed = 500;
+    let bulletTemp = 0;
     let minigunBool = false;
     let minigunTimer = 0;
     let mouseDown = false;
@@ -232,6 +234,31 @@ function reloadBar() {
     ctx.strokeStyle = 'white';
     ctx.rect(20, 20, 100, 25);
     ctx.stroke();
+    switch(gunType) {
+        case 1:
+            if (canFire == false) {
+                bulletTemp += 1;
+            }
+            ctx.fillStyle = 'green';
+            ctx.fillRect(21,21,(bulletTemp)-2,23);
+            console.log(bulletTemp);
+            break;
+        case 2:
+            ctx.fillStyle = 'red';
+            ctx.fillRect(21,21,98,23);
+            console.log('2');
+            break;
+        case 3:
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(21,21,98,23);
+            console.log('3');
+            break;
+        case 4:
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(21,21,98,23);
+            console.log('4');
+            break;
+    }
 }
 
 window.addEventListener('keydown', function (e) {
@@ -302,6 +329,7 @@ function spawnBullet() {
                 Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
                 setTimeout(function () {canFire = true},bulletSpeed);
             }
+        break;
         case 2:
             bulletSpeed = 1500;
             if (canFire == true) {
@@ -320,6 +348,7 @@ function spawnBullet() {
                 }
                 setTimeout(function () {canFire = true},bulletSpeed);
             }
+        break;
         case 3:
             bulletSpeed = 2000;
             if (canFire == true) {
@@ -337,6 +366,7 @@ function spawnBullet() {
                 Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
                 setTimeout(function () {canFire = true},bulletSpeed);
             }
+        break;
 
         }
     

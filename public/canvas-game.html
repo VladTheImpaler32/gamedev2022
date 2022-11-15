@@ -158,51 +158,41 @@
             this.radius = radius;
         }
         update() {
-            this.x += this.xSpeed;
-            this.y += this.ySpeed;
+            // this.x += this.xSpeed;
+            // this.y += this.ySpeed;
         }
         draw() {
             ctx.beginPath();
             ctx.fillStyle = this.bulletColor;
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
             ctx.fill(); 
-            this.x += this.xSpeed;
-            this.y += this.ySpeed; 
+            this.x += this.xSpeed * 3;
+            this.y += this.ySpeed * 3; 
         }
         collision() {
             if (this.x < 0){
-                delete this.bullet
+                Bullets.splice(this, 1)
             } 
             if (this.x > canvas.width){
-                delete this.bullet
+                Bullets.splice(this, 1)
             }  
             if (this.y < 0){
-                delete this.bullet;
+                Bullets.splice(this, 1)
             } 
             if (this.y > canvas.height){
-                delete this.bullet;
+                Bullets.splice(this, 1)
             } 
         }
         bulletCollide() {
-            let player_detect_radius = 10;
             let detect_radius = 50;
-            Bullets.forEach((bullet) => {
-
-                dx = block0.x - this.x;
-                dy = block0.y - this.y;
+            Enemies.forEach((enemy) => {
+                dx = enemy.x - this.x;
+                dy = enemy.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
-                let Edx;
-                let Edy;
-                Enemies.forEach((enemy) => {
-                    Edx = bullet.x - enemy.x;
-                    Edy = bullet.y - enemy.y; 
-                });              
-                let bulletDistance = Math.sqrt(Edx*Edx + Edy*Edy);
-                console.log(bulletDistance)
-
-                // if (distance <= player_detect_radius && distance != 0) {
-                //     died = true;
-                // }
+                if (distance < 10) {
+                    Enemies.splice(enemy, 1)
+                    Bullets.splice(this, 1)
+                }
             })
         }
 
@@ -220,9 +210,11 @@ window.addEventListener('keydown', function (e) {
 window.addEventListener('keyup', function (e) {
     key[e.keyCode] = (e.type == "keydown");            
 })
+setTimeout(function (){
 window.addEventListener('click', function (e) {
     spawnBullet();
 })
+},1000)
 
 function cursor(event) {
     mouseX = event.offsetX;
@@ -251,7 +243,7 @@ function spawnEnemy() {
                 spawnEnemy();
             }
         }
-    }, 1000)
+    }, 500)
 }
 
 function spawnBullet() {
@@ -263,9 +255,7 @@ function spawnBullet() {
     factor = distance / 1;
     xSpeed = Cursordx / factor;
     ySpeed = Cursordy / factor;
-    console.log('pow')
     Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
-
 }
 
 function update() {

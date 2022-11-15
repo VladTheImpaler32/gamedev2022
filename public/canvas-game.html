@@ -19,8 +19,13 @@
     }"><div id="timer">score: </div>
     <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
     <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
+    <input type="button" id="sniper" value="sniper" onclick="{gunType = 3;}">
+    <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;}">
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
 <script>
+    let minigunBool = false;
+    let minigunTimer = 0;
+    let mouseDown = false;
     let gunType = 1;
     let canFire = true;
     let enemyCount = 0;
@@ -28,6 +33,8 @@
     let timer = 0;
     let dx;
     let dy;
+    let sniperX;
+    let sniperY;
     let distance;
     let factor;
     let mouseX;
@@ -142,9 +149,9 @@
                     this.y += yforce;
                 } 
 
-                if (distance <= player_detect_radius && distance != 0) {
-                    died = true;
-                }
+                // if (distance <= player_detect_radius && distance != 0) {
+                //     died = true;
+                // }
             })
         }
 
@@ -189,15 +196,28 @@
                 dy = enemy.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
                 if (distance < 10) {
+                    if (gunType !== 3) {
+                        Bullets.splice(this, 1);
+                        enemy.health -= 10;
+                    }
                     enemy.health -= 1;
-                    Bullets.splice(this, 1)
                     if (enemy.health < 1) {
-                        Enemies.splice(enemy, 1)
-                        Bullets.splice(this, 1)
+                        Enemies.splice(enemy, 1);
                     }
                 }
             })
         }
+        sniper() {
+            if (gunType == 3) {
+                    ctx.beginPath();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'white';
+                    ctx.moveTo(sniperX, sniperY);
+                    ctx.lineTo(this.x, this.y)
+                    ctx.stroke();
+                  
+                }
+            }
 
     }
 
@@ -215,6 +235,12 @@ window.addEventListener('keyup', function (e) {
 })
 window.addEventListener('click', function (e) {
     spawnBullet();
+})
+window.addEventListener('mousedown', function (e) {
+    mouseDown = true;
+})
+window.addEventListener('mouseup', function (e) {
+    mouseDown = false;
 })
 
 function cursor(event) {
@@ -273,7 +299,6 @@ function spawnBullet() {
             if (canFire == true) {
                 canFire = false 
                 for (let i = 0; i < 6; i++) {
-                    let bulletOffset = (Math.random() * 10) - 5;
                     let Cursordx = (mouseX + (Math.random() * 20) - 10) - block0.x;
                     let Cursordy = (mouseY + (Math.random() * 20) - 10) - block0.y;
                     distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
@@ -287,10 +312,65 @@ function spawnBullet() {
                 }
                 setTimeout(function () {canFire = true},bulletSpeed);
             }
-    }
+        case 3:
+            bulletSpeed = 2000;
+            if (canFire == true) {
+                canFire = false
+
+                let Cursordx = mouseX - block0.x;
+                let Cursordy = mouseY - block0.y;
+                distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
+                factor = distance / 1;
+                xSpeed = (Cursordx / factor) * 2;
+                ySpeed = (Cursordy / factor) * 2;
+                sniperX = block0.x;
+                sniperY = block0.y;
+
+                Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
+                setTimeout(function () {canFire = true},bulletSpeed);
+            }
+
+        }
     
 
 }
+
+function minigun() {
+    if (gunType == 4) {
+        if (minigunBool == false) {
+            if (canFire == true) {
+                x = block0.x;
+                y = block0.y;
+                bulletSpeed = 50;
+                canFire = false;
+                let Cursordx = (mouseX + (Math.random() * 100) - 50) - block0.x;
+                let Cursordy = (mouseY + (Math.random() * 100) - 50) - block0.y;
+                distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
+                factor = distance / 1;
+                xSpeed = (Cursordx * (Math.random() * (10 - 7) + 7)/10) / factor;
+                ySpeed = (Cursordy * (Math.random() * (10 - 7) + 7)/10) / factor;
+                Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
+                setTimeout(function () {canFire = true},bulletSpeed);
+                minigunTimer += 0.05;
+                if (minigunTimer >= 2) {
+                    canFire = false;
+                    minigunBool = true;
+                }
+            }
+        }             
+    }
+}
+
+function minigunRecharge() {
+    if (minigunBool == true) {
+        minigunTimer -= 0.005;
+        if (minigunTimer <= -5) {
+            minigunTimer = 0;
+            minigunBool = false;
+        }
+    }
+}
+
 
 function update() {
     const myTimeout = setTimeout(() => {
@@ -298,6 +378,11 @@ function update() {
         document.getElementById('timer').innerHTML = 'score: ' + Math.round(timer);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         collision0();
+        if (mouseDown == true) {
+            minigun();
+        }
+        console.log(minigunTimer)
+        minigunRecharge();
         block0.xSpeed = 0;
         block0.ySpeed = 0;
 
@@ -317,6 +402,7 @@ function update() {
             bullet.draw();
             bullet.collision();
             bullet.bulletCollide();
+            bullet.sniper();
         });
 
         draw0();

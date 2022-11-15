@@ -149,9 +149,9 @@
                     this.y += yforce;
                 } 
 
-                // if (distance <= player_detect_radius && distance != 0) {
-                //     died = true;
-                // }
+                if (distance <= player_detect_radius && distance != 0) {
+                    died = true;
+                }
             })
         }
 
@@ -381,7 +381,6 @@ function update() {
         if (mouseDown == true) {
             minigun();
         }
-        console.log(minigunTimer)
         minigunRecharge();
         block0.xSpeed = 0;
         block0.ySpeed = 0;

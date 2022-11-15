@@ -226,6 +226,14 @@ function main() {
     update();
 }
 
+function reloadBar() {
+    ctx.beginPath();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = 'white';
+    ctx.rect(20, 20, 100, 25);
+    ctx.stroke();
+}
+
 window.addEventListener('keydown', function (e) {
     key = (key || []);
     key[e.keyCode] = (e.type == "keydown");
@@ -381,6 +389,7 @@ function update() {
         if (mouseDown == true) {
             minigun();
         }
+        reloadBar();
         minigunRecharge();
         block0.xSpeed = 0;
         block0.ySpeed = 0;

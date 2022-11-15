@@ -17,9 +17,11 @@
     <input type="button" id="dvd" value="start" onclick="{
         main();
     }"><div id="timer">score: </div>
-
+    <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
+    <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
 <script>
+    let gunType = 1;
     let canFire = true;
     let enemyCount = 0;
     let died = false;
@@ -188,7 +190,7 @@
                 distance = Math.sqrt(dx*dx + dy*dy);
                 if (distance < 10) {
                     enemy.health -= 1;
-                    console.log(enemy.health)
+                    Bullets.splice(this, 1)
                     if (enemy.health < 1) {
                         Enemies.splice(enemy, 1)
                         Bullets.splice(this, 1)
@@ -246,20 +248,48 @@ function spawnEnemy() {
 }
 
 function spawnBullet() {
+    let bulletSpeed;
     x = block0.x;
     y = block0.y;
-    let Cursordx = mouseX - block0.x;
-    let Cursordy = mouseY - block0.y;
-    distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
-    factor = distance / 1;
-    xSpeed = Cursordx / factor;
-    ySpeed = Cursordy / factor;
+    
+    switch(gunType) {
+        case 1:
+            bulletSpeed = 500;
+            if (canFire == true) {
+                canFire = false
 
-    if (canFire == true) {
-        canFire = false
-        Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
-        setTimeout(function () {canFire = true},500);
+                let Cursordx = mouseX - block0.x;
+                let Cursordy = mouseY - block0.y;
+                distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
+                factor = distance / 1;
+                xSpeed = Cursordx / factor;
+                ySpeed = Cursordy / factor;
+
+                Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
+                setTimeout(function () {canFire = true},bulletSpeed);
+            }
+        case 2:
+            bulletSpeed = 1500;
+            if (canFire == true) {
+                canFire = false 
+                for (let i = 0; i < 6; i++) {
+                    let bulletOffset = (Math.random() * 10) - 5;
+                    let Cursordx = (mouseX + (Math.random() * 20) - 10) - block0.x;
+                    let Cursordy = (mouseY + (Math.random() * 20) - 10) - block0.y;
+                    distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
+                    factor = distance / 1;
+                    xSpeed = (Cursordx / factor) * (Math.random() * (10 - 7) + 7)/10;
+                    ySpeed = (Cursordy / factor) * (Math.random() * (10 - 7) + 7)/10;
+
+                    Bullets.push(new Bullet(x, y, xSpeed/1.5, ySpeed/1.5, 1, 'goldenrod', 5));
+
+                    setTimeout(function () {Bullets.splice(this)},400);
+                }
+                setTimeout(function () {canFire = true},bulletSpeed);
+            }
     }
+    
+
 }
 
 function update() {
@@ -267,7 +297,7 @@ function update() {
         timer += 0.01;
         document.getElementById('timer').innerHTML = 'score: ' + Math.round(timer);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hitWall();
+        collision0();
         block0.xSpeed = 0;
         block0.ySpeed = 0;
 
@@ -311,10 +341,6 @@ function draw0() {
     ctx.fill(); 
     block0.x += block0.xSpeed
     block0.y += block0.ySpeed
-}
-
-function hitWall(){
-    collision0();    
 }
 
 function collision0() {

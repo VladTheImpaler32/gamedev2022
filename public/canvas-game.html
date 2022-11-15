@@ -20,6 +20,7 @@
 
     <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
 <script>
+    let canFire = true;
     let enemyCount = 0;
     let died = false;
     let timer = 0;
@@ -58,7 +59,7 @@
 
     const Enemies = [];
     class Enemy {
-        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor, radius) {
+        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor, radius, health) {
             this.x = x;
             this.y = y;
             this.xSpeed = xSpeed;
@@ -66,6 +67,7 @@
             this.Speed = Speed;
             this.enemyColor = enemyColor;
             this.radius = radius;
+            this.health = health;
         }
         update() {
             dx = block0.x - this.x;
@@ -157,10 +159,6 @@
             this.bulletColor = bulletColor;
             this.radius = radius;
         }
-        update() {
-            // this.x += this.xSpeed;
-            // this.y += this.ySpeed;
-        }
         draw() {
             ctx.beginPath();
             ctx.fillStyle = this.bulletColor;
@@ -184,14 +182,17 @@
             } 
         }
         bulletCollide() {
-            let detect_radius = 50;
             Enemies.forEach((enemy) => {
                 dx = enemy.x - this.x;
                 dy = enemy.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
                 if (distance < 10) {
-                    Enemies.splice(enemy, 1)
-                    Bullets.splice(this, 1)
+                    enemy.health -= 1;
+                    console.log(enemy.health)
+                    if (enemy.health < 1) {
+                        Enemies.splice(enemy, 1)
+                        Bullets.splice(this, 1)
+                    }
                 }
             })
         }
@@ -210,11 +211,9 @@ window.addEventListener('keydown', function (e) {
 window.addEventListener('keyup', function (e) {
     key[e.keyCode] = (e.type == "keydown");            
 })
-setTimeout(function (){
 window.addEventListener('click', function (e) {
     spawnBullet();
 })
-},1000)
 
 function cursor(event) {
     mouseX = event.offsetX;
@@ -236,10 +235,10 @@ function spawnEnemy() {
             spawnEnemy();
         } else {
             if (enemyCount % 10 == 0) {
-                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15));
+                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
                 spawnEnemy();
             } else {
-                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5));
+                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
                 spawnEnemy();
             }
         }
@@ -255,7 +254,12 @@ function spawnBullet() {
     factor = distance / 1;
     xSpeed = Cursordx / factor;
     ySpeed = Cursordy / factor;
-    Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
+
+    if (canFire == true) {
+        canFire = false
+        Bullets.push(new Bullet(x, y, xSpeed, ySpeed, 1, 'goldenrod', 5));
+        setTimeout(function () {canFire = true},500);
+    }
 }
 
 function update() {
@@ -267,12 +271,10 @@ function update() {
         block0.xSpeed = 0;
         block0.ySpeed = 0;
 
-
         if (key && key[65]) {block0.xSpeed = -1; }
         if (key && key[68]) {block0.xSpeed = 1; }
         if (key && key[87]) {block0.ySpeed = -1; }
         if (key && key[83]) {block0.ySpeed = 1; };
-
 
         Enemies.forEach((enemy) => {
             enemy.update();
@@ -282,7 +284,6 @@ function update() {
         });
 
         Bullets.forEach((bullet) => {
-            bullet.update();
             bullet.draw();
             bullet.collision();
             bullet.bulletCollide();

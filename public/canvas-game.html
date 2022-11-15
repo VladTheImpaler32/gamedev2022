@@ -17,7 +17,7 @@
     <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
     <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
     <input type="button" id="sniper" value="sniper" onclick="{gunType = 3;}">
-    <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;}">
+    <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;bulletTemp = 1398;}">
     <!-- <input type="button" id="dvd" value="start" onclick="{
         main();}">-->
     <div id="timer">score: </div>
@@ -151,9 +151,9 @@
                     this.y += yforce;
                 } 
 
-                if (distance <= player_detect_radius && distance != 0) {
-                    died = true;
-                }
+                // if (distance <= player_detect_radius && distance != 0) {
+                //     died = true;
+                // }
             })
         }
 
@@ -197,12 +197,12 @@
                 dx = enemy.x - this.x;
                 dy = enemy.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
-                if (distance < 10) {
+                if (distance < 5) {
                     if (gunType !== 3) {
                         Bullets.splice(this, 1);
-                        enemy.health -= 10;
+                        enemy.health -= 1;
                     }
-                    enemy.health -= 1;
+                    enemy.health -= 10;
                     if (enemy.health < 1) {
                         Enemies.splice(enemy, 1);
                     }
@@ -236,27 +236,53 @@ function reloadBar() {
     ctx.stroke();
     switch(gunType) {
         case 1:
-            if (canFire == false) {
+            if (canFire == false && bulletTemp < 98) {
                 bulletTemp += 1;
             }
+            if (canFire == true && bulletTemp < 98) {
+                bulletTemp += 1
+            }
+            if (mouseDown == true && canFire == true) {
+                bulletTemp = 0;
+            }
             ctx.fillStyle = 'green';
-            ctx.fillRect(21,21,(bulletTemp)-2,23);
-            console.log(bulletTemp);
+            ctx.fillRect(21,21,(bulletTemp),23);
             break;
         case 2:
+            if (canFire == false && bulletTemp < 298) {
+                bulletTemp += 1;
+            }
+            if (canFire == true && bulletTemp < 298) {
+                bulletTemp += 1
+            }
+            if (mouseDown == true && canFire == true) {
+                bulletTemp = 0;
+            }
             ctx.fillStyle = 'red';
-            ctx.fillRect(21,21,98,23);
-            console.log('2');
+            ctx.fillRect(21,21,(bulletTemp/3),23);
             break;
         case 3:
+            if (canFire == false && bulletTemp < 398) {
+                bulletTemp += 1;
+            }
+            if (canFire == true && bulletTemp < 398) {
+                bulletTemp += 1
+            }
+            if (mouseDown == true && canFire == true) {
+                bulletTemp = 0;
+            }
             ctx.fillStyle = 'blue';
-            ctx.fillRect(21,21,98,23);
-            console.log('3');
+            ctx.fillRect(21,21,(bulletTemp/4),23);
             break;
         case 4:
+            if (canFire == true && bulletTemp < 1398) {
+                bulletTemp += 1
+            }
+            if (mouseDown == true && canFire == false) {
+                bulletTemp -= 2.9;
+            }
             ctx.fillStyle = 'yellow';
-            ctx.fillRect(21,21,98,23);
-            console.log('4');
+            ctx.fillRect(21,21,(bulletTemp/14),23);
             break;
     }
 }

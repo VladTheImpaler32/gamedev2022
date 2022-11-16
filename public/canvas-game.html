@@ -17,7 +17,7 @@
     <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
     <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
     <input type="button" id="sniper" value="sniper" onclick="{gunType = 3;}">
-    <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;bulletTemp = 1398;}">
+    <input type="button" id="minigun" value="minigun" onclick="{gunType = 4;bulletTemp = 1375;}">
     <!-- <input type="button" id="dvd" value="start" onclick="{
         main();}">-->
     <div id="timer">score: </div>
@@ -151,9 +151,9 @@
                     this.y += yforce;
                 } 
 
-                // if (distance <= player_detect_radius && distance != 0) {
-                //     died = true;
-                // }
+                if (distance <= player_detect_radius && distance != 0) {
+                    died = true;
+                }
             })
         }
 
@@ -245,43 +245,43 @@ function reloadBar() {
             if (mouseDown == true && canFire == true) {
                 bulletTemp = 0;
             }
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = 'goldenrod';
             ctx.fillRect(21,21,(bulletTemp),23);
             break;
         case 2:
-            if (canFire == false && bulletTemp < 298) {
+            if (canFire == false && bulletTemp < 294) {
                 bulletTemp += 1;
             }
-            if (canFire == true && bulletTemp < 298) {
+            if (canFire == true && bulletTemp < 294) {
                 bulletTemp += 1
             }
             if (mouseDown == true && canFire == true) {
                 bulletTemp = 0;
             }
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = 'goldenrod';
             ctx.fillRect(21,21,(bulletTemp/3),23);
             break;
         case 3:
-            if (canFire == false && bulletTemp < 398) {
+            if (canFire == false && bulletTemp < 392) {
                 bulletTemp += 1;
             }
-            if (canFire == true && bulletTemp < 398) {
+            if (canFire == true && bulletTemp < 392) {
                 bulletTemp += 1
             }
             if (mouseDown == true && canFire == true) {
                 bulletTemp = 0;
             }
-            ctx.fillStyle = 'blue';
+            ctx.fillStyle = 'goldenrod';
             ctx.fillRect(21,21,(bulletTemp/4),23);
             break;
         case 4:
-            if (canFire == true && bulletTemp < 1398) {
+            if (canFire == true && bulletTemp < 1375 && minigunBool == true) {
                 bulletTemp += 1
             }
-            if (mouseDown == true && canFire == false) {
-                bulletTemp -= 2.9;
+            if (mouseDown == true && canFire == false && bulletTemp > 0) {
+                bulletTemp -= 3.1;
             }
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'goldenrod';
             ctx.fillRect(21,21,(bulletTemp/14),23);
             break;
     }

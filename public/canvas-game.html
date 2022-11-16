@@ -13,7 +13,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="{startup();}">
     <input type="button" id="pistol" value="pistol" onclick="{gunType = 1;}">
     <input type="button" id="shotgun" value="shotgun" onclick="{gunType = 2;}">
     <input type="button" id="sniper" value="sniper" onclick="{gunType = 3;}">
@@ -58,6 +58,34 @@
         ySpeed: 0,
         radius: 10
     };
+
+    let button1 = {
+        x: 0,
+        y: 0,
+        width: canvas.width/2,
+        height: canvas.height/2
+    }
+
+    let button2 = {
+        x: canvas.width/2,
+        y: 0,
+        width: canvas.width/2,
+        height: canvas.height/2
+    }
+
+    let button3 = {
+        x: 0,
+        y: canvas.height/2,
+        width: canvas.width/2,
+        height: canvas.height/2
+    }
+
+    let button4 = {
+        x: canvas.width/2,
+        y: canvas.height/2,
+        width: canvas.width/2,
+        height: canvas.height/2
+    }
 
     document.body.onkeydown = function(e) {
         if (e.keyCode == 32) {
@@ -197,16 +225,16 @@
                 dx = enemy.x - this.x;
                 dy = enemy.y - this.y;
                 distance = Math.sqrt(dx*dx + dy*dy);
-                if (distance < 5) {
-                    if (gunType !== 3) {
+                    if (gunType == 3 && distance < 10) {
+                        enemy.health -= 10;
+                    } else if (distance < 5 && gunType !== 3) {
                         Bullets.splice(this, 1);
                         enemy.health -= 1;
                     }
-                    enemy.health -= 10;
                     if (enemy.health < 1) {
                         Enemies.splice(enemy, 1);
                     }
-                }
+                
             })
         }
         sniper() {
@@ -222,6 +250,31 @@
             }
 
     }
+
+function mousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    console.log(rect)
+    return {
+        x: event.offsetX - rect.left,
+        y: event.offsetY - rect.top
+    };
+}
+
+function isInside(pos, rect) {
+    return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+}
+
+function startup() {
+    ctx.fillStyle = 'white'
+    ctx.fillRect(button1.x,button1.y,button1.width,button1.height)
+    ctx.fillStyle = 'red'
+    ctx.fillRect(button2.x,button2.y,button2.width,button2.height)
+    ctx.fillStyle = 'green'
+    ctx.fillRect(button3.x,button3.y,button3.width,button3.height)
+    ctx.fillStyle = 'blue'
+    ctx.fillRect(button4.x,button4.y,button4.width,button4.height)
+}
+
 
 function main() {
     spawnEnemy();
@@ -302,6 +355,22 @@ window.addEventListener('mousedown', function (e) {
 })
 window.addEventListener('mouseup', function (e) {
     mouseDown = false;
+})
+canvas.addEventListener('click', function(e) {
+    var getMousePos = mousePos(canvas, e);
+    if (isInside(getMousePos,button1)){
+        console.log(getMousePos)
+        alert('1');
+    }else if (isInside(getMousePos,button2)){
+        console.log(getMousePos)
+        alert('2');
+    }else if (isInside(getMousePos,button3)){
+        console.log(getMousePos)
+        alert('3');
+    }else if (isInside(getMousePos,button3)){
+        console.log(getMousePos)
+        alert('4');
+    }
 })
 
 function cursor(event) {

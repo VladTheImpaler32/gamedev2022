@@ -1,2 +1,5 @@
 image:
   file: .gitpod.Dockerfile
+  
+tasks: 
+  init: gp await-port 3306

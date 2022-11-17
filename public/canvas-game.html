@@ -49,7 +49,14 @@
     // ctx.fillStyle = 'white'
     // ctx.font = '56px Times New Roman'
     // ctx.fillText('press space to start', 40, canvas.height/2)
-    let image = new Image();
+    let img1 = new Image();
+    let img2 = new Image();
+    let img3 = new Image();
+    let img4 = new Image();
+    img1.src = 'pistol.png';
+    img2.src = 'shotgun.png';
+    img3.src = 'sniper.png';
+    img4.src = 'minigun.png';
 
     let block0 = {
         x: 250,
@@ -265,55 +272,33 @@ function isInside(pos, rect) {
 
 function startup() {
     ctx.fillStyle = 'white'
-    ctx.fillRect(button1.x,button1.y,button1.width,button1.height)
-    ctx.fillStyle = 'black'
-    ctx.textAlign = 'center'
-    ctx.font = '56px Times New Roman'
-    ctx.fillText('pistol', button1.width/2, button1.height/2)
+    ctx.drawImage(img1,button1.x,button1.y,button1.width,button1.height)
+    // ctx.fillStyle = 'black'
+    // ctx.textAlign = 'center'
+    // ctx.font = '56px Times New Roman'
+    // ctx.fillText('pistol', button1.width/2, button1.height/2)
 
     ctx.fillStyle = 'red'
-    ctx.fillRect(button2.x,button2.y,button2.width,button2.height)
-    ctx.fillStyle = 'black'
-    ctx.textAlign = 'center'
-    ctx.font = '56px Times New Roman'
-    ctx.fillText('shotgun', button2.width*1.5, button2.height/2)
+    ctx.drawImage(img2,button2.x,button2.y,button2.width,button2.height)
+    // ctx.fillStyle = 'black'
+    // ctx.textAlign = 'center'
+    // ctx.font = '56px Times New Roman'
+    // ctx.fillText('shotgun', button2.width*1.5, button2.height/2)
 
     ctx.fillStyle = 'green'
-    ctx.fillRect(button3.x,button3.y,button3.width,button3.height)
-    ctx.fillStyle = 'black'
-    ctx.textAlign = 'center'
-    ctx.font = '56px Times New Roman'
-    ctx.fillText('sniper', button2.width/2, button2.height*1.5)
+    ctx.drawImage(img3,button3.x,button3.y,button3.width,button3.height)
+    // ctx.fillStyle = 'black'
+    // ctx.textAlign = 'center'
+    // ctx.font = '56px Times New Roman'
+    // ctx.fillText('sniper', button2.width/2, button2.height*1.5)
 
     ctx.fillStyle = 'blue'
-    ctx.fillRect(button4.x,button4.y,button4.width,button4.height)
-    ctx.fillStyle = 'black'
-    ctx.textAlign = 'center'
-    ctx.font = '56px Times New Roman'
-    ctx.fillText('minigun', button2.width*1.5, button2.height*1.5)
+    ctx.drawImage(img4,button4.x,button4.y,button4.width,button4.height)
+    // ctx.fillStyle = 'black'
+    // ctx.textAlign = 'center'
+    // ctx.font = '56px Times New Roman'
+    // ctx.fillText('minigun', button2.width*1.5, button2.height*1.5)
 }
-
-// canvas.addEventListener('click', function(e) {
-//     var getMousePos = mousePos(canvas, e);
-//     if (isInside(getMousePos,button1)){
-//         console.log('1')
-//         gunType = 1;
-//         main();
-//     }else if (isInside(getMousePos,button2)){
-//         console.log('2')
-//         gunType = 2;
-//         main();
-//     }else if (isInside(getMousePos,button3)){
-//         console.log('3')
-//         gunType = 3;
-//         main();
-//     }else if (isInside(getMousePos,button4)){
-//         console.log('4')
-//         gunType = 4;
-//         bulletTemp = 1375;
-//         main();
-//     }
-// })
 
 function cursor(event) {
     mouseX = event.offsetX;
@@ -395,22 +380,22 @@ window.addEventListener('click', function (e) {
     spawnBullet();
     var getMousePos = mousePos(canvas, e);
     if (isInside(getMousePos,button1)){
-        console.log('1')
         gunType = 1;
         main();
+        button1 = button2 = button3 = button4 = 0;
     }else if (isInside(getMousePos,button2)){
-        console.log('2')
         gunType = 2;
         main();
+        button1 = button2 = button3 = button4 = 0;
     }else if (isInside(getMousePos,button3)){
-        console.log('3')
         gunType = 3;
         main();
+        button1 = button2 = button3 = button4 = 0;
     }else if (isInside(getMousePos,button4)){
-        console.log('4')
         gunType = 4;
         bulletTemp = 1375;
         main();
+        button1 = button2 = button3 = button4 = 0;
     }
 })
 window.addEventListener('mousedown', function (e) {

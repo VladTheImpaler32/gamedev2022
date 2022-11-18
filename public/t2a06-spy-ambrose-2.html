@@ -1,0 +1,277 @@
+<head>
+    <link rel="stylesheet" href="global.css">
+    <style>
+    
+    </style>
+    <h5>version 0.0.1</h5>
+    </head>
+    
+    <body>
+    
+    <h1 align=center>t2a06-spy-name.html</h1>
+    
+    Ellis:<input type="radio" name="selection" id="ellis" checked><br>
+    ROT13:<input type="radio" name="selection" id="ROT13"><br>
+    Base 64:<input type="radio" name="selection" id="base64"><br>
+    Binary:<input type="radio" name="selection" id="binary"><br><br>
+    <textarea id="myArea01" rows=4 cols=70>"the quick brown fox jumps over the lazy dog"1234567890
+'THE QUICK BROW FOX JUMPS OVER THE LAZY DOG'?,.!</textarea><br> 
+    
+
+    <script>
+        ellis = document.getElementById('ellis');
+        ROT13 = document.getElementById('ROT13');
+        base64 = document.getElementById('base64');
+        binary = document.getElementById('binary');
+        function encryptlogic() {
+            if (ellis.checked) {
+                ellisEncrypt();
+            }
+            if (ROT13.checked) {
+                ROT13Encrypt();
+            }
+            if (base64.checked) {
+                base64Encrypt();
+            }
+            if (binary.checked) {
+                binaryEncrypt();
+            }
+        }
+
+        function decryptlogic() {
+            if (ellis.checked) {
+                ellisDecrypt();
+            }
+            if (ROT13.checked) {
+                ROT13Decrypt();
+            }
+            if (base64.checked) {
+                base64Decrypt();
+            }
+            if (binary.checked) {
+                binaryDecrypt();
+            }
+        }
+
+        function ellisEncrypt() {
+            let myTemp = ''
+            myString = document.getElementById('myArea01').value.split('')
+            for (let myLoop=0;   myLoop < myString.length; myLoop++){
+            myTemp = myString[myLoop]
+            if (myString[myLoop] == 'a') {myTemp  = 'K'} 
+            if (myString[myLoop] == 'b') {myTemp  = 'L'}
+            if (myString[myLoop] == 'c') {myTemp  = 'M'} 
+            if (myString[myLoop] == 'd') {myTemp  = 'N'}
+            if (myString[myLoop] == 'e') {myTemp  = 'O'} 
+            if (myString[myLoop] == 'f') {myTemp  = 'P'}
+            if (myString[myLoop] == 'g') {myTemp  = 'Q'} 
+            if (myString[myLoop] == 'h') {myTemp  = 'R'}
+            if (myString[myLoop] == 'i') {myTemp  = 'S'} 
+            if (myString[myLoop] == 'j') {myTemp  = 'T'}
+            if (myString[myLoop] == 'k') {myTemp  = 'U'} 
+            if (myString[myLoop] == 'l') {myTemp  = 'V'}
+            if (myString[myLoop] == 'm') {myTemp  = 'W'} 
+            if (myString[myLoop] == 'n') {myTemp  = 'X'}
+            if (myString[myLoop] == 'o') {myTemp  = 'Y'} 
+            if (myString[myLoop] == 'p') {myTemp  = 'Z'}
+            if (myString[myLoop] == 'q') {myTemp  = ','} 
+            if (myString[myLoop] == 'r') {myTemp  = '.'}
+            if (myString[myLoop] == 's') {myTemp  = '!'} 
+            if (myString[myLoop] == 't') {myTemp  = ' '}
+            if (myString[myLoop] == 'u') {myTemp  = '/'} 
+            if (myString[myLoop] == 'v') {myTemp  = '1'}
+            if (myString[myLoop] == 'w') {myTemp  = '2'} 
+            if (myString[myLoop] == 'x') {myTemp  = '3'}
+            if (myString[myLoop] == 'y') {myTemp  = '4'} 
+            if (myString[myLoop] == 'z') {myTemp  = '5'}
+            if (myString[myLoop] == 'A') {myTemp  = '6'} 
+            if (myString[myLoop] == 'B') {myTemp  = '7'}
+            if (myString[myLoop] == 'C') {myTemp  = '8'} 
+            if (myString[myLoop] == 'D') {myTemp  = '9'}
+            if (myString[myLoop] == 'E') {myTemp  = '0'} 
+            if (myString[myLoop] == 'F') {myTemp  = 'a'}
+            if (myString[myLoop] == 'G') {myTemp  = 'b'} 
+            if (myString[myLoop] == 'H') {myTemp  = 'c'}
+            if (myString[myLoop] == 'I') {myTemp  = 'd'} 
+            if (myString[myLoop] == 'J') {myTemp  = 'e'}
+            if (myString[myLoop] == 'K') {myTemp  = 'f'} 
+            if (myString[myLoop] == 'L') {myTemp  = 'g'}
+            if (myString[myLoop] == 'M') {myTemp  = 'h'} 
+            if (myString[myLoop] == 'N') {myTemp  = 'i'}
+            if (myString[myLoop] == 'O') {myTemp  = 'j'} 
+            if (myString[myLoop] == 'P') {myTemp  = 'k'}
+            if (myString[myLoop] == 'Q') {myTemp  = 'l'} 
+            if (myString[myLoop] == 'R') {myTemp  = 'm'}
+            if (myString[myLoop] == 'S') {myTemp  = 'n'} 
+            if (myString[myLoop] == 'T') {myTemp  = 'o'}
+            if (myString[myLoop] == 'U') {myTemp  = 'p'} 
+            if (myString[myLoop] == 'V') {myTemp  = 'q'}
+            if (myString[myLoop] == 'W') {myTemp  = 'r'} 
+            if (myString[myLoop] == 'Y') {myTemp  = 's'}
+            if (myString[myLoop] == 'X') {myTemp  = 't'} 
+            if (myString[myLoop] == 'Z') {myTemp  = 'u'}
+            if (myString[myLoop] == '1') {myTemp  = 'v'} 
+            if (myString[myLoop] == '2') {myTemp  = 'w'}
+            if (myString[myLoop] == '3') {myTemp  = '\"'} 
+            if (myString[myLoop] == '4') {myTemp  = 'y'}
+            if (myString[myLoop] == '5') {myTemp  = 'z'} 
+            if (myString[myLoop] == '6') {myTemp  = '\''}
+            if (myString[myLoop] == '7') {myTemp  = 'B'} 
+            if (myString[myLoop] == '8') {myTemp  = 'C'}
+            if (myString[myLoop] == '9') {myTemp  = 'E'} 
+            if (myString[myLoop] == '0') {myTemp  = 'F'}
+            if (myString[myLoop] == ',') {myTemp  = 'G'} 
+            if (myString[myLoop] == '.') {myTemp  = 'H'}
+            if (myString[myLoop] == '!') {myTemp  = 'I'} 
+            if (myString[myLoop] == '?') {myTemp  = 'J'}
+            if (myString[myLoop] == ' ') {myTemp  = 'D'}
+            if (myString[myLoop] == '\"') {myTemp  = 'A'}
+            if (myString[myLoop] == '\'') {myTemp  = 'x'}
+            myString[myLoop] = myTemp
+            }  
+        document.getElementById('myArea02').value = myString.join('')
+        }
+
+        function ellisDecrypt() {
+            let myTemp = ''
+            myString = document.getElementById('myArea02').value.split('')
+            for (let myLoop=0;   myLoop < myString.length; myLoop++){
+            myTemp = myString[myLoop]
+            if (myString[myLoop] == 'K') {myTemp  = 'a'} 
+            if (myString[myLoop] == 'L') {myTemp  = 'b'}
+            if (myString[myLoop] == 'M') {myTemp  = 'c'} 
+            if (myString[myLoop] == 'N') {myTemp  = 'd'}
+            if (myString[myLoop] == 'O') {myTemp  = 'e'} 
+            if (myString[myLoop] == 'P') {myTemp  = 'f'}
+            if (myString[myLoop] == 'Q') {myTemp  = 'g'} 
+            if (myString[myLoop] == 'R') {myTemp  = 'h'}
+            if (myString[myLoop] == 'S') {myTemp  = 'i'} 
+            if (myString[myLoop] == 'T') {myTemp  = 'j'}
+            if (myString[myLoop] == 'U') {myTemp  = 'k'} 
+            if (myString[myLoop] == 'V') {myTemp  = 'l'}
+            if (myString[myLoop] == 'W') {myTemp  = 'm'} 
+            if (myString[myLoop] == 'X') {myTemp  = 'n'}
+            if (myString[myLoop] == 'Y') {myTemp  = 'o'} 
+            if (myString[myLoop] == 'Z') {myTemp  = 'p'}
+            if (myString[myLoop] == ',') {myTemp  = 'q'} 
+            if (myString[myLoop] == '.') {myTemp  = 'r'}
+            if (myString[myLoop] == '!') {myTemp  = 's'} 
+            if (myString[myLoop] == ' ') {myTemp  = 't'}
+            if (myString[myLoop] == '/') {myTemp  = 'u'} 
+            if (myString[myLoop] == '1') {myTemp  = 'v'}
+            if (myString[myLoop] == '2') {myTemp  = 'w'} 
+            if (myString[myLoop] == '3') {myTemp  = 'x'}
+            if (myString[myLoop] == '4') {myTemp  = 'y'} 
+            if (myString[myLoop] == '5') {myTemp  = 'z'}
+            if (myString[myLoop] == '6') {myTemp  = 'A'} 
+            if (myString[myLoop] == '7') {myTemp  = 'B'}
+            if (myString[myLoop] == '8') {myTemp  = 'C'} 
+            if (myString[myLoop] == '9') {myTemp  = 'D'}
+            if (myString[myLoop] == '0') {myTemp  = 'E'} 
+            if (myString[myLoop] == 'a') {myTemp  = 'F'}
+            if (myString[myLoop] == 'b') {myTemp  = 'G'} 
+            if (myString[myLoop] == 'c') {myTemp  = 'H'}
+            if (myString[myLoop] == 'd') {myTemp  = 'I'} 
+            if (myString[myLoop] == 'e') {myTemp  = 'J'}
+            if (myString[myLoop] == 'f') {myTemp  = 'K'} 
+            if (myString[myLoop] == 'g') {myTemp  = 'L'}
+            if (myString[myLoop] == 'h') {myTemp  = 'M'} 
+            if (myString[myLoop] == 'i') {myTemp  = 'N'}
+            if (myString[myLoop] == 'j') {myTemp  = 'O'} 
+            if (myString[myLoop] == 'k') {myTemp  = 'P'}
+            if (myString[myLoop] == 'l') {myTemp  = 'Q'} 
+            if (myString[myLoop] == 'm') {myTemp  = 'R'}
+            if (myString[myLoop] == 'n') {myTemp  = 'S'} 
+            if (myString[myLoop] == 'o') {myTemp  = 'T'}
+            if (myString[myLoop] == 'p') {myTemp  = 'U'} 
+            if (myString[myLoop] == 'q') {myTemp  = 'V'}
+            if (myString[myLoop] == 'r') {myTemp  = 'W'} 
+            if (myString[myLoop] == 's') {myTemp  = 'X'}
+            if (myString[myLoop] == 't') {myTemp  = 'Y'} 
+            if (myString[myLoop] == 'u') {myTemp  = 'Z'}
+            if (myString[myLoop] == 'v') {myTemp  = '1'} 
+            if (myString[myLoop] == 'w') {myTemp  = '2'}
+            if (myString[myLoop] == 'x') {myTemp  = '\''} 
+            if (myString[myLoop] == 'y') {myTemp  = '4'}
+            if (myString[myLoop] == 'z') {myTemp  = '5'} 
+            if (myString[myLoop] == 'A') {myTemp  = '\"'}
+            if (myString[myLoop] == 'B') {myTemp  = '7'} 
+            if (myString[myLoop] == 'C') {myTemp  = '8'}
+            if (myString[myLoop] == 'E') {myTemp  = '9'} 
+            if (myString[myLoop] == 'F') {myTemp  = '0'}
+            if (myString[myLoop] == 'G') {myTemp  = ','} 
+            if (myString[myLoop] == 'H') {myTemp  = '.'}
+            if (myString[myLoop] == 'I') {myTemp  = '!'} 
+            if (myString[myLoop] == 'J') {myTemp  = '?'}
+            if (myString[myLoop] == 'D') {myTemp  = ' '}
+            if (myString[myLoop] == '\"') {myTemp  = '3'}
+            if (myString[myLoop] == '\'') {myTemp  = '6'}
+            myString[myLoop] = myTemp
+            }
+       document.getElementById('myArea03').value = myString.join('')
+        }
+
+        function ROT13Encrypt() {
+            const str = document.getElementById('myArea01').value
+            const input = ' ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"\'?,.!\n';
+            const output = '\"1234567890NOPQRSTUVW\nXYZABCDEFGHIJKLM?,.!nopqrstuvwxyzabcdefghijklm\' ';
+            let myEncoded = '';
+            for (let myLoop = 0; myLoop < str.length; myLoop++) {
+                const index = input.indexOf(str[myLoop]);
+                myEncoded += output[index];
+            }
+            document.getElementById('myArea02').innerHTML = myEncoded;
+        }
+        function ROT13Decrypt() {
+            const str = document.getElementById('myArea02').value
+            const input = '\"1234567890NOPQRSTUVW\nXYZABCDEFGHIJKLM?,.!nopqrstuvwxyzabcdefghijklm\' ';
+            const output = ' ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"\'?,.!\n';
+            let myEncoded = '';
+            for (let myLoop = 0; myLoop < str.length; myLoop++) {
+                const index = input.indexOf(str[myLoop]);
+                myEncoded += output[index];
+            }
+            document.getElementById('myArea03').innerHTML = myEncoded;
+        }
+
+        function base64Encrypt() {
+            myString = document.getElementById('myArea01').value
+            myEncode = btoa(myString)
+            document.getElementById('myArea02').innerHTML = myEncode
+        }
+        function base64Decrypt() {
+            myString = document.getElementById('myArea02').value
+            myDecode = atob(myString)
+            document.getElementById('myArea03').innerHTML = myDecode
+        }
+
+        function binaryEncrypt() {
+            var output = document.getElementById('myArea02');
+            var input = document.getElementById('myArea01').value;
+            output.value = "";
+            for (var i = 0; i < input.length; i++) {
+                output.value += input[i].charCodeAt(0).toString(2) + " ";
+            }
+        }
+        function binaryDecrypt() {
+            str = document.getElementById('myArea02').value
+            output = str.split(" ").map(input => String.fromCharCode(parseInt(input,2).toString(10))).join("");
+            document.getElementById('myArea03').innerHTML = output
+        }
+    </script>
+    
+    <input type=button value="encrypt" onclick="{
+        encryptlogic();
+    }"><br><br>
+    
+    
+    
+    <textarea id="myArea02" rows=4 cols=70></textarea><br> 
+    
+    <input type=button value="decrypt" onclick="{
+       decryptlogic();
+    }"><br><br>
+    <textarea id="myArea03" rows=4 cols=70></textarea><br><br>
+    <hr>
+
+    

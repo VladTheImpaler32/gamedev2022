@@ -1,0 +1,112 @@
+<html>
+   <head>
+       <link rel="stylesheet" href="css.css">
+   <style>
+     
+   </style>
+   </head>
+   <body>
+   <h2 align=center >Pick's Law Ambrose</h2>
+
+   <input type="button" value="start" onclick="start()"><br>
+   <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+
+   <script>
+
+    let oldMouseX;
+    let oldMouseY;
+    var c = document.getElementById("ctx");
+    var ctx = c.getContext("2d", { willReadFrequently: true });
+    var numCells = 10;
+    var xscale = Math.floor(document.getElementById("ctx").width / numCells);
+    var yscale = Math.floor(document.getElementById("ctx").height / numCells);
+    var xOffSet = xscale / 2;
+    var yOffSet = yscale / 2;
+    var color = "#FF0000";
+    let celli;
+    let cellj;
+    const cellsarr = [];
+
+    class cells {
+        constructor(x, y, c, height, width, i, j){
+        this.x = x;
+        this.y = y;
+        this.c = c
+        this.height = height
+        this.width = width
+        this.i = i
+        this.j = j
+
+        }
+    }
+
+    function start() {
+    
+    for (var i = 0; i < numCells +1; i++) {
+        for (var j = 0; j < numCells +1; j++) {
+
+            cellsarr.push([i, j]) 
+            celli = i
+            cellj = j
+
+            // console.log(cellsarr)
+            
+            x1 = i * xscale
+            y1 = j * yscale
+            x2 = i + xscale * 10
+            y2 = j + yscale * 10
+
+    // console.log(x1, y1, x2, y2)
+
+            ctx.beginPath();
+            ctx.arc(x1, y1, 5, 0, 2 * Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
+
+            createNewCell()
+
+
+        }
+
+    }
+    }
+
+    function createNewCell() {
+        const cell = new cells(celli * xscale + xOffSet, cellj * yscale + yOffSet, color, yscale * cellj, xscale *  celli, celli, cellj)
+    }
+
+
+    function mousePos(canvas, event) {
+        return {
+            x: event.offsetX,
+            y: event.offsetY
+        }
+    }
+
+    c.addEventListener('click', function (e) {
+        
+        var getMousePos = mousePos(c, e)
+        let clickData = ctx.getImageData(getMousePos.x, getMousePos.y, 1, 1).data;
+        // console.log(clickData);
+        if (clickData[3] == 255) {
+            console.log(getMousePos.x, getMousePos.y);
+            // drawLine(getMousePos);
+            mouseX = getMousePos.x;
+            mouseY = getMousePos.y;
+
+            ctx.beginPath();
+            ctx.moveTo(oldMouseX, oldMouseY);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.stroke();
+
+            oldMouseX = getMousePos.x;
+            oldMouseY = getMousePos.y;
+        }
+    })
+
+    function drawLine(getMousePos) {
+        
+    }
+
+</script>
+</body>

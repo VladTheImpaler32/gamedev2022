@@ -48,31 +48,22 @@
             cellsarr.push([i, j]) 
             celli = i
             cellj = j
-
-            // console.log(cellsarr)
             
             x1 = i * xscale
             y1 = j * yscale
-            x2 = i + xscale * 10
-            y2 = j + yscale * 10
-
-    // console.log(x1, y1, x2, y2)
+            x2 = i * c.width / (numCells);
+            y2 = j * c.height / (numCells);
+            
+            // console.log(x2, y2)
 
             ctx.beginPath();
-            ctx.arc(x1, y1, 5, 0, 2 * Math.PI, true);
+            ctx.arc(x2, y2, 5, 0, 2 * Math.PI, true);
             ctx.fill();
             ctx.stroke();
-
-            createNewCell()
-
 
         }
 
     }
-    }
-
-    function createNewCell() {
-        const cell = new cells(celli * xscale + xOffSet, cellj * yscale + yOffSet, color, yscale * cellj, xscale *  celli, celli, cellj)
     }
 
 
@@ -87,6 +78,7 @@
         
         var getMousePos = mousePos(c, e)
         let clickData = ctx.getImageData(getMousePos.x, getMousePos.y, 1, 1).data;
+        console.log(clickData)
         // console.log(clickData);
         if (clickData[3] == 255) {
             console.log(getMousePos.x, getMousePos.y);
@@ -95,8 +87,8 @@
             mouseY = getMousePos.y;
 
             ctx.beginPath();
-            ctx.moveTo(oldMouseX, oldMouseY);
-            ctx.lineTo(mouseX, mouseY);
+            ctx.moveTo(Math.round(oldMouseX/xscale)*xscale, Math.round(oldMouseY/yscale)*yscale);
+            ctx.lineTo(Math.round(mouseX/xscale)*xscale, Math.round(mouseY/yscale)*yscale);
             ctx.stroke();
 
             oldMouseX = getMousePos.x;

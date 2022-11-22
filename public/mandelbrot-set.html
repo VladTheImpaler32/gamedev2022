@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script>
+    <link rel="stylesheet" href="global.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mandelbrot set</title>
+    <style>
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" value="run" onclick="{main();}">
+    <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+
+    <script>
+        let maxIterations = 50;
+
+        function mandelbrot(c) {
+            let z = 0;
+            let n = 0;
+            while (Math.abs(z) <= 2 && n < maxIterations) {
+                z = z*z + c;
+                n += 1;
+                console.log(z)
+            }
+        }
+
+        function range(start, stop, step) {
+            if (typeof stop == 'undefined') {
+                stop = start;
+                start = 0;
+            }
+
+            if (typeof step == 'undefined') {
+                step = 1;
+            }
+
+            if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
+                return [];
+            }
+
+            var result = [];
+            for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+                result.push(i);
+            }
+
+            return result;
+        }
+
+        function main() {
+            for (let a in range(-10, 10, 5)){
+                for (let b in range(-10, 10, 5)) {
+                    c = math.complex(a/10, b/10);
+                    mandelbrot(c);
+                    // console.log(c, mandelbrot(c));
+                }
+            }
+        }
+
+        // function draw(); {
+
+        // }
+    </script>
+</body>
+</html>

@@ -15,60 +15,70 @@
             margin-right: auto;
             display: block;
         }
+        .text {
+            width: 100px;
+        }
     </style>
 </head>
 <body>
-    <input type="button" value="run" onclick="{main();}">
-    <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+    <input type="button" value="normal" onclick="{maxIterations=100;aMin=-1.5;bMin=1.5;center=0.5;main();}"><br>
+    <input type="button" value="zoomed" onclick="{maxIterations=500;aMin=-0.65;bMin=-0.40;center=0; main();}"><br>
+    <input type="button" value="super zoomed" onclick="{maxIterations=1000;aMin=-0.56;bMin=-0.544;center=0; main();}">
+    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
 
     <script>
-        let maxIterations = 50;
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext("2d");
+        let maxIterations = 100;
+        let aMin = -2;
+        let bMin = 3;
+        let center = 0;
 
-        function mandelbrot(c) {
-            let z = 0;
-            let n = 0;
-            while (Math.abs(z) <= 2 && n < maxIterations) {
-                z = z*z + c;
-                n += 1;
-                console.log(z)
-            }
-        }
-
-        function range(start, stop, step) {
-            if (typeof stop == 'undefined') {
-                stop = start;
-                start = 0;
-            }
-
-            if (typeof step == 'undefined') {
-                step = 1;
-            }
-
-            if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
-                return [];
-            }
-
-            var result = [];
-            for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
-                result.push(i);
-            }
-
-            return result;
+        function map(value, a, b, c, d) {
+            value = (value - a) / (b - a);
+            return c + value * (d - c);
         }
 
         function main() {
-            for (let a in range(-10, 10, 5)){
-                for (let b in range(-10, 10, 5)) {
-                    c = math.complex(a/10, b/10);
-                    mandelbrot(c);
-                    // console.log(c, mandelbrot(c));
+            console.log(aMin, bMin, maxIterations);
+            for (let x = 0; x < canvas.width; x++){
+                for (let y = 0; y < canvas.height; y++) {
+                    var n = 0;
+                    var z = 0;
+                    var a = map(x, 0, canvas.width, (aMin)-center, (bMin)-center);
+                    var b = map(y, 0, canvas.width, (aMin), (bMin));
+                    var ca = a;
+                    var cb = b;
+                    var brightness = 0;
+
+                    while (n < maxIterations) {
+                        var z = a*a - b*b;
+                        var bb = 2 * a * b;
+
+                        a = z + ca;
+                        b = bb + cb;
+
+                        if (Math.abs(a + b) > 16) {
+                            break;
+                        }
+                        n++;
+                    }
+
+                    brightness = map(n, 0, maxIterations, 0, 255);
+
+                    if (n == maxIterations) {
+                        brightness = 0;
+                    }
+
+                    let red = brightness;
+                    let green = brightness ;
+                    let blue = brightness;
+                    ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
+                    ctx.fillRect(x,y,x+1,x+1);
                 }
             }
         }
 
-        // function draw(); {
-
-        // }
     </script>
 </body>
 </html>

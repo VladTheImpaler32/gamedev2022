@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script>
+    <link rel="stylesheet" href="global.css">
+    <title>julia sets</title>
+    <style>
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        .text {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" value="-0.4, +0.6" onclick="{maxIterations=250; xConstant=-0.4; yConstant=0.6;main();}"><br>
+    <input type="button" value="+0.285, +0.01" onclick="{maxIterations=200; xConstant=0.285; yConstant=0.01; main();}"><br>
+    <input type="button" value="-0.70176, -0.3842" onclick="{maxIterations=100; xConstant=-0.70176; yConstant=-0.3842; main();}"><br>
+    <input type="button" value="-0.835, -0.2321" onclick="{maxIterations=100; xConstant=-0.835; yConstant=-0.2321; main();}"><br>
+    <input type="button" value="-0.8, +0.156" onclick="{maxIterations=300; xConstant=-0.8; yConstant=0.156; main();}"><br>
+    <input type="button" value="-0.7269, +0.1889" onclick="{maxIterations=850; xConstant=-0.7269; yConstant=0.1889; main();}"><br>
+    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
+
+    <script>
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext("2d");
+        let maxIterations = 100;
+        let aMin = -1.5;
+        let bMin = 1.5;
+        let center = 0;
+        let xConstant;
+        let yConstant;
+
+        function map(value, a, b, c, d) {
+            value = (value - a) / (b - a);
+            return c + value * (d - c);
+        }
+
+        function main() {
+            console.log(xConstant, yConstant, maxIterations);
+            for (let x = 0; x < canvas.width; x++){
+                for (let y = 0; y < canvas.height; y++) {
+                    var n = 0;
+                    var z = 0;
+                    var a = map(x, 0, canvas.width, (aMin)-center, (bMin)-center);
+                    var b = map(y, 0, canvas.width, (aMin), (bMin));
+                    var ca = a;
+                    var cb = b;
+                    var brightness = 0;
+
+                    while (n < maxIterations) {
+                        var z = a*a - b*b;
+                        var twoab = 2 * a * b;
+
+                        a = z + xConstant;
+                        b = twoab + yConstant;
+
+                        if (Math.abs(a + b) > 16) {
+                            break;
+                        }
+                        n++;
+                    }
+
+                    brightness = map(n, 0, maxIterations, 0, 255);
+
+                    if (n == maxIterations) {
+                        brightness = 0;
+                    }
+
+                    // let color = [0,0,0]
+                    // color[0] = n;
+                    // color[1] = (n*n)/50;
+                    // color[2] = n*2
+                    // console.log(n)
+
+                    let red = brightness;
+                    let green = brightness;
+                    let blue = brightness;
+                    ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
+                    // ctx.fillStyle = "rgb(" + color[0] + "," + (color[1]-100) + "," + color[2] + ")";
+                    ctx.fillRect(x,y,x+1,x+1);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

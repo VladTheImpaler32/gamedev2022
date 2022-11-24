@@ -24,6 +24,7 @@
     <input type="button" value="-0.835, -0.2321" onclick="{maxIterations=100; xConstant=-0.835; yConstant=-0.2321; main();}"><br>
     <input type="button" value="-0.8, +0.156" onclick="{maxIterations=300; xConstant=-0.8; yConstant=0.156; main();}"><br>
     <input type="button" value="-0.7269, +0.1889" onclick="{maxIterations=850; xConstant=-0.7269; yConstant=0.1889; main();}"><br>
+    color: <input type="checkbox" name="color" id="color">
     <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
 
     <script>
@@ -66,32 +67,98 @@
                         n++;
                     }
 
-                    brightness = map(n, 0, maxIterations, 0, 255);
-
                     if (n == maxIterations) {
                         brightness = 0;
                     }
 
-                    // let color = [0,0,0]
-                    // let colors = []
+                    let color = [0,0,0]
+                    brightness = map(n, 0, maxIterations, 0, 255);
   
-                    // switch(n % 16) {
-                    //     case 1:
-                    //         colors[1] = ...?
-                    //         break;
-                    //     case 2:
-                    // }
-                    // let color = [0,0,0]
-                    // color[0] = n;
-                    // color[1] = (n*n)/50;
-                    // color[2] = n*2
-                    // console.log(n)
-
-                    let red = brightness;
-                    let green = brightness;
-                    let blue = brightness;
-                    ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
-                    // ctx.fillStyle = "rgb(" + color[0] + "," + (color[1]-100) + "," + color[2] + ")";
+                    if (document.getElementById('color').checked) {
+                        switch(n % 16) {
+                            case 1:
+                                color[0] = [66]
+                                color[1] = [30]
+                                color[2] = [15]
+                                break;
+                            case 2:
+                                color[0] = [25]
+                                color[1] = [7]
+                                color[2] = [26]
+                                break;
+                            case 3:
+                                color[0] = [9]
+                                color[1] = [1]
+                                color[2] = [47]
+                                break;
+                            case 4:
+                                color[0] = [4]
+                                color[1] = [4,]
+                                color[2] = [73]
+                                break;
+                            case 5:
+                                color[0] = [12]
+                                color[1] = [44]
+                                color[2] = [138]
+                                break;
+                            case 6:
+                                color[0] = [24]
+                                color[1] = [82]
+                                color[2] = [177]
+                                break;
+                            case 7:
+                                color[0] = [57]
+                                color[1] = [125]
+                                color[2] = [209]
+                                break;
+                            case 8:
+                                color[0] = [134]
+                                color[1] = [181]
+                                color[2] = [229]
+                                break;
+                            case 9:
+                                color[0] = [211]
+                                color[1] = [236]
+                                color[2] = [248]
+                                break;
+                            case 10:
+                                color[0] = [241]
+                                color[1] = [233]
+                                color[2] = [191]
+                                break;
+                            case 11:
+                                color[0] = [248]
+                                color[1] = [201]
+                                color[2] = [95]
+                                break;
+                            case 12:
+                                color[0] = [255]
+                                color[1] = [170]
+                                color[2] = [0]
+                                break;
+                            case 13:
+                                color[0] = [204]
+                                color[1] = [128]
+                                color[2] = [0]
+                                break;
+                            case 14:
+                                color[0] = [153]
+                                color[1] = [87]
+                                color[2] = [0]
+                                break;
+                            case 15:
+                                color[0] = [106]
+                                color[1] = [52]
+                                color[2] = [3]
+                                break;
+                        }
+                    } else {
+                        color[0] = brightness;
+                        color[1] = brightness;
+                        color[2] = brightness;
+                    }
+                    
+                    ctx.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
                     ctx.fillRect(x,y,x+1,x+1);
                 }
             }

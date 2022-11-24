@@ -65,13 +65,9 @@
                         n++;
                     }
 
-                    if (n == maxIterations) {
-                        brightness = 0;
-                    }
-
-                    let color = [0,0,0]
                     brightness = map(n, 0, maxIterations, 0, 255);
-  
+                    let color = []
+    
                     if (document.getElementById('color').checked) {
                         switch(n % 16) {
                             case 1:
@@ -151,9 +147,13 @@
                                 break;
                         }
                     } else {
+                        if (n == maxIterations) {
+                            brightness = 0;
+                        }
                         color[0] = brightness;
                         color[1] = brightness;
                         color[2] = brightness;
+                        
                     }
                     
                     ctx.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";

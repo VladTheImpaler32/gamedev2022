@@ -643,7 +643,7 @@ function leaderboard() {
 
 function upload() {
     let nameInput = document.getElementById('userName').value;
-    if (nameInput !== '') {
+    if (nameInput !== '' && bulletSpeed >= 50) {
         let userName = document.getElementById('userName').value;
         let score = Math.round(timer);
             sendData = {userName, score};

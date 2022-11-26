@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,12 +19,12 @@
     </style>
 </head>
 <body>
-    <input type="button" value="-0.4, +0.6" onclick="{maxIterations=250; xConstant=-0.4; yConstant=0.6;main();}"><br>
-    <input type="button" value="+0.285, +0.01" onclick="{maxIterations=200; xConstant=0.285; yConstant=0.01; main();}"><br>
-    <input type="button" value="-0.70176, -0.3842" onclick="{maxIterations=100; xConstant=-0.70176; yConstant=-0.3842; main();}"><br>
-    <input type="button" value="-0.835, -0.2321" onclick="{maxIterations=100; xConstant=-0.835; yConstant=-0.2321; main();}"><br>
-    <input type="button" value="-0.8, +0.156" onclick="{maxIterations=300; xConstant=-0.8; yConstant=0.156; main();}"><br>
-    <input type="button" value="-0.7269, +0.1889" onclick="{maxIterations=850; xConstant=-0.7269; yConstant=0.1889; main();}"><br>
+    <input type="button" value="-0.4, +0.6" onclick="{maxIterations=400; xConstant=-0.4; yConstant=0.6;main();}"><br>
+    <input type="button" value="+0.285, +0.01" onclick="{maxIterations=300; xConstant=0.285; yConstant=0.01; main();}"><br>
+    <input type="button" value="-0.70176, -0.3842" onclick="{maxIterations=150; xConstant=-0.70176; yConstant=-0.3842; main();}"><br>
+    <input type="button" value="-0.835, -0.2321" onclick="{maxIterations=200; xConstant=-0.835; yConstant=-0.2321; main();}"><br>
+    <input type="button" value="-0.8, +0.156" onclick="{maxIterations=900; xConstant=-0.8; yConstant=0.156; main();}"><br>
+    <input type="button" value="-0.7269, +0.1889" onclick="{maxIterations=1800; xConstant=-0.7269; yConstant=0.1889; main();}"><br>
     color: <input type="checkbox" name="color" id="color">
     <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
 
@@ -31,11 +32,40 @@
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
         let maxIterations = 100;
+        let imgData = ctx.createImageData(canvas.width, canvas.height);
         let aMin = -1.5;
         let bMin = 1.5;
         let center = 0;
         let xConstant;
         let yConstant;
+        let n;
+
+        let colors = []
+        let red = -20;
+        let green = 0;
+        let blue = 0;
+        for (let i=0; i < 256; i++) {
+            colors[i] = {
+                r: red,
+                g: green,
+                b: blue
+            }
+
+            if (i < 32) {
+                blue += 3;
+                green += 1;
+            } else if (i<64) {
+                red += 3;
+            } else if (i == 127) {
+                red = 0;
+                green = 0;
+                blue = 0;
+            } else if (i<128) {
+                green += 3;
+                red += 3;
+                blue += 3;
+            }
+        }
 
         function map(value, a, b, c, d) {
             value = (value - a) / (b - a);
@@ -46,10 +76,10 @@
             console.log(xConstant, yConstant, maxIterations);
             for (let x = 0; x < canvas.width; x++){
                 for (let y = 0; y < canvas.height; y++) {
-                    var n = 0;
+                    n = 0;
                     var z = 0;
                     var a = map(x, 0, canvas.width, (aMin)-center, (bMin)-center);
-                    var b = map(y, 0, canvas.width, (aMin), (bMin));
+                    var b = map(y, 0, canvas.height, (aMin), (bMin));
                     var ca = a;
                     var cb = b;
                     var brightness = 0;
@@ -60,6 +90,7 @@
 
                         a = z + xConstant;
                         b = twoab + yConstant;
+                        
 
                         if (Math.abs(a + b) > 16) {
                             break;
@@ -67,105 +98,29 @@
                         n++;
                     }
 
-                    let color = [0,0,0]
-                    brightness = map(n, 0, maxIterations, 0, 255);
-  
-                    if (document.getElementById('color').checked) {
-                        switch(n % 16) {
-                            case 0:
-                                color[0] = [66]
-                                color[1] = [30]
-                                color[2] = [15]
-                                break;
-                            case 1:
-                                color[0] = [25]
-                                color[1] = [7]
-                                color[2] = [26]
-                                break;
-                            case 2:
-                                color[0] = [9]
-                                color[1] = [1]
-                                color[2] = [47]
-                                break;
-                            case 3:
-                                color[0] = [4]
-                                color[1] = [4]
-                                color[2] = [73]
-                                break;
-                            case 4:
-                                color[0] = [0]
-                                color[1] = [7]
-                                color[2] = [100]
-                                break;
-                            case 5:
-                                color[0] = [12]
-                                color[1] = [44]
-                                color[2] = [138]
-                                break;
-                            case 6:
-                                color[0] = [24]
-                                color[1] = [82]
-                                color[2] = [177]
-                                break;
-                            case 7:
-                                color[0] = [57]
-                                color[1] = [125]
-                                color[2] = [209]
-                                break;
-                            case 8:
-                                color[0] = [134]
-                                color[1] = [181]
-                                color[2] = [229]
-                                break;
-                            case 9:
-                                color[0] = [211]
-                                color[1] = [236]
-                                color[2] = [248]
-                                break;
-                            case 10:
-                                color[0] = [241]
-                                color[1] = [233]
-                                color[2] = [191]
-                                break;
-                            case 11:
-                                color[0] = [248]
-                                color[1] = [201]
-                                color[2] = [95]
-                                break;
-                            case 12:
-                                color[0] = [255]
-                                color[1] = [170]
-                                color[2] = [0]
-                                break;
-                            case 13:
-                                color[0] = [204]
-                                color[1] = [128]
-                                color[2] = [0]
-                                break;
-                            case 14:
-                                color[0] = [153]
-                                color[1] = [87]
-                                color[2] = [0]
-                                break;
-                            case 15:
-                                color[0] = [106]
-                                color[1] = [52]
-                                color[2] = [3]
-                                break;
-                        }
+                    var color;
+                    if (n == maxIterations) {
+                        color = {
+                            r:0,
+                            g:0, 
+                            b:0
+                        };
+                    } else if (document.getElementById('color').checked) {
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = colors[index];
                     } else {
-                        if (n == maxIterations) {
-                            brightness = 0;
-                        }
-                        color[0] = brightness;
-                        color[1] = brightness;
-                        color[2] = brightness;
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = {r:index, g:index, b:index};
                     }
                     
-                    ctx.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
-                    ctx.fillRect(x,y,x+1,x+1);
+                    var pix = (y * canvas.width + x) * 4;
+                    imgData.data[pix] = color.r;
+                    imgData.data[pix+1] = color.g;
+                    imgData.data[pix+2] = color.b;
+                    imgData.data[pix+3] = 255;
                 }
             }
+            ctx.putImageData(imgData, 0, 0);
         }
 
     </script>

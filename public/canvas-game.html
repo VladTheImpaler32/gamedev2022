@@ -90,6 +90,7 @@
     </div>
 <script>
 code: {
+    let disableType = false;
     let GameRunning = false;
     let bulletSpeed = 500;
     let bulletTemp = 0;
@@ -163,8 +164,8 @@ code: {
     }
 
     document.body.onkeydown = function(e) {
-        if (e.keyCode == 40) {
-            if (died == true) {
+        if (e.keyCode == 32) {
+            if (died == true && document.getElementById('userName').value == '') {
                     location.reload();
             } else if (GameRunning == false) {
                 main();

@@ -5,7 +5,8 @@
     <title>epic epic epic games</title>
     <style>
         body {
-            padding: 1em;
+            padding-left: 1em;
+            padding-right: 1em;
             display: flex;
             flex-direction: row;
             margin: 0;
@@ -32,6 +33,14 @@
             flex-direction: column;
             flex: 1;
         }
+        .uploadWrapper {
+            display: flex;
+            flex-wrap: wrap;
+            font-size: large;
+            /* align-content: flex-start; */
+            flex-direction: column;
+            flex: 1;
+        }
         table {
             text-align: center;
             border-collapse: collapse;
@@ -51,19 +60,34 @@
 <body onload="{startup();}">
     <div class="scoreWrapper">
         <p id="timer" class="score">Your Score: </p>
-        <table id="table">
+        <table id="table1">
+            <caption>Pistol</caption>
             <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
-        </table>
+        </table><br>
+        <table id="table3">
+            <caption>Sniper</caption>
+            <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
+        </table><br>
     </div>
     <div class="canvasWrapper">
         <h1 align=center>shoutout gaming</h1>
         <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
     </div>
+    <div class="uploadWrapper">
     <form>
         <div id="uploadMessage" style="display: none;">Do you want to upload your score?</div>
         <input type="text" name="userName" id="userName" placeholder="Your name here" style="display: none;" required>
         <input id="uploadButton" type="submit" value="Upload" onclick="{upload();}" style="display: none;"><br>
     </form>
+    <table id="table2">
+        <caption>Shotgun</caption>
+        <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
+    </table><br>
+    <table id="table4">
+        <caption>Minigun</caption>
+        <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
+    </table>
+    </div>
 <script>
 code: {
     let GameRunning = false;
@@ -320,18 +344,21 @@ function startup() {
         type    : 'GET',
         url     : 'https://www.ambroseallison.com/other/leaderboard.php',
         success : function(response) {
-            // console.log(response);
-            let dataIn = response.split('<br>');
-            console.log(dataIn);
-            for (let i = 0; i < dataIn.length-1; i++) {
-                let dataIn2 = dataIn[i].split(',');
-                console.log(dataIn2);
-                let table = document.getElementById('table');
-                var row = table.insertRow(i+1);
-                var cell = [];
-                for (let j = 0; j < 3; j++) {
-                    cell[j] = row.insertCell(j);
-                    cell[j].innerHTML = dataIn2[j];
+            // console.log(response.split('/'));
+            let dataIn3 = response.split('/');
+            for (let k = 0; k < dataIn3.length; k++) {
+                let dataIn = dataIn3[k].split('<br>');
+                console.log(dataIn);
+                for (let i = 0; i < dataIn.length-1; i++) {
+                    let dataIn2 = dataIn[i].split(',');
+                    // console.log(dataIn2);
+                    let table = document.getElementById('table'+k);
+                    var row = table.insertRow(i+1);
+                    var cell = [];
+                    for (let j = 0; j < 3; j++) {
+                        cell[j] = row.insertCell(j);
+                        cell[j].innerHTML = dataIn2[j];
+                    }
                 }
             }
         }
@@ -630,7 +657,7 @@ function update() {
         ctx.fillText('🤓lmao noob', canvas.width/2.2, canvas.height/2.3);
         ctx.font = '32px Comic Sans';
         ctx.textAlign = 'center';
-        ctx.fillText('submit your score on the left or', canvas.width/2, canvas.height/1.95);
+        ctx.fillText('submit your score on the right or', canvas.width/2, canvas.height/1.95);
         ctx.fillText('press down arrow to restart', canvas.width/2, canvas.height/1.8);
         leaderboard();
     }
@@ -647,7 +674,8 @@ function upload() {
     if (nameInput !== '' && bulletSpeed >= 50) {
         let userName = document.getElementById('userName').value;
         let score = Math.round(timer);
-            sendData = {userName, score};
+        let type = gunType;
+            sendData = {userName, score, type};
             console.log(sendData);
 
         $.ajax({

@@ -77,7 +77,7 @@
     <form>
         <div id="uploadMessage" style="display: none;">Do you want to upload your score?</div>
         <input type="text" name="userName" id="userName" placeholder="Your name here" style="display: none;" required>
-        <input id="uploadButton" type="submit" value="Upload" onclick="{upload();}" style="display: none;"><br>
+        <input id="uploadButton" type="button" value="Upload" onclick="{upload();}" style="display: none;"><br>
     </form>
     <table id="table2">
         <caption>Shotgun</caption>
@@ -86,7 +86,7 @@
     <table id="table4">
         <caption>Minigun</caption>
         <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
-    </table>
+    </table><br>
     </div>
 <script>
 code: {
@@ -346,12 +346,12 @@ function startup() {
         success : function(response) {
             // console.log(response.split('/'));
             let dataIn3 = response.split('/');
-            for (let k = 0; k < dataIn3.length; k++) {
+            for (let k = 1; k < dataIn3.length; k++) {
                 let dataIn = dataIn3[k].split('<br>');
                 console.log(dataIn);
                 for (let i = 0; i < dataIn.length-1; i++) {
                     let dataIn2 = dataIn[i].split(',');
-                    // console.log(dataIn2);
+                    console.log(dataIn2);
                     let table = document.getElementById('table'+k);
                     var row = table.insertRow(i+1);
                     var cell = [];
@@ -671,7 +671,7 @@ function leaderboard() {
 
 function upload() {
     let nameInput = document.getElementById('userName').value;
-    if (nameInput !== '' && bulletSpeed >= 50) {
+    if (nameInput !== '') {
         let userName = document.getElementById('userName').value;
         let score = Math.round(timer);
         let type = gunType;

@@ -348,10 +348,10 @@ function startup() {
             let dataIn3 = response.split('/');
             for (let k = 1; k < dataIn3.length; k++) {
                 let dataIn = dataIn3[k].split('<br>');
-                console.log(dataIn);
+                // console.log(dataIn);
                 for (let i = 0; i < dataIn.length-1; i++) {
                     let dataIn2 = dataIn[i].split(',');
-                    console.log(dataIn2);
+                    // console.log(dataIn2);
                     let table = document.getElementById('table'+k);
                     var row = table.insertRow(i+1);
                     var cell = [];

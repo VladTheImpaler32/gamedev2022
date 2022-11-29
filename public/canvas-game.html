@@ -13,6 +13,9 @@
             margin: 0;
             min-height: 100vh;
         }
+        caption {
+            text-decoration-line: underline;
+        }
         canvas {
             right: 0;
             left: 0;
@@ -168,8 +171,6 @@ code: {
         if (e.keyCode == 32) {
             if (died == true && document.getElementById('userName').value == '') {
                     location.reload();
-            } else if (GameRunning == false) {
-                main();
             }
         }}
 
@@ -224,7 +225,7 @@ code: {
         enemyCollide() {
             let G = 2;
             let player_detect_radius = 10;
-            let detect_radius = 50;
+            let detect_radius = 100;
             Enemies.forEach((enemy) => {
 
                 dx = block0.x - this.x;
@@ -309,7 +310,8 @@ code: {
                         enemy.health -= 1;
                     }
                     if (enemy.health < 1) {
-                        Enemies.splice(enemy, 1);
+                        Enemies.splice(enemy, 1);       
+                        console.log(enemy, Enemies)
                     }
                 
             })
@@ -346,14 +348,11 @@ function startup() {
         type    : 'GET',
         url     : 'https://www.ambroseallison.com/other/leaderboard.php',
         success : function(response) {
-            // console.log(response.split('/'));
             let dataIn3 = response.split('/');
             for (let k = 1; k < dataIn3.length; k++) {
                 let dataIn = dataIn3[k].split('<br>');
-                // console.log(dataIn);
                 for (let i = 0; i < dataIn.length-1; i++) {
                     let dataIn2 = dataIn[i].split(',');
-                    // console.log(dataIn2);
                     let table = document.getElementById('table'+k);
                     var row = table.insertRow(i+1);
                     var cell = [];
@@ -488,9 +487,9 @@ canvas.addEventListener('click', function (e) {
 })
 
 function spawnEnemy() {
-    setTimeout(() => {
+    enemyTimeout = setTimeout(() => {
         enemyCount += 1;
-        deadzone = 100;
+        deadzone = 150;
         x = Math.floor(Math.random() * canvas.width);
         y = Math.floor(Math.random() * canvas.height)
 
@@ -501,13 +500,25 @@ function spawnEnemy() {
         if (distance <= deadzone) {
             spawnEnemy();
         } else {
-            if (enemyCount % 10 == 0) {
+            if (timer <= 50) {
+                if (enemyCount % 15 == 0) {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+                    console.log(Enemies);
+                    spawnEnemy();
+                } else {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
+                    console.log(Enemies);
+                    spawnEnemy();
+                }
+            } else if (timer >= 50) {
+                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
                 Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
                 spawnEnemy();
-            } else {
-                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
-                spawnEnemy();
             }
+            
+        }
+        if (died == true) {
+            clearTimeout(enemyTimeout);
         }
     }, 500)
 }

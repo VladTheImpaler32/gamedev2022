@@ -18,6 +18,7 @@
 </head>
 <body>
     <input type="button" value="normal" onclick="{zoom=300; panx=-200; pany=0;main();}"><br>
+    <input type="button" value="normal" onclick="{zoom=300; panx=-200; pany=0;feather();}"><br>
     <input type="button" value="zoomed" onclick="{zoom=800; panx=-800; pany=-200; main();}"><br>
     <input type="button" value="super zoomed" onclick="{zoom=10000; panx=-10000; pany=-2800; main();}"><br>
     color: <input type="checkbox" name="color" id="color">
@@ -26,7 +27,7 @@
     <script>
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
-        let maxIterations = 200;
+        let maxIterations = 100;
         var offsetx = -canvas.width/2;
         var offsety = -canvas.height/2;
         var panx = -100;
@@ -78,6 +79,51 @@
 
                         a = realX + x0;
                         b = realY + y0;
+                        n++
+                    }
+
+                    var color;
+                    if (n == maxIterations) {
+                        color = {
+                            r:0,
+                            g:0, 
+                            b:0
+                        };
+                    } else if (document.getElementById('color').checked) {
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = colors[index];
+                    } else {
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = {r:index, g:index, b:index};
+                    }
+                    
+                    var pix = (y * canvas.width + x) * 4;
+                    imgData.data[pix] = color.r;
+                    imgData.data[pix+1] = color.g;
+                    imgData.data[pix+2] = color.b;
+                    imgData.data[pix+3] = 255;
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        function feather() {
+            for (let x = 0; x < canvas.width; x++){
+                for (let y = 0; y < canvas.height; y++) {
+                    var x0 = (x + offsetx + panx) / zoom;
+                    var y0 = (y + offsety + pany) / zoom;
+                    let a = 0;
+                    let b = 0;
+                    let realX = 0;
+                    let realY = 0;
+                    n = 0;
+
+                    while (n < maxIterations && (realX * realX + realY * realY <= 64)) {
+                        realX = (a*a*a) / (1 + a*a) + x0;
+                        realY = (b*b*b) / (0 + b*b) + y0;
+
+                        a = realX;
+                        b = realY;
                         n++
                     }
 

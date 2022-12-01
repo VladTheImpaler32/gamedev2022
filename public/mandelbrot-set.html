@@ -18,16 +18,17 @@
 </head>
 <body>
     <input type="button" value="normal" onclick="{zoom=300; panx=-200; pany=0;main();}"><br>
-    <input type="button" value="normal" onclick="{zoom=300; panx=-200; pany=0;feather();}"><br>
     <input type="button" value="zoomed" onclick="{zoom=800; panx=-800; pany=-200; main();}"><br>
     <input type="button" value="super zoomed" onclick="{zoom=10000; panx=-10000; pany=-2800; main();}"><br>
+    <input type="button" value="burning ship" onclick="{zoom=300; panx=-200; pany=-100;ship();}"><br>
+    <input type="button" value="burning ship zoomed" onclick="{zoom=7700; panx=-13500; pany=-300;ship();}"><br>
     color: <input type="checkbox" name="color" id="color">
     <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
 
     <script>
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
-        let maxIterations = 100;
+        let maxIterations = 200;
         var offsetx = -canvas.width/2;
         var offsety = -canvas.height/2;
         var panx = -100;
@@ -47,10 +48,12 @@
             }
 
             if (i < 32) {
-                blue += 3;
+                blue += 0;
                 green += 1;
+                red += 5;
             } else if (i<64) {
                 red += 3;
+                green += 4;
             } else if (i == 127) {
                 red = 0;
                 green = 0;
@@ -124,6 +127,53 @@
 
                         a = realX;
                         b = realY;
+                        n++
+                    }
+
+                    var color;
+                    if (n == maxIterations) {
+                        color = {
+                            r:0,
+                            g:0, 
+                            b:0
+                        };
+                    } else if (document.getElementById('color').checked) {
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = colors[index];
+                    } else {
+                        var index = Math.floor((n / (maxIterations-1)) * 255);
+                        color = {r:index, g:index, b:index};
+                    }
+                    
+                    var pix = (y * canvas.width + x) * 4;
+                    imgData.data[pix] = color.r;
+                    imgData.data[pix+1] = color.g;
+                    imgData.data[pix+2] = color.b;
+                    imgData.data[pix+3] = 255;
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        function ship() {
+            for (let x = 0; x < canvas.width; x++){
+                for (let y = 0; y < canvas.height; y++) {
+                    var x0 = (x + offsetx + panx) / zoom;
+                    var y0 = (y + offsety + pany) / zoom;
+                    let a = 0;
+                    let b = 0;
+                    let realX = 0;
+                    let realY = 0;
+                    n = 0;
+
+                    while (n < maxIterations && (realX * realX + realY * realY <= 64)) {
+                        a = Math.abs(a);
+                        b = Math.abs(b);
+                        realX = a*a - b*b;
+                        realY = 2 * a * b;
+
+                        a = realX + x0;
+                        b = realY + y0;
                         n++
                     }
 

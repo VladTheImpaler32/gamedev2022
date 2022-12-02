@@ -19,24 +19,31 @@
 <h5>version 0.0.8</h5>
 </head>
 
-<body>
+<body onload="{startup();}">
 <h1 align=center>t2a12 Sort by Ambrose</h1>
-<!-- <input type="number" max="100" min="3" id="loopCount" value=""> -->
+<input type="number" max="1000" min="3" id="Items" value="100"><br>
 
 <script>
     let delay = 50;
-    let myMax = 100;
-    let myCards = [1];
+    let myMax;
+    let myCards = [];
     let myLoop = 0;
-    for (let myLoop = 2; myLoop < myMax; myLoop++) {
-        myCards.push(myLoop);
-        if (myCards[myLoop] == undefined) {
-            myCards[myLoop] = myMax;
+
+    function startup() {
+        myMax = document.getElementById('Items').value;
+        console.log(myMax)
+        myCards = [];
+        for (let myLoop = 1; myLoop < myMax; myLoop++) {
+            myCards.push(myLoop);
+            if (myCards[myLoop] == undefined) {
+                myCards[myLoop] = myMax;
+            }
         }
     }
 </script>
 
 <input type=button value="Randomize" onclick="{
+    startup();
     document.getElementById('bubble').disabled = false;
     document.getElementById('insert').disabled = false;
     document.getElementById('select').disabled = false;
@@ -68,7 +75,6 @@
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
     ctx.transform(1, 0, 0, -1, 0, 500);
-    var frequency = undefined;
 
     function myShow() {
         let myTemp = ''
@@ -76,23 +82,8 @@
         for (let myLoop = 0;  myLoop < myMax;  myLoop++){ 
             myTemp += '#' + myLoop + ' = '+ myCards[myLoop] + '<br>';
             ctx.fillRect(1000/myMax * myLoop + 10, 5, 750/myMax, ((490/myMax) * myCards[myLoop]));
-            // frequency = ((1000) / (myCards[myLoop])) * 2;
-            // play(frequency)
         }
         document.getElementById('myDiv01').innerHTML = myTemp
-    }
-
-    function play(frequency, stopBool) {
-        console.log('playing');
-        console.log(frequency);
-        var context = new AudioContext()
-        var o = context.createOscillator()
-        var  g = context.createGain()
-        o.frequency.value = frequency
-        o.connect(g)
-        g.connect(context.destination)
-        o.start(0)
-        o.stop(context.currentTime + 0.1);
     }
 
     function bubbleSort() {

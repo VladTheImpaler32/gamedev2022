@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <link rel="stylesheet" href="global.css">
+    <title>Orbit</title>
+    <style>
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        body {
+            padding-left: 1em;
+            padding-right: 1em;
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            flex: 5;
+            align-items: center;
+        }
+        .left {
+            display: flex;
+            flex-direction: column;
+            font-size: large;
+            flex: 1;
+        }
+        .right {
+            display: flex;
+            font-size: large;
+            flex: 1;
+        }
+    </style>
+</head>
+<body onload="{init();update();}">
+    <div class="left"><br>Click to spawn satellite<br><p></p><p>Formula:</p><img width="50%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Newton_s_law_of_universal_gravitation.svg/2560px-Newton_s_law_of_universal_gravitation.svg.png" style="height: 5%;"></div>
+    <div class="center">
+    <h1>Gravitation by Ambrose</h1>
+    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
+    </div>
+    <div class="right">&nbsp</div>
+    <script>
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext("2d");
+        let primaries = [];
+        let secondaries = [];
+        let G = 0.5;
+        let strength = {x:1,y:1}
+
+        function init() {
+            primaries.push(new primary(canvas.width/2, canvas.height/2, 50, 9, 'black'));
+        }
+
+        canvas.addEventListener('mousedown', function (e) {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            var color = "rgb(" + r + "," + g + "," + b + ")";
+            let Xpush = Math.random() < 0.5 ? -2 : 2;
+            let Ypush = Math.random() < 0.5 ? -2 : 2;
+            secondaries.push(new secondary(e.offsetX, e.offsetY, 50, 3, color, Xpush, Ypush))
+        })
+
+        class primary {
+            constructor(x, y, m, r, color) {
+                this.pos = {x: x, y: y}
+                this.m = m;
+                this.r = r;
+                this.v = {x:0,y:0}
+                this.a = {x:0,y:0}
+                this.color = color
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI, true);
+                ctx.fill(); 
+            }
+
+            collision() {
+                if (this.x < 0){
+                    this.x = canvas.width;
+                } 
+                if (this.x > canvas.width){
+                    this.x = 0
+                }  
+                if (this.y < 0){
+                    this.y = canvas.height;
+                } 
+                if (this.y > canvas.height){
+                    this.y = 0
+                } 
+            }
+
+            update() {
+                secondaries.forEach(secondary => {
+                    let force = {
+                        x: this.pos.x - secondary.pos.x,
+                        y: this.pos.y - secondary.pos.y
+                    }
+                    let distSq = {
+                        x: Math.min(Math.max(force.x, 100), 1000),
+                        y: Math.min(Math.max(force.y, 100), 1000)
+                    }
+                    strength = {
+                        x: G * ((this.m * secondary.m) / distSq.x),
+                        y: G * ((this.m * secondary.m) / distSq.y)
+                    }
+                    let Mag = Math.sqrt(strength.x*strength.x + strength.y*strength.y)/1000;
+                    let newForce = {x: force.x * Mag, y: force.y * Mag}
+                    secondary.apply(newForce);
+                });
+            }
+        }
+
+        class secondary {
+            constructor(x, y, m, r, color, Xpush, Ypush) {
+                this.pos = {x: x, y: y}
+                this.m = m;
+                this.r = r;
+                this.v = {x:Xpush,y:Ypush}
+                this.a = {x:0,y:0}
+                this.color = color;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI, true);
+                ctx.fill(); 
+            }
+
+            collision() {
+                if (this.x < 0){
+                    this.x = canvas.width;
+                } 
+                if (this.x > canvas.width){
+                    this.x = 0
+                }  
+                if (this.y < 0){
+                    this.y = canvas.height;
+                } 
+                if (this.y > canvas.height){
+                    this.y = 0
+                } 
+            }
+
+            apply(force) {
+                this.a.x += force.x / this.m;
+                this.a.y += force.y / this.m;
+            }
+
+            update() {
+                this.v.x += this.a.x;
+                this.v.y += this.a.y;
+                this.pos.x += this.v.x;
+                this.pos.y += this.v.y;
+                this.a.x = 0;
+                this.a.y = 0;
+            }
+        }
+
+        function update() {
+            const myTimeout = setTimeout(() => {
+                ctx.fillStyle = 'rgba(0, 0, 0, .0)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                primaries.forEach(primary => {
+                    primary.collision();
+                    primary.update();
+                    primary.draw();
+                });
+
+                secondaries.forEach(secondary => {
+                    secondary.update();
+                    secondary.draw();
+                });
+
+                update();   
+            }, 1)}
+    </script>
+</body>
+</html>

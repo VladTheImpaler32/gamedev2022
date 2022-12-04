@@ -47,7 +47,7 @@
     <h1>Gravitation by Ambrose</h1>
     <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
     </div>
-    <div class="right">&nbsp</div>
+    <div class="right"></div>
     <script>
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
@@ -65,8 +65,10 @@
             var g = Math.floor(Math.random() * 255);
             var b = Math.floor(Math.random() * 255);
             var color = "rgb(" + r + "," + g + "," + b + ")";
-            let Xpush = Math.random() < 0.5 ? -2 : 2;
-            let Ypush = Math.random() < 0.5 ? -2 : 2;
+            let pushArray = [-3, -2, -1, 0, 1, 2, 3]
+            let Xpush = pushArray[Math.floor(Math.random()*pushArray.length)];
+            let Ypush = pushArray[Math.floor(Math.random()*pushArray.length)];
+            console.log(Xpush, Ypush)
             secondaries.push(new secondary(e.offsetX, e.offsetY, 50, 3, color, Xpush, Ypush))
         })
 

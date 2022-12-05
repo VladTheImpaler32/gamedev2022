@@ -23,6 +23,7 @@
             min-height: 100vh;
         }
         .center {
+            user-select: none;
             display: flex;
             flex-direction: column;
             flex: 5;
@@ -36,18 +37,29 @@
         }
         .right {
             display: flex;
+            flex-direction: column;
             font-size: large;
             flex: 1;
         }
     </style>
 </head>
 <body onload="{init();update();}">
-    <div class="left"><br>Click to spawn satellite<br><p></p><p>Formula:</p><img width="50%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Newton_s_law_of_universal_gravitation.svg/2560px-Newton_s_law_of_universal_gravitation.svg.png" style="height: 5%;"></div>
+    <div class="left">
+        <br>Click on canvas to spawn satellite<br>
+        <p></p>
+        <p>Formula:</p>
+        <img width="50%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Newton_s_law_of_universal_gravitation.svg/2560px-Newton_s_law_of_universal_gravitation.svg.png" style="height: 5%;">
+        <p></p>
+        <div>G:<input type="range" id="G" max="2" min="0" step="0.01" value="0.5"></div>
+        <div id="Gvalue"></div>
+        <p></p>
+        <div><input type="button" value="Reset Simulation" onclick="{reset();}"><br>Or press space :)</div>
+    </div>
     <div class="center">
     <h1>Gravitation by Ambrose</h1>
     <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
     </div>
-    <div class="right"></div>
+    <div class="right"><p></p></div>
     <script>
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
@@ -59,6 +71,11 @@
         function init() {
             primaries.push(new primary(canvas.width/2, canvas.height/2, 50, 9, 'black'));
         }
+
+        document.body.onkeydown = function(e) {
+        if (e.keyCode == 32) {
+            reset();
+        }}
 
         canvas.addEventListener('mousedown', function (e) {
             var r = Math.floor(Math.random() * 255);
@@ -87,21 +104,6 @@
                 ctx.fillStyle = this.color;
                 ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI, true);
                 ctx.fill(); 
-            }
-
-            collision() {
-                if (this.x < 0){
-                    this.x = canvas.width;
-                } 
-                if (this.x > canvas.width){
-                    this.x = 0
-                }  
-                if (this.y < 0){
-                    this.y = canvas.height;
-                } 
-                if (this.y > canvas.height){
-                    this.y = 0
-                } 
             }
 
             update() {
@@ -142,21 +144,6 @@
                 ctx.fill(); 
             }
 
-            collision() {
-                if (this.x < 0){
-                    this.x = canvas.width;
-                } 
-                if (this.x > canvas.width){
-                    this.x = 0
-                }  
-                if (this.y < 0){
-                    this.y = canvas.height;
-                } 
-                if (this.y > canvas.height){
-                    this.y = 0
-                } 
-            }
-
             apply(force) {
                 this.a.x += force.x / this.m;
                 this.a.y += force.y / this.m;
@@ -172,13 +159,21 @@
             }
         }
 
+        function reset() {
+            secondaries = [];
+            // ctx.fillStyle = 'rgba(0, 0, 0, .0)';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
         function update() {
             const myTimeout = setTimeout(() => {
                 ctx.fillStyle = 'rgba(0, 0, 0, .0)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+                G = document.getElementById('G').value;
+                document.getElementById('Gvalue').innerHTML = 'G: ' + G;
+
                 primaries.forEach(primary => {
-                    primary.collision();
                     primary.update();
                     primary.draw();
                 });

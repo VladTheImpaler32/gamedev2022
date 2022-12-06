@@ -30,11 +30,9 @@
             align-items: center;
         }
         .left {
-            display: flex;
             align-content: flex-start;
             flex-direction: row;
             flex-wrap: wrap;
-            /* flex-basis: 10%; */
             font-size: large;
             flex: 1 0;
         }
@@ -47,7 +45,7 @@
     </style>
 </head>
 <body onload="{init();update();}">
-    <div class="left"><p></p><p>Click and drag to slingshot ball <br></p><p></p>SCP-018:<input type="checkbox" id="SCP-018"></div>
+    <div class="left"><p></p><p>Click and drag to slingshot ball <br></p><p></p><div>SCP-018:<input type="checkbox" id="SCP-018"></div><div>Moon Grav:<input type="checkbox" id="moon"></div></div>
     <div class="center">
     <h1>Bounce by Ambrose</h1>
     <canvas id="myCanvas" width="1200" height="600" style="border:1px solid #000000;"></canvas>
@@ -198,6 +196,11 @@
                     restitution = -2
                 } else {
                     restitution = -0.7
+                }
+                if (document.getElementById('moon').checked) {
+                    ag = 1.62;
+                } else {
+                    ag = 9.81;
                 }
 
                 primaries.forEach(primary => {

@@ -23,6 +23,7 @@
             min-height: 100vh;
         }
         .center {
+            user-select: none;
             display: flex;
             flex-direction: column;
             flex: 5;
@@ -30,9 +31,12 @@
         }
         .left {
             display: flex;
-            flex-direction: column;
+            align-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* flex-basis: 10%; */
             font-size: large;
-            flex: 1;
+            flex: 1 0;
         }
         .right {
             display: flex;
@@ -43,7 +47,7 @@
     </style>
 </head>
 <body onload="{init();update();}">
-    <div class="left"><p></p><p>Click and drag to slingshot ball</p></div>
+    <div class="left"><p></p><p>Click and drag to slingshot ball <br></p><p></p>SCP-018:<input type="checkbox" id="SCP-018"></div>
     <div class="center">
     <h1>Bounce by Ambrose</h1>
     <canvas id="myCanvas" width="1200" height="600" style="border:1px solid #000000;"></canvas>
@@ -56,7 +60,8 @@
         let framerate = 1/100;
         let Cd = 0.47;
         let rho = 1.22;
-        let ag = 9.81; 
+        let ag = 9.81;
+        let restitution = -0.7;
         let mouse = {
             x: 0, 
             y: 0, 
@@ -74,7 +79,6 @@
                 this.m = m
                 this.r = r;
                 this.color = color
-                this.restitution = -0.7;
             }
 
             drawPoint() {
@@ -95,19 +99,19 @@
 
             collision() {
                 if (this.pos.y > canvas.height - this.r) {
-                    this.vel.y *= this.restitution;
+                    this.vel.y *= restitution;
                     this.pos.y = canvas.height - this.r;
                 }
                 if (this.pos.y < this.r) {
-                    this.vel.y *= this.restitution;
+                    this.vel.y *= restitution;
                     this.pos.y = this.r;
                 }
                 if (this.pos.x > canvas.width - this.r) {
-                    this.vel.x *= this.restitution;
+                    this.vel.x *= restitution;
                     this.pos.x = canvas.width - this.r;
                 }
                 if (this.pos.x < this.r) {
-                    this.vel.x *= this.restitution;
+                    this.vel.x *= restitution;
                     this.pos.x = this.r;
                 }
             }
@@ -189,6 +193,12 @@
             const myTimeout = setTimeout(() => {
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
                 ctx.fillRect(0, 0, canvas.width*2, canvas.height*2);
+
+                if (document.getElementById('SCP-018').checked) {
+                    restitution = -2
+                } else {
+                    restitution = -0.7
+                }
 
                 primaries.forEach(primary => {
                     primary.update();

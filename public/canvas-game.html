@@ -500,7 +500,7 @@ function spawnEnemy() {
         if (distance <= deadzone) {
             spawnEnemy();
         } else {
-            if (timer <= 50) {
+            // if (timer <= 50) {
                 if (enemyCount % 15 == 0) {
                     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
                     console.log(Enemies);
@@ -510,11 +510,11 @@ function spawnEnemy() {
                     console.log(Enemies);
                     spawnEnemy();
                 }
-            } else if (timer >= 50) {
-                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                spawnEnemy();
-            }
+            // } else if (timer >= 50) {
+            //     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+            //     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+            //     spawnEnemy();
+            // }
             
         }
         if (died == true) {

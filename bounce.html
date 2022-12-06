@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <link rel="stylesheet" href="global.css">
+    <title>Bounce</title>
+    <style>
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        body {
+            padding-left: 1em;
+            padding-right: 1em;
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .center {
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            flex: 5;
+            align-items: center;
+        }
+        .left {
+            align-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            font-size: large;
+            flex: 1 0;
+        }
+        .right {
+            display: flex;
+            flex-direction: column;
+            font-size: large;
+            flex: 1;
+        }
+    </style>
+</head>
+<body onload="{init();update();}">
+    <div class="left"><p></p><p>Click and drag to slingshot ball <br></p><p></p><div>SCP-018:<input type="checkbox" id="SCP-018"></div><div>Moon Grav:<input type="checkbox" id="moon"></div></div>
+    <div class="center">
+    <h1>Bounce by Ambrose</h1>
+    <canvas id="myCanvas" width="1200" height="600" style="border:1px solid #000000;"></canvas>
+    </div>
+    <div class="right"></div>
+    <script>
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext("2d");
+        let primaries = [];
+        let framerate = 1/100;
+        let Cd = 0.47;
+        let rho = 1.22;
+        let ag = 9.81;
+        let restitution = -0.7;
+        let mouse = {
+            x: 0, 
+            y: 0, 
+            down: false
+        };
+
+        function init() {
+            primaries.push(new primary(canvas.width/2, canvas.height/2, 9, 1, 'red'));
+        }
+
+        class primary {
+            constructor(x, y, r, m, color) {
+                this.pos = {x: x, y: y}
+                this.vel = {x: 2, y: 0}
+                this.m = m
+                this.r = r;
+                this.color = color
+            }
+
+            drawPoint() {
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.pos.x, this.pos.y, this.r, 0, Math.PI*2, true);
+                ctx.fill();
+            }
+
+            drawLine() {
+                if (mouse.down) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.pos.x, this.pos.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                }
+            }
+
+            collision() {
+                if (this.pos.y > canvas.height - this.r) {
+                    this.vel.y *= restitution;
+                    this.pos.y = canvas.height - this.r;
+                }
+                if (this.pos.y < this.r) {
+                    this.vel.y *= restitution;
+                    this.pos.y = this.r;
+                }
+                if (this.pos.x > canvas.width - this.r) {
+                    this.vel.x *= restitution;
+                    this.pos.x = canvas.width - this.r;
+                }
+                if (this.pos.x < this.r) {
+                    this.vel.x *= restitution;
+                    this.pos.x = this.r;
+                }
+            }
+
+            update() {
+                if (!mouse.down) {
+                    let A = Math.PI * this.r * this.r / (10000);
+
+                    //drag force: Fd = -1/2 * Cd * A * rho * v * v
+                    let Fx = -0.5 * Cd * A * rho * this.vel.x * this.vel.x;
+                    let Fy = -0.5 * Cd * A * rho * this.vel.y * this.vel.y;
+
+                    //friction: Ffr = mu * N
+                    let friction = {x: this.vel.x, y: this.vel.y};
+                    let frictionMag = Math.sqrt(friction.x * friction.x + friction.y + friction.y);
+                    friction = {x: (friction.x / frictionMag) * -1, y: (friction.y / frictionMag) * -1};
+
+                    let mu = 0.3;
+                    let N = this.m;
+                    let muMag = mu * N;
+                    friction = {x: friction.x  * muMag, y: friction.y * muMag};
+
+                    friction.x = (isNaN(friction.x) ? 0 : friction.x);
+                    friction.y = (isNaN(friction.y) ? 0 : friction.y);
+
+                    Fx = (isNaN(Fx) ? 0 : Fx);
+                    Fy = (isNaN(Fy) ? 0 : Fy);
+
+                    let ax = (Fx + friction.x) / this.m
+                    let ay = ag + ((Fy + friction.y) / this.m)
+
+                    this.vel.x += ax * framerate;
+                    this.vel.y += ay * framerate;
+                    this.pos.x  += this.vel.x * framerate * 100;
+                    this.pos.y += this.vel.y * framerate * 100;
+                }
+            }
+
+        }
+
+        canvas.addEventListener('mousemove', function (e) {
+            mousePos(e);
+        })
+        canvas.addEventListener('mousedown', function (e) {
+            mouseDown(e);
+        })
+        canvas.addEventListener('mouseup', function (e) {
+            mouseUp(e);
+        })
+
+        function mousePos(e) {
+            mouse.x = e.offsetX;
+            mouse.y = e.offsetY;
+        }
+
+        function mouseDown(e) {
+            if (e.which == 1) {
+                mousePos(e)
+                mouse.down = true;
+                primaries.forEach(primary => {
+                    primary.pos.x = mouse.x;
+                    primary.pos.y = mouse.y;
+                });
+            }
+        }
+
+        function mouseUp(e) {
+            if (e.which == 1) {
+                mouse.down = false;
+                primaries.forEach(primary => {
+                    primary.vel.x = (primary.pos.x - mouse.x) / 10;
+                    primary.vel.y = (primary.pos.y - mouse.y) / 10;
+                });
+            }
+        }
+        
+
+        function update() {
+            const myTimeout = setTimeout(() => {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.fillRect(0, 0, canvas.width*2, canvas.height*2);
+
+                if (document.getElementById('SCP-018').checked) {
+                    restitution = -2
+                } else {
+                    restitution = -0.7
+                }
+                if (document.getElementById('moon').checked) {
+                    ag = 1.62;
+                } else {
+                    ag = 9.81;
+                }
+
+                primaries.forEach(primary => {
+                    primary.update();
+                    primary.collision();
+                    primary.drawLine();
+                    primary.drawPoint();
+                });
+
+                update();   
+            }, 1)}
+    </script>
+</body>
+</html>

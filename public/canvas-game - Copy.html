@@ -201,28 +201,46 @@ code: {
                 this.x += this.xSpeed;
                 this.y += this.ySpeed;
             } else {
-                this.xSpeed = dx / factor;
-                this.ySpeed = dy / factor;
-                let target = {x: block0.x, y: block0.y};
-                let prediction = {x:block0.xSpeed * 50, y:block0.ySpeed * 50}
-                target.x += prediction.x;
-                target.y += prediction.y;
-
-                let force = {x: target.x - this.x, y: target.y - this.y};
-                let forceMag = (force.x * force.x) + (force.y * force.y);
-                force = {x: force.x / forceMag, y: force.y / forceMag};
-                force = {x: force.x - this.xSpeed, y: force.y - this.ySpeed};
+                let force = {x: block0.x - this.x, y: block0.y - this.y};
+                let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
+                force = {x: (force.x / forceMag)*1, y: (force.y / forceMag)*1};//normalize and mult by maxspeed
+                force = {x: force.x - this.xSpeed, y: force.y - this.ySpeed};//sub vel from force
                 force = {x: Math.max(force.x, 0.25), y: Math.max(force.y, 0.25)}
-                
+
                 this.acc.x += force.x;
                 this.acc.y += force.y;
 
                 this.xSpeed += this.acc.x;
                 this.ySpeed += this.acc.y;
+                this.xSpeed = Math.max(this.xSpeed, 10);
+                this.ySpeed = Math.max(this.ySpeed, 10);
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
+                this.acc = {x: 0, y: 0};
 
-                this.x += this.xSpeed + target.x;
-                this.y += this.ySpeed + target.y;
-                console.log(target)
+                console.log(this.acc, force, forceMag)
+
+
+                // this.xSpeed = dx / factor;
+                // this.ySpeed = dy / factor;
+                // let target = {x: block0.x, y: block0.y};
+                // let prediction = {x:block0.xSpeed * 10, y:block0.ySpeed * 10}
+                // target.x += prediction.x;
+                // target.y += prediction.y;
+
+                
+                
+                // force = {x: Math.max(force.x, 0.25), y: Math.max(force.y, 0.25)}
+                
+                // this.acc.x += force.x;
+                // this.acc.y += force.y;
+
+                // this.xSpeed += this.acc.x;
+                // this.ySpeed += this.acc.y;
+
+                // this.x += this.xSpeed;
+                // this.y += this.ySpeed;
+                // console.log(target)
             }
             // this.x += this.xSpeed;
             // this.y += this.ySpeed; \

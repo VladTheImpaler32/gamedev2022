@@ -177,7 +177,7 @@ code: {
 
     const Enemies = [];
     class Enemy {
-        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor, radius, health) {
+        constructor(x, y, xSpeed, ySpeed, Speed, enemyColor, radius, health, canEvade) {
             this.x = x;
             this.y = y;
             this.xSpeed = xSpeed;
@@ -186,29 +186,85 @@ code: {
             this.enemyColor = enemyColor;
             this.radius = radius;
             this.health = health;
+            this.canEvade = canEvade;
         }
         update() {
-            let distance = Math.sqrt((block0.x - this.x)*(block0.x - this.x) + (block0.y - this.y)*(block0.y - this.y));
-            let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
+            let bulletDistance;
+            let avoidDist = 20;
+            let bulletDistanceTemp = [];
+            let loggedBullet = [];
+            let bulletFinal = {x:null, y: null};
+            if (this.canEvade == true) {
+                Bullets.forEach(bullet => {
+                    bulletDistance = Math.sqrt((bullet.x - this.x)*(bullet.y - this.y)+(bullet.y- this.y)*(bullet.y - this.y))                
+                    bulletDistance = (isNaN(bulletDistance) ? 0 : bulletDistance);
+                    loggedBullet.push(bullet);
+                    bulletDistanceTemp.push(bulletDistance);
+                    bulletFinal = loggedBullet[bulletDistanceTemp.indexOf(Math.max(...bulletDistanceTemp))]
+                });
 
-            let target = {x: block0.x, y: block0.y};
-            let prediction = {x: block0.xSpeed*persueDist, y: block0.ySpeed*persueDist};
-            target.x += prediction.x;
-            target.y += prediction.y;
+                if (bulletDistance < 50 && (bulletFinal.x > 0 || bulletFinal.y) > 0) {
+                    let targetBlt = {x: bulletFinal.x, y: bulletFinal.y}
+                    let predictionBlt = {x: bulletFinal.x*avoidDist, y: bulletFinal.x*avoidDist}
+                    targetBlt.x += predictionBlt.x;
+                    targetBlt.y += predictionBlt.y;
 
-            let force = {x: target.x - this.x, y: target.y - this.y};//get diff
-            let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
-            force = {x: (force.x / forceMag), y: (force.y / forceMag)};//normalize and mult by maxspeed
-            if (distance >= canvas_diagonal/2) {
-                this.xSpeed = -force.x;
-                this.ySpeed = -force.y;
-                this.x += this.xSpeed;
-                this.y += this.ySpeed;
+                    let forceBlt = {x: targetBlt.x - this.x, y: targetBlt.y - this.y};
+                    let forceBltMag = Math.sqrt((forceBlt.x * forceBlt.x) + (forceBlt.y * forceBlt.y));
+                    forceBlt = {x: (forceBlt.x / forceBltMag), y: (forceBlt.y / forceBltMag)};
+                    this.xSpeed = -forceBlt.x;
+                    this.ySpeed = -forceBlt.y;
+                    this.x += this.xSpeed;
+                    this.y += this.ySpeed;
+                } else {
+                
+                    let distance = Math.sqrt((block0.x - this.x)*(block0.x - this.x) + (block0.y - this.y)*(block0.y - this.y));
+                    let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
+
+                    let target = {x: block0.x, y: block0.y};
+                    let prediction = {x: block0.xSpeed*persueDist, y: block0.ySpeed*persueDist};
+                    target.x += prediction.x;
+                    target.y += prediction.y;
+
+                    let force = {x: target.x - this.x, y: target.y - this.y};//get diff
+                    let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
+                    force = {x: (force.x / forceMag), y: (force.y / forceMag)};//normalize and mult by maxspeed
+                    if (distance >= canvas_diagonal/2) {
+                        this.xSpeed = -force.x;
+                        this.ySpeed = -force.y;
+                        this.x += this.xSpeed;
+                        this.y += this.ySpeed;
+                    } else {
+                        this.xSpeed = force.x;
+                        this.ySpeed = force.y;
+                        this.x += this.xSpeed;
+                        this.y += this.ySpeed;
+                    }
+                }
+                
             } else {
-                this.xSpeed = force.x;
-                this.ySpeed = force.y;
-                this.x += this.xSpeed;
-                this.y += this.ySpeed;
+                let distance = Math.sqrt((block0.x - this.x)*(block0.x - this.x) + (block0.y - this.y)*(block0.y - this.y));
+                let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
+
+                let target = {x: block0.x, y: block0.y};
+                let prediction = {x: block0.xSpeed*persueDist, y: block0.ySpeed*persueDist};
+                target.x += prediction.x;
+                target.y += prediction.y;
+
+                let force = {x: target.x - this.x, y: target.y - this.y};//get diff
+                let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
+                force = {x: (force.x / forceMag), y: (force.y / forceMag)};//normalize and mult by maxspeed
+                if (distance >= canvas_diagonal/2) {
+                    this.xSpeed = -force.x;
+                    this.ySpeed = -force.y;
+                    this.x += this.xSpeed;
+                    this.y += this.ySpeed;
+                } else {
+                    this.xSpeed = force.x;
+                    this.ySpeed = force.y;
+                    this.x += this.xSpeed;
+                    this.y += this.ySpeed;
+                }
             }
         }
         draw() {
@@ -295,16 +351,16 @@ code: {
         }
         collision() {
             if (this.x < 0){
-                Bullets.splice(this, 1)
+                Bullets.splice(Bullets.indexOf(this), 1)
             } 
             if (this.x > canvas.width){
-                Bullets.splice(this, 1)
+                Bullets.splice(Bullets.indexOf(this), 1)
             }  
             if (this.y < 0){
-                Bullets.splice(this, 1)
+                Bullets.splice(Bullets.indexOf(this), 1)
             } 
             if (this.y > canvas.height){
-                Bullets.splice(this, 1)
+                Bullets.splice(Bullets.indexOf(this), 1)
             } 
         }
         bulletCollide() {
@@ -315,12 +371,11 @@ code: {
                     if (gunType == 3 && distance < 10) {
                         enemy.health -= 10;
                     } else if (distance < 5 && gunType !== 3) {
-                        Bullets.splice(this, 1);
+                        Bullets.splice(Bullets.indexOf(this), 1);
                         enemy.health -= 1;
                     }
                     if (enemy.health < 1) {
                         Enemies.splice(Enemies.indexOf(enemy), 1);       
-                        console.log(enemy, Enemies)
                     }
                 
             })
@@ -464,9 +519,6 @@ window.addEventListener('keydown', function (e) {
 window.addEventListener('keyup', function (e) {
     key[e.keyCode] = (e.type == "keydown");            
 })
-window.addEventListener('click', function (e) {
-    spawnBullet();
-})
 window.addEventListener('mousedown', function (e) {
     mouseDown = true;
 })
@@ -474,24 +526,28 @@ window.addEventListener('mouseup', function (e) {
     mouseDown = false;
 })
 canvas.addEventListener('click', function (e) {
-    var getMousePos = mousePos(canvas, e);
-    if (isInside(getMousePos,button1)){
-        gunType = 1;
-        main();
-        button1 = button2 = button3 = button4 = 0;
-    }else if (isInside(getMousePos,button2)){
-        gunType = 2;
-        main();
-        button1 = button2 = button3 = button4 = 0;
-    }else if (isInside(getMousePos,button3)){
-        gunType = 3;
-        main();
-        button1 = button2 = button3 = button4 = 0;
-    }else if (isInside(getMousePos,button4)){
-        gunType = 4;
-        bulletTemp = 1375;
-        main();
-        button1 = button2 = button3 = button4 = 0;
+    if (!GameRunning) {
+        var getMousePos = mousePos(canvas, e);
+        if (isInside(getMousePos,button1)){
+            gunType = 1;
+            main();
+            button1 = button2 = button3 = button4 = 0;
+        }else if (isInside(getMousePos,button2)){
+            gunType = 2;
+            main();
+            button1 = button2 = button3 = button4 = 0;
+        }else if (isInside(getMousePos,button3)){
+            gunType = 3;
+            main();
+            button1 = button2 = button3 = button4 = 0;
+        }else if (isInside(getMousePos,button4)){
+            gunType = 4;
+            bulletTemp = 1375;
+            main();
+            button1 = button2 = button3 = button4 = 0;
+        }
+    } else {
+        spawnBullet();
     }
 })
 
@@ -499,10 +555,19 @@ function spawnEnemy() {
     enemyTimeout = setTimeout(() => {
         enemyCount += 1;
         deadzone = 150;
+        tempColor = 'red';
         x = Math.floor(Math.random() * canvas.width);
         y = Math.floor(Math.random() * canvas.height);
         x1 = Math.floor(Math.random() * canvas.width);
         y1 = Math.floor(Math.random() * canvas.height);
+        evadeRand = Math.floor(Math.random() * 5);
+        if (evadeRand == 4) {
+            canEvade = true;
+            tempColor = 'maroon';
+        } else {
+            canEvade = false;
+            tempColor = 'red';
+        }
 
         dx = block0.x - x;
         dy = block0.y - y;
@@ -514,51 +579,46 @@ function spawnEnemy() {
             if (timer >= 0) {
                 persueDist = 0;
                 if (enemyCount % 30 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 50) {
                 persueDist = 15;
                 if (enemyCount % 15 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 100) {
                 persueDist = 30;
                 if (enemyCount % 7.5 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 150) {
                 persueDist = 30;
                 if (enemyCount % 7.5 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
-                    Enemies.push(new Enemy(x1, y1, 0, 0, 0.8, 'red', 7.5, 1));
-                    console.log(Enemies);
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x1, y1, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             }
             
         }
+        tempColor = 'red';
+        canEvade = false;
+        evadeRand = 0;
         if (died == true) {
             clearTimeout(enemyTimeout);
         }
@@ -731,14 +791,12 @@ function upload() {
         let score = Math.round(timer);
         let type = gunType;
             sendData = {userName, score, type};
-            console.log(sendData);
 
         $.ajax({
                 type        : 'POST', 
                 url         : 'https://www.ambroseallison.com/other/leaderboard.php', 
                 data        : sendData, 
                 success: function( response ) {
-                    console.log( response );
                 }
         });
     }

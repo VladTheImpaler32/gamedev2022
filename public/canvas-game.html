@@ -319,7 +319,7 @@ code: {
                         enemy.health -= 1;
                     }
                     if (enemy.health < 1) {
-                        Enemies.splice(enemy, 1);       
+                        Enemies.splice(Enemies.indexOf(enemy), 1);       
                         console.log(enemy, Enemies)
                     }
                 

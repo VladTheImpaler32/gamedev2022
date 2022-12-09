@@ -80,7 +80,7 @@
     <div class="uploadWrapper">
     <form>
         <div id="uploadMessage" style="display: none;">Do you want to upload your score?</div>
-        <input type="text" name="userName" id="userName" placeholder="Your name here" style="display: none;" required>
+        <input type="text" name="userName" id="userName" placeholder="maximum 30 characters" style="display: none;" required>
         <input id="uploadButton" type="submit" value="Upload" onclick="{upload();}" style="display: none;"><br>
     </form>
     <table id="table2">
@@ -108,6 +108,7 @@ code: {
     let timer = 0;
     let dx;
     let dy;
+    let persueDist = 0;
     let sniperX;
     let sniperY;
     let distance;
@@ -187,17 +188,27 @@ code: {
             this.health = health;
         }
         update() {
-            dx = block0.x - this.x;
-            dy = block0.y - this.y;
-            distance = Math.sqrt(dx*dx + dy*dy);
-            factor = distance / this.Speed;
+            let distance = Math.sqrt((block0.x - this.x)*(block0.x - this.x) + (block0.y - this.y)*(block0.y - this.y));
             let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
+
+            let target = {x: block0.x, y: block0.y};
+            let prediction = {x: block0.xSpeed*persueDist, y: block0.ySpeed*persueDist};
+            target.x += prediction.x;
+            target.y += prediction.y;
+
+            let force = {x: target.x - this.x, y: target.y - this.y};//get diff
+            let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
+            force = {x: (force.x / forceMag), y: (force.y / forceMag)};//normalize and mult by maxspeed
             if (distance >= canvas_diagonal/2) {
-                this.xSpeed = -(dx / factor);
-                this.ySpeed = -(dy / factor);
+                this.xSpeed = -force.x;
+                this.ySpeed = -force.y;
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
             } else {
-                this.xSpeed = dx / factor;
-                this.ySpeed = dy / factor;
+                this.xSpeed = force.x;
+                this.ySpeed = force.y;
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
             }
         }
         draw() {
@@ -205,8 +216,6 @@ code: {
             ctx.fillStyle = this.enemyColor;
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
             ctx.fill(); 
-            this.x += this.xSpeed;
-            this.y += this.ySpeed; 
         }
         collision() {
             if (this.x < 0){
@@ -330,13 +339,13 @@ code: {
 
     }
 
-function mousePos(canvas, event) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: event.offsetX,
-        y: event.offsetY
-    };
-}
+    function mousePos(canvas, event) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: event.offsetX,
+            y: event.offsetY
+        };
+    }
 
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
@@ -491,7 +500,9 @@ function spawnEnemy() {
         enemyCount += 1;
         deadzone = 150;
         x = Math.floor(Math.random() * canvas.width);
-        y = Math.floor(Math.random() * canvas.height)
+        y = Math.floor(Math.random() * canvas.height);
+        x1 = Math.floor(Math.random() * canvas.width);
+        y1 = Math.floor(Math.random() * canvas.height);
 
         dx = block0.x - x;
         dy = block0.y - y;
@@ -500,7 +511,19 @@ function spawnEnemy() {
         if (distance <= deadzone) {
             spawnEnemy();
         } else {
-            // if (timer <= 50) {
+            if (timer >= 0) {
+                persueDist = 0;
+                if (enemyCount % 30 == 0) {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+                    console.log(Enemies);
+                    spawnEnemy();
+                } else {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
+                    console.log(Enemies);
+                    spawnEnemy();
+                }
+            } else if (timer >= 50) {
+                persueDist = 15;
                 if (enemyCount % 15 == 0) {
                     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
                     console.log(Enemies);
@@ -510,11 +533,30 @@ function spawnEnemy() {
                     console.log(Enemies);
                     spawnEnemy();
                 }
-            // } else if (timer >= 50) {
-            //     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-            //     Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
-            //     spawnEnemy();
-            // }
+            } else if (timer >= 100) {
+                persueDist = 30;
+                if (enemyCount % 7.5 == 0) {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+                    console.log(Enemies);
+                    spawnEnemy();
+                } else {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
+                    console.log(Enemies);
+                    spawnEnemy();
+                }
+            } else if (timer >= 150) {
+                persueDist = 30;
+                if (enemyCount % 7.5 == 0) {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 15, 3));
+                    console.log(Enemies);
+                    spawnEnemy();
+                } else {
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, 'red', 7.5, 1));
+                    Enemies.push(new Enemy(x1, y1, 0, 0, 0.8, 'red', 7.5, 1));
+                    console.log(Enemies);
+                    spawnEnemy();
+                }
+            }
             
         }
         if (died == true) {

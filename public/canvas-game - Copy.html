@@ -190,11 +190,34 @@ code: {
         }
         update() {
             let bulletDistance;
+            let avoidDist = 20;
+            let bulletDistanceTemp = [];
+            let loggedBullet = [];
+            let bulletFinal;
             if (this.canEvade == true) {
                 Bullets.forEach(bullet => {
                     bulletDistance = Math.sqrt((bullet.x - this.x)*(bullet.y - this.y)+(bullet.y- this.y)*(bullet.y - this.y))                
+                    bulletDistance = (isNaN(bulletDistance) ? 0 : bulletDistance);
+                    loggedBullet.push(bullet);
+                    bulletDistanceTemp.push(bulletDistance);
+                    bulletFinal = loggedBullet[bulletDistanceTemp.indexOf(Math.max(...bulletDistanceTemp))]
                 });
-                bulletDistance = (isNaN(bulletDistance) ? 0 : bulletDistance);
+
+                let targetBlt = {x: bulletFinal.x, y: bulletFinal.y}
+                let predictionBlt = {x: bulletFinal.x*avoidDist, y: bulletFinal.x*avoidDist}
+                targetBlt.x += predictionBlt.x;
+                targetBlt.y += predictionBlt.y;
+
+                let forceBlt = {x: targetBlt.x - this.x, y: targetBlt.y - this.y};
+                let forceBltMag = Math.sqrt((forceBlt.x * forceBlt.x) + (forceBlt.y * forceBlt.y));
+                forceBlt = {x: (forceBlt.x / forceBltMag), y: (forceBlt.y / forceBltMag)};
+                this.xSpeed = -forceBlt.x;
+                this.ySpeed = -forceBlt.y;
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
+                
+
+
                 let distance = Math.sqrt((block0.x - this.x)*(block0.x - this.x) + (block0.y - this.y)*(block0.y - this.y));
                 let canvas_diagonal = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width))
 

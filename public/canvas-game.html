@@ -75,7 +75,7 @@
     </div>
     <div class="canvasWrapper">
         <h1 align=center>shoutout gaming</h1>
-        <canvas id="myCanvas" class="myCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
+        <canvas id="myCanvas" class="myCanvas" width="600" height="600" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
     </div>
     <div class="uploadWrapper">
     <form>
@@ -253,7 +253,7 @@ code: {
 
                 let force = {x: target.x - this.x, y: target.y - this.y};//get diff
                 let forceMag = Math.sqrt((force.x * force.x) + (force.y * force.y));//find magnitude
-                force = {x: (force.x / forceMag), y: (force.y / forceMag)};//normalize and mult by maxspeed
+                force = {x: (force.x / forceMag) * this.Speed, y: (force.y / forceMag) * this.Speed};//normalize and mult by maxspeed
                 if (distance >= canvas_diagonal/2) {
                     this.xSpeed = -force.x;
                     this.ySpeed = -force.y;
@@ -290,7 +290,7 @@ code: {
         enemyCollide() {
             let G = 2;
             let player_detect_radius = 10;
-            let detect_radius = 100;
+            let detect_radius = 25;
             Enemies.forEach((enemy) => {
 
                 dx = block0.x - this.x;
@@ -449,6 +449,7 @@ function cursor(event) {
 
 function main() {
     GameRunning = true;
+    document.getElementById('myCanvas').style.cursor = 'none';
     spawnEnemy();
     update();
 }
@@ -525,6 +526,7 @@ window.addEventListener('mousedown', function (e) {
 window.addEventListener('mouseup', function (e) {
     mouseDown = false;
 })
+
 canvas.addEventListener('click', function (e) {
     if (!GameRunning) {
         var getMousePos = mousePos(canvas, e);
@@ -560,8 +562,8 @@ function spawnEnemy() {
         y = Math.floor(Math.random() * canvas.height);
         x1 = Math.floor(Math.random() * canvas.width);
         y1 = Math.floor(Math.random() * canvas.height);
-        evadeRand = Math.floor(Math.random() * 5);
-        if (evadeRand == 4) {
+        evadeRand = Math.floor(Math.random() * 6);
+        if (evadeRand == 1) {
             canEvade = true;
             tempColor = 'maroon';
         } else {
@@ -579,38 +581,38 @@ function spawnEnemy() {
             if (timer >= 0) {
                 persueDist = 0;
                 if (enemyCount % 30 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 50) {
                 persueDist = 15;
                 if (enemyCount % 15 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 100) {
                 persueDist = 30;
                 if (enemyCount % 7.5 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             } else if (timer >= 150) {
                 persueDist = 30;
                 if (enemyCount % 7.5 == 0) {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 15, 3, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 15, 3, canEvade));
                     spawnEnemy();
                 } else {
-                    Enemies.push(new Enemy(x, y, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
-                    Enemies.push(new Enemy(x1, y1, 0, 0, 0.8, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x, y, 0, 0, 0.9, tempColor, 7.5, 1, canEvade));
+                    Enemies.push(new Enemy(x1, y1, 0, 0, 0.9, tempColor, 7.5, 1, canEvade));
                     spawnEnemy();
                 }
             }
@@ -726,13 +728,23 @@ function minigunRecharge() {
     }
 }
 
+function drawPointer() {
+    ctx.beginPath();
+    ctx.fillStyle = 'white';
+    ctx.arc(mouseX, mouseY, 3, 0, 2 * Math.PI, true);
+    ctx.fill(); 
+}
 
 function update() {
     const myTimeout = setTimeout(() => {
         timer += 0.01;
         document.getElementById('timer').innerHTML = 'score: ' + Math.round(timer);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        draw0();
         collision0();
+        drawPointer();
+
         if (mouseDown == true) {
             minigun();
         }
@@ -760,10 +772,10 @@ function update() {
             bullet.sniper();
         });
 
-        draw0();
         update();   
     }, Speed)
     if (died == true) {
+        document.getElementById('myCanvas').style.cursor = 'default';
         clearTimeout(myTimeout);
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, canvas.width, canvas.height);

@@ -750,7 +750,6 @@ function update() {
 
         draw0();
         collision0();
-        drawPointer();
 
         if (mouseDown == true) {
             minigun();
@@ -778,6 +777,8 @@ function update() {
             bullet.bulletCollide();
             bullet.sniper();
         });
+
+        drawPointer();
 
         update();   
     }, Speed)
@@ -820,7 +821,6 @@ function upload() {
         });
     }
 }
-
 
 function draw0() {
     ctx.beginPath();

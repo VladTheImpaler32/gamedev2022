@@ -45,16 +45,19 @@
     </style>
 </head>
 <body onload="{init();update();}">
-    <div class="left"><p></p><p>Click and drag to slingshot ball <br></p><p></p><div>SCP-018:<input type="checkbox" id="SCP-018"></div><div>Moon Grav:<input type="checkbox" id="moon"></div></div>
+    <div class="left"></div>
     <div class="center">
-    <h1>Bounce by Ambrose</h1>
+    <h1>Golf with your imaginary friends</h1>
     <canvas id="myCanvas" width="1200" height="600" style="border:1px solid #000000;"></canvas>
     </div>
     <div class="right"></div>
     <script>
         let canvas = document.getElementById('myCanvas');
         let ctx = canvas.getContext("2d");
-        let primaries = [];
+        let balls = [];
+        let walls = [];
+        let holes = [];
+        let oldMouse;
         let restitution = -0.7;
         let mouse = {
             x: 0, 
@@ -63,13 +66,16 @@
         };
 
         function init() {
-            primaries.push(new primary(canvas.width/2, canvas.height/2, 9, 1, 'red'));
+            holes.push(new hole(1100, 300, 10));
+            walls.push(new wall(900, 100, 20, 500, 0));
+            walls.push(new wall(700, 0, 20, 420, 0));
+            balls.push(new ball(200, 400, 9, 1, 'red'));
         }
 
-        class primary {
+        class ball {
             constructor(x, y, r, m, color) {
                 this.pos = {x: x, y: y}
-                this.vel = {x: 2, y: 0}
+                this.vel = {x: 0, y: 0}
                 this.m = m
                 this.r = r;
                 this.color = color
@@ -83,10 +89,18 @@
             }
 
             drawLine() {
-                if (mouse.down) {
+                let mousedx = mouse.x - this.pos.x;
+                let mousedy = mouse.y - this.pos.y;
+                let mouseDist = Math.sqrt(mousedx*mousedx + mousedy*mousedy);
+                let mouseUnit = {x: mousedx/mouseDist, y: mousedy/mouseDist};
+                if (mouse.down) { 
                     ctx.beginPath();
                     ctx.moveTo(this.pos.x, this.pos.y);
-                    ctx.lineTo(mouse.x, mouse.y);
+                    if (mouseDist < 100) {
+                        ctx.lineTo(mouse.x, mouse.y);
+                    } else {
+                        ctx.lineTo(this.pos.x + mouseUnit.x*100, this.pos.y + mouseUnit.y*100);
+                    }
                     ctx.stroke();
                 }
             }
@@ -110,6 +124,72 @@
                 }
             }
 
+            wallCollide() {
+                walls.forEach(wall => {
+                    //check if ball collides with rotated wall
+                    if (wall.a != 0) {
+                        let dx = this.pos.x - wall.pos.x;
+                        let dy = this.pos.y - wall.pos.y;
+                        let dist = Math.sqrt(dx*dx + dy*dy);
+                        let angle = Math.atan2(dy, dx);
+                        let newAngle = angle - wall.a;
+                        let newdx = dist*Math.cos(newAngle);
+                        let newdy = dist*Math.sin(newAngle);
+                        let newx = wall.pos.x + newdx;
+                        let newy = wall.pos.y + newdy;
+                        if (newx + this.r > wall.pos.x && newx - this.r < wall.pos.x + wall.w) {
+                            if (newy + this.r > wall.pos.y && newy - this.r < wall.pos.y + wall.h) {
+                                //check for collision with top
+                                if (newy - this.r < wall.pos.y) {
+                                    this.vel.y *= restitution;
+                                    this.pos.y = wall.pos.y - this.r;
+                                }
+                                //check for collision with bottom
+                                if (newy + this.r > wall.pos.y + wall.h) {
+                                    this.vel.y *= restitution;
+                                    this.pos.y = wall.pos.y + wall.h + this.r;
+                                }
+                                //check for collision with left
+                                if (newx - this.r < wall.pos.x) {
+                                    this.vel.x *= restitution;
+                                    this.pos.x = wall.pos.x - this.r;
+                                }
+                                //check for collision with right
+                                if (newx + this.r > wall.pos.x + wall.w) {
+                                    this.vel.x *= restitution;
+                                    this.pos.x = wall.pos.x + wall.w + this.r;
+                                }
+                            }
+                        }
+                    } else {
+                        if (this.pos.x + this.r > wall.pos.x && this.pos.x - this.r < wall.pos.x + wall.w) {
+                            if (this.pos.y + this.r > wall.pos.y && this.pos.y - this.r < wall.pos.y + wall.h) {
+                                //check for collision with top
+                                if (this.pos.y - this.r < wall.pos.y) {
+                                    this.vel.y *= restitution;
+                                    this.pos.y = wall.pos.y - this.r;
+                                }
+                                //check for collision with bottom
+                                if (this.pos.y + this.r > wall.pos.y + wall.h) {
+                                    this.vel.y *= restitution;
+                                    this.pos.y = wall.pos.y + wall.h + this.r;
+                                }
+                                //check for collision with left
+                                if (this.pos.x - this.r < wall.pos.x) {
+                                    this.vel.x *= restitution;
+                                    this.pos.x = wall.pos.x - this.r;
+                                }
+                                //check for collision with right
+                                if (this.pos.x + this.r > wall.pos.x + wall.w) {
+                                    this.vel.x *= restitution;
+                                    this.pos.x = wall.pos.x + wall.w + this.r;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
             update() {
                 if (!mouse.down) {
                     this.vel.x *= 0.995;
@@ -121,10 +201,49 @@
         }
 
         class wall {
-            constructor(x, y, w, h) {
-                
+            constructor(x, y, w, h, a) {
+                this.pos = {x: x, y: y}
+                this.w = w;
+                this.h = h;
+                this.a = a;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.pos.x + this.w/2, this.pos.y + this.h/2);
+                ctx.rotate(this.a * Math.PI/180);
+                ctx.translate(-(this.pos.x + this.w/2), -(this.pos.y + this.h/2));
+                ctx.fillStyle = 'grey';
+                ctx.fillRect(this.pos.x, this.pos.y, this.w, this.h);
+                ctx.restore();
             }
         }
+
+        class hole {
+            constructor(x, y, r) {
+                this.pos = {x: x, y: y}
+                this.r = r;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = 'black';
+                ctx.arc(this.pos.x, this.pos.y, this.r, 0, Math.PI*2, true);
+                ctx.fill();
+            }
+
+            ballCollide() {
+                balls.forEach(ball => {
+                    let dx = this.pos.x - ball.pos.x;
+                    let dy = this.pos.y - ball.pos.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist+5 < this.r + ball.r) {
+                        balls.splice(balls.indexOf(ball), 1);
+                    }
+                })
+            }
+        }
+  
 
         canvas.addEventListener('mousemove', function (e) {
             mousePos(e);
@@ -145,9 +264,9 @@
             if (e.which == 1) {
                 mousePos(e)
                 mouse.down = true;
-                primaries.forEach(primary => {
-                    primary.pos.x = mouse.x;
-                    primary.pos.y = mouse.y;
+                balls.forEach(ball => {
+                    ball.pos.x = ball.pos.x;
+                    ball.pos.y = ball.pos.y;
                 });
             }
         }
@@ -155,9 +274,14 @@
         function mouseUp(e) {
             if (e.which == 1) {
                 mouse.down = false;
-                primaries.forEach(primary => {
-                    primary.vel.x += (primary.pos.x - mouse.x) / 10;
-                    primary.vel.y += (primary.pos.y - mouse.y) / 10;
+                balls.forEach(ball => {
+                    let dx = ball.pos.x - mouse.x;
+                    let dy = ball.pos.y - mouse.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let ux = dx / dist;
+                    let uy = dy / dist;
+                    ball.vel.x = ux * (Math.min(dist, 200) / 20);
+                    ball.vel.y = uy * (Math.min(dist, 200) / 20);
                 });
             }
         }
@@ -167,12 +291,22 @@
             const myTimeout = setTimeout(() => {
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
                 ctx.fillRect(0, 0, canvas.width*2, canvas.height*2);
+                 
+                holes.forEach(hole => {
+                    hole.draw();
+                    hole.ballCollide();
+                });
+                
+                walls.forEach(wall => {
+                    wall.draw();
+                });
 
-                primaries.forEach(primary => {
-                    primary.update();
-                    primary.collision();
-                    primary.drawLine();
-                    primary.drawPoint();
+                balls.forEach(ball => {
+                    ball.update();
+                    ball.collision();
+                    ball.wallCollide();
+                    ball.drawLine();
+                    ball.drawPoint();
                 });
 
                 update();   

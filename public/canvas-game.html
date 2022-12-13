@@ -59,11 +59,14 @@
         tr:last-child {
             border-bottom: none;
         }
+        .score {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body onload="{startup();}">
     <div class="scoreWrapper">
-        <p id="timer" class="score">Your Score: </p>
+        <p></p>
         <table id="table1">
             <caption>Pistol</caption>
             <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
@@ -75,6 +78,7 @@
     </div>
     <div class="canvasWrapper">
         <h1 align=center>shoutout gaming</h1>
+        <p id="timer" align="center"c class="score">Your Score: </p>
         <canvas id="myCanvas" class="myCanvas" width="600" height="600" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
     </div>
     <div class="uploadWrapper">
@@ -741,7 +745,7 @@ function drawPointer() {
 function update() {
     const myTimeout = setTimeout(() => {
         timer += 0.01;
-        document.getElementById('timer').innerHTML = 'score: ' + Math.round(timer);
+        document.getElementById('timer').innerHTML = 'Your Score: ' + Math.round(timer);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         draw0();

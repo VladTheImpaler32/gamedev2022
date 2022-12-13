@@ -526,6 +526,7 @@ window.addEventListener('mousedown', function (e) {
 window.addEventListener('mouseup', function (e) {
     mouseDown = false;
 })
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 canvas.addEventListener('click', function (e) {
     if (!GameRunning) {

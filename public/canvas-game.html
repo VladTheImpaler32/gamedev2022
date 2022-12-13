@@ -449,6 +449,8 @@ function cursor(event) {
 
 function main() {
     GameRunning = true;
+    document.getElementById('myCanvas').width = 600;
+    document.getElementById('myCanvas').height = 600;
     document.getElementById('myCanvas').style.cursor = 'none';
     spawnEnemy();
     update();

@@ -661,8 +661,8 @@ function spawnBullet() {
             if (canFire == true) {
                 canFire = false 
                 for (let i = 0; i < 6; i++) {
-                    let Cursordx = (mouseX + (Math.random() * 20) - 10) - block0.x;
-                    let Cursordy = (mouseY + (Math.random() * 20) - 10) - block0.y;
+                    let Cursordx = (mouseX + (Math.random() * 40) - 10) - block0.x;
+                    let Cursordy = (mouseY + (Math.random() * 40) - 10) - block0.y;
                     distance = Math.sqrt(Cursordx*Cursordx + Cursordy*Cursordy);
                     factor = distance / 1;
                     xSpeed = (Cursordx / factor) * (Math.random() * (10 - 7) + 7)/10;

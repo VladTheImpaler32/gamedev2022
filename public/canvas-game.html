@@ -45,40 +45,33 @@
             flex-direction: column;
             /* flex: 1; */
         }
-                table {
+        table {
             background-color: lightgrey;
             border-radius: 1%;
             width: 15vw;
             text-align: center;
             border-collapse: collapse;
         }
-        tr:not(:first-child):hover { 
+        tr:not(:first-child,:nth-child(2)):hover { 
             transform: translateZ(20px) scale(1.025);
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             transition: all 0.25s ease;
         }
-        /* every other row is a darker color */
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
         tr:nth-child(odd) {
             background-color: lightgray;
         }
-        tr:nth-child(2) {
+        tr:nth-child(2):hover {
             background-color: gold;
-            box-shadow: 0 0 20px goldenrod;
+            transform: translateZ(20px) scale(1.025);
+            box-shadow: 0 0 20px rgb(255, 183, 0);
+            transition: all 0.25s ease;
         }
-        tr:nth-child(3) {
-            background-color:silver;
-        }
-        tr:nth-child(4) {
-            background-color: #cd7f32;
-        }
-        tr:first-child {
-            border-top: none;
-        }
-        tr:last-child {
-            border-bottom: none;
+        caption{
+            font-weight: bold;
+            background-color: lightgray;
         }
         .score {
             font-size: 20px;

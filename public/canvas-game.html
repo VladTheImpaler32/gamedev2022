@@ -45,17 +45,28 @@
             flex-direction: column;
             /* flex: 1; */
         }
-        table {
+                table {
+            background-color: lightgrey;
+            border-radius: 1%;
             width: 15vw;
             text-align: center;
             border-collapse: collapse;
         }
-        tr { 
-            border: solid;
-            border-width: 1px 0;
+        tr:not(:first-child):hover { 
+            transform: translateZ(20px) scale(1.025);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.25s ease;
+        }
+        /* every other row is a darker color */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(odd) {
+            background-color: lightgray;
         }
         tr:nth-child(2) {
             background-color: gold;
+            box-shadow: 0 0 20px goldenrod;
         }
         tr:nth-child(3) {
             background-color:silver;

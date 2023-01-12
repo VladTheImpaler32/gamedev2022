@@ -22,25 +22,53 @@
             display: block;
         }
         .canvasWrapper {
-            /* display: flex; */
+            display: flex;
             flex-direction: column;
+            align-items: center;
             flex: 5;
         }
         .scoreWrapper {
             display: flex;
             flex-wrap: wrap;
             font-size: large;
-            /* align-content: flex-start; */
             flex-direction: column;
-            /* flex: 1; */
         }
         .uploadWrapper {
             display: flex;
             flex-wrap: wrap;
             font-size: large;
-            /* align-content: flex-start; */
             flex-direction: column;
-            /* flex: 1; */
+        }
+        form {
+            display: flex;
+            font-size: 150%;
+            flex-direction: column;
+            align-items: center;
+        }
+        #userName {
+            align-self: center;
+            padding: 5px;
+            font-size: 16px;
+            border-width: 1px;
+            border-color: #CCCCCC;
+            background-color: #FFFFFF;
+            color: #000000;
+            border-style: solid;
+        }
+        #userName::placeholder{
+            text-align: center;
+        }
+        #uploadButton {
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-width: 1px;
+            border-color: #CCCCCC;
+            background-color: #FFFFFF;
+            color: #000000;
+            border-style: solid;
         }
         table {
             background-color: lightgrey;
@@ -88,24 +116,25 @@
         </table><br>
     </div>
     <div class="canvasWrapper">
-        <h1 align=center>shoutout gaming</h1>
-        <p id="timer" align="center"c class="score">Your Score: </p>
+        <h1>shoutout gaming</h1>
+        <p id="timer" class="score">Your Score: </p>
+        <form id="form" style="display: none;">
+            <div id="uploadMessage" style="display: none;">Do you want to upload your score?</div>
+            <input type="text" name="userName" id="userName" placeholder="maximum 30 characters" style="display: none;" required>
+            <input id="uploadButton" type="submit" value="Upload" onclick="{upload();}" style="display: none;"><br>
+        </form>
         <canvas id="myCanvas" class="myCanvas" width="600" height="600" style="border: 1px solid #000000; background-color: #000000;" onmousemove="{cursor(event);}"></canvas>
     </div>
     <div class="uploadWrapper">
-    <form>
-        <div id="uploadMessage" style="display: none;">Do you want to upload your score?</div>
-        <input type="text" name="userName" id="userName" placeholder="maximum 30 characters" style="display: none;" required>
-        <input id="uploadButton" type="submit" value="Upload" onclick="{upload();}" style="display: none;"><br>
-    </form>
-    <table id="table2">
-        <caption>Shotgun</caption>
-        <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
-    </table><br>
-    <table id="table4">
-        <caption>Minigun</caption>
-        <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
-    </table><br>
+        <p></p>
+        <table id="table2">
+            <caption>Shotgun</caption>
+            <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
+        </table><br>
+        <table id="table4">
+            <caption>Minigun</caption>
+            <tr><td>Rank</td><td>Name</td><td>Score</td></tr>
+        </table><br>
     </div>
 <script>
 code: {
@@ -135,9 +164,6 @@ code: {
     let Speed = 1;
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
-    // ctx.fillStyle = 'white'
-    // ctx.font = '56px Times New Roman'
-    // ctx.fillText('press space to start', 40, canvas.height/2)
     let img1 = new Image();
     let img2 = new Image();
     let img3 = new Image();
@@ -810,6 +836,7 @@ function update() {
 }
 
 function leaderboard() {
+    document.getElementById('form').style.display = 'flex';
     document.getElementById('uploadButton').style.display = 'block';
     document.getElementById('uploadMessage').style.display = 'block';
     document.getElementById('userName').style.display = 'block';

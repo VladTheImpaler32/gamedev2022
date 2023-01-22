@@ -156,6 +156,7 @@
     }
 
 async function shellSort() {
+    disableButtons();
     let gap = Math.floor(myMax / 2);
     let temp;
     while (gap > 0) {
@@ -172,6 +173,7 @@ async function shellSort() {
         }
         gap = Math.floor(gap / 2);
     }
+    setTimeout(enableButtons, (myMax * delay/2) + delay/2);
 }
 </script>
 </div>

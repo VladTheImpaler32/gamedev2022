@@ -155,26 +155,27 @@
         }
     }
 
-async function shellSort() {
-    disableButtons();
-    let gap = Math.floor(myMax / 2);
-    let temp;
-    while (gap > 0) {
-        for (let start = gap; start < myMax; start++) {
-            temp = myCards[start];
-            let j = start;
-            while (j >= gap && myCards[j - gap] > temp) {
-                myCards[j] = myCards[j - gap];
-                j -= gap;
-                await new Promise(resolve => setTimeout(resolve, delay/2));
+    async function shellSort() {
+        disableButtons();
+        let gap = Math.floor(myMax / 2);
+        let temp;
+        while (gap > 0) {
+            for (let start = gap; start < myMax; start++) {
+                temp = myCards[start];
+                let j = start;
+                while (j >= gap && myCards[j - gap] > temp) {
+                    myCards[j] = myCards[j - gap];
+                    j -= gap;
+                    await new Promise(resolve => setTimeout(resolve, delay/2));
+                    myShow();
+                }
+                myCards[j] = temp;
                 myShow();
             }
-            myCards[j] = temp;
+            gap = Math.floor(gap / 2);
         }
-        gap = Math.floor(gap / 2);
+        setTimeout(enableButtons, (myMax * delay/40));
     }
-    setTimeout(enableButtons, (myMax * delay/2) + delay/2);
-}
 </script>
 </div>
 </body>

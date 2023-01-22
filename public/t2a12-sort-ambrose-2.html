@@ -42,11 +42,12 @@
     }
 </script>
 
-<input type=button value="Randomize" onclick="{
+<input type=button value="Randomize" class="sortbutton" onclick="{
     startup();
     document.getElementById('bubble').disabled = false;
     document.getElementById('insert').disabled = false;
     document.getElementById('select').disabled = false;
+    document.getElementById('merge').disabled = false;
     for (let myLoop = myMax - 1; myLoop > 0; myLoop--) {
         var myTemp = Math.floor(Math.random() * (myLoop + 1));
         var temp = myCards[myLoop];
@@ -66,6 +67,10 @@
 
 <input type=button value="Selection Sort" id="select" class="sortbutton" disabled onclick="{
 	selectionSort();
+}">
+
+<input type=button value="Merge Sort" id="merge" class="sortbutton" disabled onclick="{
+	mergeSort();
 }"><br>
 
 <div class="wrapper">
@@ -75,6 +80,14 @@
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
     ctx.transform(1, 0, 0, -1, 0, 500);
+
+    function disableButtons() {
+        document.querySelectorAll('.sortbutton').forEach(button => button.disabled = true);
+    }
+
+    function enableButtons() {
+        document.querySelectorAll('.sortbutton').forEach(button => button.disabled = false);
+    }
 
     function myShow() {
         let myTemp = ''
@@ -87,6 +100,7 @@
     }
 
     function bubbleSort() {
+        disableButtons();
         for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
             let myTemp = 0
             setTimeout(function(){
@@ -98,44 +112,67 @@
                 }
                 myShow();
             }}, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
         }
     }
 
     function insertionSort() {
+        disableButtons();
         for (let myLoop = 1; myLoop < myMax; myLoop++) {
-            let myTemp = 0
-            setTimeout(function(){
-            for (let myLoop2 = myLoop - 1; myLoop2 > -1; myLoop2--){
-                if (myCards[myLoop2 + 1] <= myCards[myLoop2]) {
-                    myTemp = myCards[myLoop2]
-                    myCards[myLoop2] = myCards[myLoop2+1]
-                    myCards[myLoop2+1] = myTemp
+            setTimeout(function() {
+                let myTemp = myCards[myLoop];
+                let myLoop2 = myLoop - 1;
+                while (myLoop2 > -1 && myCards[myLoop2] > myTemp) {
+                    myCards[myLoop2 + 1] = myCards[myLoop2];
+                    myLoop2--;
                 }
+                myCards[myLoop2 + 1] = myTemp;
                 myShow();
-            }}, myLoop * delay);
+            }, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
         }
     }
 
     function selectionSort() {
+        disableButtons();
         for (let myLoop = 0; myLoop < myMax; myLoop++) {
-            setTimeout(function(){
-            let myTemp = 0
-            let lowest = myLoop;
-            for (let myLoop2 = myLoop + 1; myLoop2 < myMax + 2; myLoop2++) {
-                if (myCards[myLoop2] < myCards[lowest]) {
-                    lowest = myLoop2;
-                } 
-                myShow(); 
-            }
-
-            if (lowest !== myLoop) {
-                myTemp = myCards[myLoop]
-                myCards[myLoop] = myCards[lowest]
-                myCards[lowest] = myTemp
-            }}, myLoop * delay);
-            }
+            setTimeout(function() {
+                let myTemp = 0;
+                let lowest = myLoop;
+                for (let myLoop2 = myLoop + 1; myLoop2 < myMax; myLoop2++) {
+                    if (myCards[myLoop2] < myCards[lowest]) {
+                        lowest = myLoop2;
+                    }
+                }
+                if (lowest !== myLoop) {
+                    myTemp = myCards[myLoop];
+                    myCards[myLoop] = myCards[lowest];
+                    myCards[lowest] = myTemp;
+                }
+                myShow();
+            }, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
         }
+    }
 
+async function mergeSort() {
+    let gap = Math.floor(myMax / 2);
+    let temp;
+    while (gap > 0) {
+        for (let start = gap; start < myMax; start++) {
+            temp = myCards[start];
+            let j = start;
+            while (j >= gap && myCards[j - gap] > temp) {
+                myCards[j] = myCards[j - gap];
+                j -= gap;
+                await new Promise(resolve => setTimeout(resolve, delay/2));
+                myShow();
+            }
+            myCards[j] = temp;
+        }
+        gap = Math.floor(gap / 2);
+    }
+}
 </script>
 </div>
 </body>

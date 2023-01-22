@@ -47,7 +47,7 @@
     document.getElementById('bubble').disabled = false;
     document.getElementById('insert').disabled = false;
     document.getElementById('select').disabled = false;
-    document.getElementById('merge').disabled = false;
+    document.getElementById('shell').disabled = false;
     for (let myLoop = myMax - 1; myLoop > 0; myLoop--) {
         var myTemp = Math.floor(Math.random() * (myLoop + 1));
         var temp = myCards[myLoop];
@@ -69,8 +69,8 @@
 	selectionSort();
 }">
 
-<input type=button value="Merge Sort" id="merge" class="sortbutton" disabled onclick="{
-	mergeSort();
+<input type=button value="Shell Sort" id="shell" class="sortbutton" disabled onclick="{
+	shellSort();
 }"><br>
 
 <div class="wrapper">
@@ -155,7 +155,7 @@
         }
     }
 
-async function mergeSort() {
+async function shellSort() {
     let gap = Math.floor(myMax / 2);
     let temp;
     while (gap > 0) {

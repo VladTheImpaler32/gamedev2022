@@ -1,0 +1,178 @@
+<head>
+<style>
+    .wrapper {
+        padding: 20px;
+    }
+    .myCanvas {
+        display: inline-block;
+        position: absolute;
+        left: 15%;
+    }
+    div {
+        float: left;
+    }
+    .sortbutton:disabled {
+        color: grey;
+    }
+</style>
+<link rel="stylesheet" href="global.css">
+<h5>version 0.0.8</h5>
+</head>
+
+<body onload="{startup();}">
+<h1 align=center>t2a12 Sort by Ambrose</h1>
+<input type="number" max="1000" min="3" id="Items" value="100"><br>
+
+<script>
+    let delay = 50;
+    let myMax;
+    let myCards = [];
+    let myLoop = 0;
+
+    function startup() {
+        myMax = document.getElementById('Items').value;
+        console.log(myMax)
+        myCards = [];
+        for (let myLoop = 1; myLoop < myMax; myLoop++) {
+            myCards.push(myLoop);
+            if (myCards[myLoop] == undefined) {
+                myCards[myLoop] = myMax;
+            }
+        }
+    }
+</script>
+
+<input type=button value="Randomize" class="sortbutton" onclick="{
+    startup();
+    document.getElementById('bubble').disabled = false;
+    document.getElementById('insert').disabled = false;
+    document.getElementById('select').disabled = false;
+    document.getElementById('shell').disabled = false;
+    for (let myLoop = myMax - 1; myLoop > 0; myLoop--) {
+        var myTemp = Math.floor(Math.random() * (myLoop + 1));
+        var temp = myCards[myLoop];
+        myCards[myLoop] = myCards[myTemp];
+        myCards[myTemp] = temp;	
+    }
+    myShow();
+}">
+
+<input type=button value="Bubble Sort" id="bubble" class="sortbutton" disabled onclick="{
+	bubbleSort();
+}">
+
+<input type=button value="Insertion Sort" id="insert" class="sortbutton" disabled onclick="{
+	insertionSort();
+}">
+
+<input type=button value="Selection Sort" id="select" class="sortbutton" disabled onclick="{
+	selectionSort();
+}">
+
+<input type=button value="shell Sort" id="shell" class="sortbutton" disabled onclick="{
+	shellSort();
+}"><br>
+
+<div class="wrapper">
+<div id="myDiv01"></div>
+<canvas id="myCanvas" class="myCanvas" width="1015" height="500" style="border: 1px solid #000000;"></canvas>
+<script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.transform(1, 0, 0, -1, 0, 500);
+
+    function disableButtons() {
+        document.querySelectorAll('.sortbutton').forEach(button => button.disabled = true);
+    }
+
+    function enableButtons() {
+        document.querySelectorAll('.sortbutton').forEach(button => button.disabled = false);
+    }
+
+    function myShow() {
+        let myTemp = ''
+        ctx.clearRect(0, 0, 1015, 500)
+        for (let myLoop = 0;  myLoop < myMax;  myLoop++){ 
+            myTemp += '#' + myLoop + ' = '+ myCards[myLoop] + '<br>';
+            ctx.fillRect(1000/myMax * myLoop + 10, 5, 750/myMax, ((490/myMax) * myCards[myLoop]));
+        }
+        document.getElementById('myDiv01').innerHTML = myTemp
+    }
+
+    function bubbleSort() {
+        disableButtons();
+        for (let myLoop = 0;   myLoop < myMax;  myLoop++) {
+            let myTemp = 0
+            setTimeout(function(){
+            for (let myLoop = 0;   myLoop < myMax;  myLoop++){
+                if (myCards[myLoop] >= myCards[myLoop+1]) {
+                    myTemp = myCards[myLoop]
+                    myCards[myLoop] = myCards[myLoop+1]
+                    myCards[myLoop+1] = myTemp
+                }
+                myShow();
+            }}, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
+        }
+    }
+
+    function insertionSort() {
+        disableButtons();
+        for (let myLoop = 1; myLoop < myMax; myLoop++) {
+            setTimeout(function() {
+                let myTemp = myCards[myLoop];
+                let myLoop2 = myLoop - 1;
+                while (myLoop2 > -1 && myCards[myLoop2] > myTemp) {
+                    myCards[myLoop2 + 1] = myCards[myLoop2];
+                    myLoop2--;
+                }
+                myCards[myLoop2 + 1] = myTemp;
+                myShow();
+            }, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
+        }
+    }
+
+    function selectionSort() {
+        disableButtons();
+        for (let myLoop = 0; myLoop < myMax; myLoop++) {
+            setTimeout(function() {
+                let myTemp = 0;
+                let lowest = myLoop;
+                for (let myLoop2 = myLoop + 1; myLoop2 < myMax; myLoop2++) {
+                    if (myCards[myLoop2] < myCards[lowest]) {
+                        lowest = myLoop2;
+                    }
+                }
+                if (lowest !== myLoop) {
+                    myTemp = myCards[myLoop];
+                    myCards[myLoop] = myCards[lowest];
+                    myCards[lowest] = myTemp;
+                }
+                myShow();
+            }, myLoop * delay);
+            setTimeout(enableButtons, (myMax * delay) + delay);
+        }
+    }
+
+async function shellSort() {
+    let gap = Math.floor(myMax / 2);
+    let temp;
+    while (gap > 0) {
+        for (let start = gap; start < myMax; start++) {
+            temp = myCards[start];
+            let j = start;
+            while (j >= gap && myCards[j - gap] > temp) {
+                myCards[j] = myCards[j - gap];
+                j -= gap;
+                await new Promise(resolve => setTimeout(resolve, delay/2));
+                myShow();
+            }
+            myCards[j] = temp;
+        }
+        gap = Math.floor(gap / 2);
+    }
+}
+</script>
+</div>
+</body>
